@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
@@ -53,6 +54,8 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpModule,
+
     // firebase
     AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig),
