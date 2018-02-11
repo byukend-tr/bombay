@@ -1,0 +1,181 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary" routerLink="/viewdetail">ข้อมูลคนไข้</a>
+        <a routerLink="/menuviewdetail" class="btn btn-sm btn-outline-primary">ฟีโนไทป์</a>
+      </div>
+    </div>
+  </div>
+  <div style="color:#365082">
+    <h2>รายละเอียดคนไข้</h2>
+
+    <a class="btn btn-sm btn-outline-primary" href="updatepatient.php">แก้ไขข้อมูลคนไข้</a>
+  </div>
+  <div class="row">
+    <div class="col">
+
+      <table class="table table-sm table-striped table-bordered table-hover">
+        <tbody>
+          <tr>
+            <td>รหัสบัตรประชาชน</td>
+            <td>4565532102589</td>
+          </tr>
+          <tr>
+            <td>ชื่อ-นามสกุล</td>
+            <td>นางสาว&nbsp;คิมเบอร์ลี&nbsp;แอนเทียมศิริ</td>
+          </tr>
+          <tr>
+            <td>วันเดือนปีเกิด</td>
+            <td>11/10/1990</td>
+          </tr>
+          <tr>
+            <td>อายุ (ปี)</td>
+            <td>27</td>
+          </tr>
+          <tr>
+            <td>เบอร์ติดต่อ 1</td>
+            <td>0804956231</td>
+          </tr>
+          <tr>
+            <td>เบอร์ติดต่อ 2</td>
+            <td>0998550623</td>
+          </tr>
+          <tr>
+            <td>ที่อยู่</td>
+            <td>239 ถ. ห้วยแก้ว</td>
+          </tr>
+          <tr>
+            <td>ตำบล</td>
+            <td>สุเทพ</td>
+          </tr>
+          <tr>
+            <td>อำเภอ</td>
+            <td>เมือง เชียงใหม่</td>
+          </tr>
+          <tr>
+            <td>จังหวัด</td>
+            <td>เชียงใหม่</td>
+          </tr>
+          <tr>
+            <td>รหัสไปรษณีย์</td>
+            <td>50200</td>
+          </tr>
+          <tr>
+            <td>หมู่เลือด</td>
+            <td class="text-red">O para-Bombay</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <h5>ฟีโนไทป์</h5>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>การตรวจหมู่เลือดเอบีโอ</th>
+            <th>การตรวจกรองแอนติบอดี</th>
+            <th>การตรวจน้ำลาย</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Group O with unexpected alloantibody</td>
+            <td>พบ alloantibody, ชนิด IgG</td>
+            <td>Secretor,gr.O</td>
+          </tr>
+          <tr>
+            <td colspan="3">O para-Bombay</td>
+          </tr>
+        </tbody>
+      </table>
+      <h5>จีโนไทป์</h5>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>เอบีโอ</th>
+            <th>FUT1</th>
+            <th>FUT2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>O
+              <sup>1</sup>O
+              <sup>2</sup>
+            </td>
+            <td>328G>A</td>
+            <td>357C>T</td>
+          </tr>
+          <tr>
+            <td colspan="3">O para-Bombay</td>
+          </tr>
+        </tbody>
+      </table>
+      <a routerLink="/menuviewdetail" class="btn btn-outline-success btn-sm">รายละเอียดการทดลอง</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3 style="color:#1F7FF0">ความสัมพันธ์ที่เกี่ยวข้องกับคนไข้</h3>
+      <a class="btn btn-sm btn-outline-primary" routerLink="/managerelative">แก้ไขความสัมพันธ์</a>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>รหัสบัตรประชาชน</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>ความสัมพันธ์</th>
+            <th>หมู่เลือด</th>
+            <th>รายละเอียด</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2222222222222</td>
+            <td>ศรราม</td>
+            <td>เทพพิทักษ์</td>
+            <td>พ่อ</td>
+            <td class="text-yellow">Not confirm</td>
+            <td>
+              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+            </td>
+          </tr>
+          <tr>
+            <td>3333333333333</td>
+            <td>อารยา</td>
+            <td>เอ ฮาร์เก็ต</td>
+            <td>แม่</td>
+            <td class="text-green">Group O</td>
+            <td>
+              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+            </td>
+          </tr>
+          <tr>
+            <td>1532655803211</td>
+            <td>อุรัสยา</td>
+            <td>เสปอร์บันด์</td>
+            <td>ลูก</td>
+            <td class="text-red">AB para-Bombay</td>
+            <td>
+              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+  <!-- </div> -->
+
+
+  <!-- <a href="search2.php" class="btn btn-sm btn-outline-secondary">กลับไปหน้าค้นหา</a> -->
+
+
+  <!-- &nbsp;<a href="detail2.php" class="btn btn-outline-success">Test Detail</a> -->
+
+</div>
