@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MutationDetectionService } from './../shared/mutation-detection.service'
+
 @Component({
   selector: 'app-genotype-home',
   templateUrl: './genotype-home.component.html',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GenotypeHomeComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private mutation: MutationDetectionService) { 
+    this.display()
+  }
+  
   ngOnInit() {
+  }
+  display(){
+    console.log('display OK')
+    this.mutation.getValue()
   }
 
 }

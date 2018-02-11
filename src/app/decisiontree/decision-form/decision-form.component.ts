@@ -18,7 +18,7 @@ export class DecisionFormComponent implements OnInit {
 
   constructor(private auth: AuthService, private decisiontreeService: DecisiontreeService) {
     auth.getNotCurrentLoggedIn();
-    
+
   }
 
   ngOnInit() {

@@ -4,5 +4,7 @@ import { Injectable } from '@angular/core';
 export class MutationDetectionService {
 
   constructor() { }
-
+  getValue(){
+    console.log('get Value OK')
+  }
 }

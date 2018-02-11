@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-// Firebase
+// firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
@@ -64,8 +64,8 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
     AngularFireDatabase,
     DecisiontreeService,
     MutationDetectionService
-
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+asProviderDataasd
