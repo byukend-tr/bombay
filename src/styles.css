@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    font-family:"RSU";
+}
+
+/* #pills-blood-tab {
+    color: #aa96c7;
+    background-color: #663399;
+} */
+
+/* navbar */
+.bg-nav-purple{
+    background-color:#663399;
+}
+.nav-pills .nav-link {
+    color: #aa96c7;
+    background-color: #663399;
+}
+#pills-blood-tab.active {
+    color: #fff;
+    background-color: transparent;
+}
+#pills-test-tab.active {
+    color: #fff;
+    background-color: transparent;
+}
+#pills-result-tab.active {
+    color: #fff;
+    background-color: transparent;
+}
+#pills-users-tab.active {
+    color: #fff;
+    background-color: transparent;
+}
+#pills-condition-tab.active {
+    color: #fff;
+    background-color: transparent;
+}
+
+/* table */
+.table .thead-table th{
+    background-color: #ac5ec7;
+    color: #fff;
+    text-align: center;
+    /* border-top-right-radius: 10px;
+    border-top-left-radius: 10px;  */
+}
+.table .thead-sub-table th{
+    background-color: #ac5ec7c9;
+    color: #fff;
+    text-align: center;
+}
+td{
+    text-align: center;
+}
+/* button */

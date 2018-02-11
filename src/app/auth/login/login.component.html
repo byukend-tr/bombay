@@ -1,0 +1,41 @@
+<!-- <p>
+  login works!
+</p> -->
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header text-center text-white bg-dark">
+        เข้าสู่ระบบ
+      </div>
+      <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">อีเมล์</label>
+            <div class="col-sm-9">
+              <input type="email" formControlName="email" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">รหัสผ่าน</label>
+            <div class="col-sm-9">
+              <input type="password" formControlName="password" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 text-left">
+              <a class="text-muted" [routerLink]="['/forgotpassword']">
+                ลืมรหัสผ่าน ?
+              </a>
+            </div>
+            <div class="col-6 text-right">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+                เข้าสู่ระบบ
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

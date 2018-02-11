@@ -1,18 +1,67 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule }    from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+
+// Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { firebaseConfig } from './../environments/firebase.config';
+
+import { AppRoutingModule }     from './app-routing.module';
+
+import { NavbarComponent } from './header/navbar/navbar.component';
+//auth
+import { AuthService } from './auth/shared/auth.service';
+import { AuthGuard } from './auth/shared/auth.guard';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component'
+
+import { HomeComponent } from './home/home.component';
+//Decisiontree
+import { SearchbloodComponent } from './patient/searchblood/searchblood.component';
+import { DecisionFormComponent } from './decisiontree/decision-form/decision-form.component';
+import { DecisionListComponent } from './decisiontree/decision-list/decision-list.component';
+import { DecisionHomeComponent } from './decisiontree/decision-home/decision-home.component';
+import { DecisiontreeService } from './decisiontree/shared/decisiontree.service';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    LoginComponent,
+    HomeComponent,
+    SignupComponent,
+    SearchbloodComponent,
+    DecisionFormComponent,
+    DecisionListComponent,
+    DecisionHomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    // firebase
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard,
+    AngularFireDatabase,
+    DecisiontreeService
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
