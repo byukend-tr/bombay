@@ -12,23 +12,33 @@ import { DecisionFormComponent } from './decisiontree/decision-form/decision-for
 import { DecisionListComponent } from './decisiontree/decision-list/decision-list.component';
 import { DecisionHomeComponent } from './decisiontree/decision-home/decision-home.component';
 import { AuthGuard } from './auth/shared/auth.guard';
+// Genotype
+import { GenotypeHomeComponent } from './genediagnosis/genotype-home/genotype-home.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
 
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent},
+  { path: 'signup', component: SignupComponent },
 
-  { path: 'conditions', 
+  {
+    path: 'conditions',
     component: DecisionHomeComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', component: DecisionListComponent },
-      { path: 'create', component: DecisionFormComponent}
+      { path: 'create', component: DecisionFormComponent }
     ]
   },
-  
+  {
+    path: 'genotypes',
+    component: GenotypeHomeComponent,
+    canActivate: [AuthGuard],
+    children: []
+  },
+
+
 
   { path: 'searchblood', component: DecisionListComponent }
 ];
