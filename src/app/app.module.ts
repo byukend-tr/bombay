@@ -72,4 +72,3 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-asdasd
