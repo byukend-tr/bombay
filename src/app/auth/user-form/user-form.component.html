@@ -1,0 +1,81 @@
+<!-- <div class="py-1"> -->
+<div class="container-fluid">
+  <h2 style="color:#365082">สร้างผู้ใช้งานใหม่</h2>
+
+  <form (ngSubmit)="validationForm(information)" [formGroup]="userForm" #information="ngForm">
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col-3">
+            คำนำหน้าชื่อ
+            <br>
+            <select class="form-control form-control-sm">
+              <option value="นาย">นาย</option>
+              <option value="นาง">นาง</option>
+              <option value="นางสาว">นางสาว</option>
+            </select>
+          </div>
+          <div class="col">
+            ชื่อจริง
+            <input type="text" class="form-control form-control-sm" placeholder="ชื่อจริง" formControlName="fName">
+          </div>
+          <div class="col">
+            นามสกุล
+            <input type="text" class="form-control form-control-sm" placeholder="นามสกุล" formControlName="lName">
+          </div>
+        </div>
+        ตำแหน่ง
+        <div class="row">
+          <div class="col">
+            <select id="selectPosition" class="form-control form-control-sm" formControlName="position">
+              <option value="อาจารย์">อาจารย์</option>
+              <option value="หัวหน้า">หัวหน้า</option>
+              <option value="New">เพิ่มชื่อตำแหน่ง</option>
+            </select>
+          </div>
+          <div class="col">
+            <input id="inputPosition" type="text" class="form-control form-control-sm" placeholder="ชื่อตำแหน่ง" readOnly>
+          </div>
+        </div>
+
+      </div>
+      <div class="col">
+        สังกัดโรงพยาบาล
+        <div class="row">
+          <div class="col">
+            <select id="selectHospital" class="form-control form-control-sm" formControlName="hospital">
+              <option value="มหาราช">มหาราช</option>
+              <option value="ลานนา">ลานนา</option>
+              <option value="ช้างเผือก">ช้างเผือก</option>
+              <option value="New">เพิ่มชื่อโรงพยาบาล</option>
+            </select>
+          </div>
+          <div class="col">
+            <input id="inputHospital" type="text" class="form-control form-control-sm" placeholder="ชื่อโรงพยาบาล" readOnly>
+          </div>
+        </div>
+
+        อีเมล์
+        <input type="text" class="form-control form-control-sm" formControlName="email" placeholder="อีเมล์"> 
+        สิทธิ์การใช้งานระบบ
+        <select class="form-control form-control-sm" formControlName="privilege">
+          <option value="พยาบาล">พยาบาล</option>
+          <option value="เจ้าหน้าที่เทคนิคการแพทย์">เจ้าหน้าที่เทคนิคการแพทย์</option>
+          <option value="ผู้ดูแลระบบ">ผู้ดูแลระบบ</option>
+        </select>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col text-center">
+        <button type="submit" class="btn btn-outline-success btn-sm">สร้าง</button>
+      </div>
+    </div>
+    <!-- <a href="user.php" class="btn btn-sm btn-outline-secondary">สร้าง</a> -->
+  </form>
+  <br>
+  <!-- <center> -->
+
+  <!-- </center> -->
+  <br>
+</div>
+<!-- </div> -->

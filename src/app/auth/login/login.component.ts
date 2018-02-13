@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../shared/auth.service";
+import { AuthService } from '../shared/auth.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { DecisiontreeService } from "../../services/decisiontree.service";
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     // private decisiontree: DecisiontreeService
   ) {
-    auth.getCurrentLoggedIn()
+    auth.getCurrentLoggedIn();
     // decisiontree.trainModel() //build model of decision tree
   }
 
@@ -39,6 +39,6 @@ export class LoginComponent implements OnInit {
     });
   }
   login(): void {
-    this.auth.emailLogin(this.loginForm.value.email, this.loginForm.value.password)
+    this.auth.emailLogin(this.loginForm.value.email, this.loginForm.value.password);
   }
 }

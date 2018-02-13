@@ -12,15 +12,15 @@
           aria-selected="true">ค้นหาหมู่เลือด</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
-        <a class="nav-link" id="pills-test-tab" data-toggle="pill" routerLink="/testsearch" role="tab" aria-controls="pills-test"
+        <a class="nav-link" id="pills-test-tab" data-toggle="pill" routerLink="/searchtest" role="tab" aria-controls="pills-test"
           aria-selected="false">ค้นหาการทดสอบ</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
-        <a class="nav-link" id="pills-result-tab" data-toggle="pill" routerLink="/result" role="tab" aria-controls="pills-result"
+        <a class="nav-link" id="pills-result-tab" data-toggle="pill" routerLink="/results" role="tab" aria-controls="pills-result"
           aria-selected="false">สรุปผล</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
-        <a class="nav-link" id="pills-users-tab" data-toggle="pill" routerLink="/user" role="tab" aria-controls="pills-users" aria-selected="false">ผู้ใช้งาน</a>
+        <a class="nav-link" id="pills-users-tab" data-toggle="pill" routerLink="/users" role="tab" aria-controls="pills-users" aria-selected="false">ผู้ใช้งาน</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
         <a class="nav-link" id="pills-condition-tab" data-toggle="pill" routerLink="/conditions" role="tab" aria-controls="pills-condition"
@@ -61,7 +61,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="profile">ข้อมูลส่วนตัว</a>
-          <a class="dropdown-item" routerLink="changepassword">เปลี่ยนรหัสผ่าน</a>
+          <a class="dropdown-item" routerLink="resetpassword">เปลี่ยนรหัสผ่าน</a>
           <a class="dropdown-item" routerLink="login" (click)="this.auth.signOut()">ออกจากระบบ</a>
         </div>
       </li>

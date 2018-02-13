@@ -22,6 +22,14 @@ import { AuthService } from './auth/shared/auth.service';
 import { AuthGuard } from './auth/shared/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { ProfileComponent } from './auth/profile/profile.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+
+// Auth Users
+import { UserListComponent } from './auth/user-list/user-list.component';
+import { UserFormComponent } from './auth/user-form/user-form.component';
+import { UserHomeComponent } from './auth/user-home/user-home.component';
+import { UserDetailComponent } from './auth/user-detail/user-detail.component';
 // Home
 import { HomeComponent } from './home/home.component';
 // Decisiontree
@@ -36,6 +44,16 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
 import { SearchbloodComponent } from './patient/searchblood/searchblood.component';
 import { DetailHomeComponent } from './patient/detail-home/detail-home.component';
 import { DetailComponent } from './patient/detail/detail.component';
+import { SearchtestComponent } from './patient/searchtest/searchtest.component';
+import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
+import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
+
+
+// Result
+import { ResultListComponent } from './result/result-list/result-list.component';
+
+
+
 
 
 @NgModule({
@@ -51,7 +69,17 @@ import { DetailComponent } from './patient/detail/detail.component';
     DecisionHomeComponent,
     GenotypeHomeComponent,
     DetailComponent,
-    DetailHomeComponent
+    DetailHomeComponent,
+    UserListComponent,
+    UserFormComponent,
+    UserHomeComponent,
+    ResultListComponent,
+    SearchtestComponent,
+    UserDetailComponent,
+    ResetPasswordComponent,
+    ProfileComponent,
+    CreatePatientComponent,
+    EditPatientComponent
   ],
   imports: [
     BrowserModule,

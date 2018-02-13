@@ -1,29 +1,3 @@
-<!-- <div class="container-fluid">
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">การตรวจหมู่เลือดเอบีโอ</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">การตรวจกรองแอนติบอดี</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">การตรวจน้ำลาย</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <app-manageabocondition></app-manageabocondition>
-    </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      <app-manageantibodycondition></app-manageantibodycondition>
-    </div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-      <app-managesalivacondition></app-managesalivacondition>
-    </div>
-
-  </div>
-</div> -->
-
 <div class="container-fluid">
   <div style="color:#365082">
     <h2>จัดการเงื่อนไขในการวิเคราะห์</h2>
@@ -117,7 +91,7 @@
       <tr>
         <th rowspan="2" style="text-align:center; vertical-align:middle;">
           <label class="custom-control custom-checkbox">
-            <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input" (click)="checkAll($event)">
+            <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input" (change)="checkAll()">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description"></span>
           </label>
@@ -153,19 +127,23 @@
 
       </tr>
     </thead>
+
     <tbody>
-      <tr *ngFor="let condition of rule">
-        <td>
+      <!-- <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
 
-          <label class="custom-control custom-checkbox">
-            <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description"></span>
-          </label>
+        <tr *ngFor="let condition of rule">
+          <td>
 
-        </td>
+            <label class="custom-control custom-checkbox">
+              <input id="radio-state1" name="radio" type="checkbox"  class="custom-control-input" (change)="checkIfAllSelected(condition)">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description"></span>
+              
+            </label>
 
-        <!-- <td>Neg</td>
+          </td>
+
+          <!-- <td>Neg</td>
         <td>Neg</td>
         <td>Neg</td>
 
@@ -173,9 +151,9 @@
         <td>4+</td>
         <td>4+</td> -->
 
-        <!-- <td>Group O with unexpected alloantibody</td> -->
+          <!-- <td>Group O with unexpected alloantibody</td> -->
 
-        <!-- <td>Neg</td>
+          <!-- <td>Neg</td>
         <td>2+</td>
         <td>2+</td>
 
@@ -184,28 +162,31 @@
         <td>Neg</td>
 
         <td>Group O with unexpected alloantibody</td> -->
-        <td>{{condition.AntiA}}</td>
-        <td>{{condition.AntiB}}</td>
-        <td>{{condition.AntiAB}}</td>
+          <td>{{condition.AntiA}}</td>
+          <td>{{condition.AntiB}}</td>
+          <td>{{condition.AntiAB}}</td>
 
-        <td>{{condition.Acell}}</td>
-        <td>{{condition.Bcell}}</td>
-        <td>{{condition.Ocell}}</td>
+          <td>{{condition.Acell}}</td>
+          <td>{{condition.Bcell}}</td>
+          <td>{{condition.Ocell}}</td>
 
-        <!-- <td>Group O with unexpected alloantibody</td> -->
+          <!-- <td>Group O with unexpected alloantibody</td> -->
 
-        <td>Neg</td>
-        <td>2+</td>
-        <td>2+</td>
+          <td>Neg</td>
+          <td>2+</td>
+          <td>2+</td>
 
-        <td>Neg</td>
-        <td>2+</td>
-        <td>Neg</td>
+          <td>{{condition.TestAntiA}}</td>
+          <td>{{condition.TestAntiB}}</td>
+          <td>{{condition.TestAntiH}}</td>
 
-        <td>{{condition.group}}</td>
-      </tr>
+          <td>{{condition.result}}</td>
+        </tr>
+      <!-- </form> -->
+
     </tbody>
   </table>
+
 </div>
 
 <!-- <script src="/js/Bootstrap/Select/bootstrap-select.js"></script> -->
@@ -217,3 +198,5 @@
   crossorigin="anonymous"></script> -->
 
 <!-- <router-outlet></router-outlet> -->
+
+

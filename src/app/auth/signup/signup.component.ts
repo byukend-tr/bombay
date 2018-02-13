@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../shared/auth.service";
+import { AuthService } from '../shared/auth.service';
 import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -13,14 +13,14 @@ export class SignupComponent implements OnInit {
   emailSignup: string;
   passwordSignup: string;
   constructor(private fb: FormBuilder, private auth: AuthService) {
-    auth.getCurrentLoggedIn();
+    // auth.getCurrentLoggedIn();
   }
   ngOnInit() {
     this.buildForm();
   }
   buildForm(): void {
     this.userForm = new FormGroup({
-        emailSignup: new FormControl('', [
+      emailSignup: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
@@ -32,8 +32,8 @@ export class SignupComponent implements OnInit {
     });
   }
   signup(): void {
-    this.auth.emailSignUp(this.userForm.value.emailSignup, this.userForm.value.passwordSignup)
-  
+    this.auth.emailSignUp(this.userForm.value.emailSignup, this.userForm.value.passwordSignup);
+
   }
 
 }

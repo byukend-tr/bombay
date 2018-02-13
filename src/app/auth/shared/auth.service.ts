@@ -6,29 +6,30 @@ import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-import 'rxjs/add/operator/switchMap'
+import 'rxjs/add/operator/switchMap';
+// Class User
+import { User } from '../shared/user';
 
-export class User {
-  uid: string;
-  username: string = "";
-  constructor(auth) {
-    console.log('UserOKOKOK')
-    this.uid = auth.uid
-  }
-}
+// export class User {
+//   uid: string;
+//   username: string = '';
+//   constructor(auth) {
+//     this.uid = auth.uid;
+//   }
+// }
 
 @Injectable()
 export class AuthService {
-  user: any
-  authState: any = null
-  userRef: AngularFireObject<any>
+  user: any;
+  authState: any = null;
+  userRef: AngularFireObject<any>;
 
   constructor(private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private router: Router,
     private afs: AngularFirestore) {
     this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth
+      this.authState = auth;
     });
     // this.user = this.afAuth.authState
     //   .switchMap(user => {
@@ -47,82 +48,91 @@ export class AuthService {
     return this.authenticated ? this.authState : null;
   }
   get currentUserObservable(): any {
-    return this.afAuth.authState
+    return this.afAuth.authState;
   }
   get currentUserId(): string {
     return this.authenticated ? this.authState.uid : '';
   }
   get currentUserAnonymous(): boolean {
-    return this.authenticated ? this.authState.isAnonymous : false
+    return this.authenticated ? this.authState.isAnonymous : false;
   }
   get currentUserDisplayName(): string {
     if (!this.authState) {
-      return 'Guest'
+      return 'Guest';
     } else if (this.currentUserAnonymous) {
-      return 'Anonymous'
+      return 'Anonymous';
     } else {
-      return this.authState['displayName'] || 'User without a Name'
+      return this.authState['displayName'] || 'User without a Name';
     }
   }
   get currentUserEmail(): string {
     if (!this.authState) {
-      return 'Guest'
+      return 'Guest';
     } else if (this.currentUserAnonymous) {
-      return 'Anonymous'
+      return 'Anonymous';
     } else {
-      return this.authState['displayName'] || 'User without a Name'
+      return this.authState['displayName'] || 'User without a Name';
     }
   }
   githubLogin() {
-    const provider = new firebase.auth.GithubAuthProvider()
+    const provider = new firebase.auth.GithubAuthProvider();
     return this.socialSignIn(provider);
   }
   googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
+    const provider = new firebase.auth.GoogleAuthProvider();
     return this.socialSignIn(provider);
   }
   facebookLogin() {
-    const provider = new firebase.auth.FacebookAuthProvider()
+    const provider = new firebase.auth.FacebookAuthProvider();
     return this.socialSignIn(provider);
   }
   twitterLogin() {
-    const provider = new firebase.auth.TwitterAuthProvider()
+    const provider = new firebase.auth.TwitterAuthProvider();
     return this.socialSignIn(provider);
   }
   private socialSignIn(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
         console.log(credential.user);
-        this.authState = credential.user
-        this.updateUserData()
-        this.router.navigate(['/login'])
+        this.authState = credential.user;
+        this.updateUserData();
+        this.router.navigate(['/login']);
       })
       .catch(error => console.log(error));
   }
   anonymousLogin() {
     return this.afAuth.auth.signInAnonymously()
       .then((user) => {
-        this.authState = user
-        this.router.navigate(['/'])
+        this.authState = user;
+        this.router.navigate(['/']);
       })
       .catch(error => console.log(error));
   }
   emailSignUp(email: string, password: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        this.authState = user
-        this.addUserData()
-        this.updateUserData()
-        this.router.navigate(['/'])
+        this.authState = user;
+        this.addUserData();
+        this.updateUserData();
+        this.router.navigate(['/']);
       })
       .catch(error => console.log(error));
+  }
+  register(user: User) {
+
+    this.authState = user;
+    this.emailSignUp(user.email, '123456');
+    this.addUserData();
+    firebase.database().ref('/users').push(user);
+    this.router.navigate(['/']);
+
   }
   emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
-        this.authState = user
-        this.updateUserData()
-        this.router.navigate(['/'])
+        this.authState = user;
+        this.updateUserData();
+        this.router.navigate(['/']);
       })
       .catch(error => console.log(error));
   }
@@ -130,18 +140,18 @@ export class AuthService {
     const fbAuth = firebase.auth();
     return fbAuth.sendPasswordResetEmail(email)
       .then(() => console.log('email sent'))
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
   }
   getCurrentLoggedIn() {
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
-        this.router.navigate(['/'])
+        this.router.navigate(['/']);
       }
     });
   }
   signOut(): void {
     this.afAuth.auth.signOut();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
   private updateUserData(): void {
     const path = `users/${this.currentUserId}`; // Endpoint on firebase
@@ -149,7 +159,7 @@ export class AuthService {
     const data = {
       email: this.authState.email,
       name: this.authState.displayName
-    }
+    };
     userRef.update(data)
       .catch(error => console.log(error));
   }
@@ -159,7 +169,7 @@ export class AuthService {
   getNotCurrentLoggedIn() {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
       }
     });
   }
@@ -168,6 +178,25 @@ export class AuthService {
     this.afAuth.authState.subscribe(auth => {
       callback(auth);
     });
+  }
+
+  queryAllUsers(callback: (data) => void) {
+    return this.db.list('/users').valueChanges().subscribe(data => {
+      callback(data);
+    })
+  }
+  queryUser(condition, callback) {
+    if (condition === 'all') {
+      this.queryAllUsers(callback);
+    }
+  }
+  removeUser(user) {
+    console.log(user.$key);
+    // if (confirm('Do you want to remove ' + user.fName + ' sure!')) {
+    //   this.db.remove(user.$key).then(() => {
+    //     alert('remove ' + user.fName + 'success!');
+    //   });
+    // }
   }
 
 }
