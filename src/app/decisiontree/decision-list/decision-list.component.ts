@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { DecisiontreeService } from '../shared/decisiontree.service';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 export class DecisionListComponent implements OnInit {
   rule: any;
   conditionList: any = [];
-
+  @ViewChild('abc') abc: ElementRef;
   form: FormGroup;
 
   constructor(private decisiontree: DecisiontreeService,
@@ -66,19 +66,32 @@ export class DecisionListComponent implements OnInit {
     });
   }
 
-  checkAll() {
-    if (this.conditionList.length === 0) {
-      this.rule.forEach(item => {
-        this.conditionList.push(item.key);
+  selectAll(e) {
+    const checkbox = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+    const all_or_one = [];
+    if (e.target.checked === true) { // select all
+      this.rule.forEach(item => { // push all item to new list
+        all_or_one.push(item.key);
       });
-    } else {
-      this.conditionList = [];
+      for (let i = 0; i < checkbox.length; i++) { // loop selected all item
+        checkbox[i].checked = true;
+      }
+    } else { // select none
+      for (let i = 0; i < checkbox.length; i++) { // loop deselected all item
+        checkbox[i].checked = false;
+      }
     }
+    this.conditionList = all_or_one;
     console.log(this.conditionList);
   }
 
-  checkIfAllSelected(condition) {
+  selectedUpdate(condition, e) {
     // console.log("checked: "+condition.key);
+    const selectedAll = <HTMLInputElement[]><any>document.getElementsByName('selectAll');
+    if (e.target.checked === false) {
+      selectedAll[0].checked = false;
+    }
+    console.log(e.target);
 
     if (!this.conditionList.some(x => x === condition.key)) {
       this.conditionList.push(condition.key);

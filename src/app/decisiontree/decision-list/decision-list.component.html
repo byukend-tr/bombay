@@ -91,7 +91,7 @@
       <tr>
         <th rowspan="2" style="text-align:center; vertical-align:middle;">
           <label class="custom-control custom-checkbox">
-            <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input" (change)="checkAll()">
+            <input name="selectAll" type="checkbox" class="custom-control-input" (change)="selectAll($event)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description"></span>
           </label>
@@ -131,19 +131,19 @@
     <tbody>
       <!-- <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
 
-        <tr *ngFor="let condition of rule">
-          <td>
+      <tr *ngFor="let condition of rule;">
+        <td>
 
-            <label class="custom-control custom-checkbox">
-              <input id="radio-state1" name="radio" type="checkbox"  class="custom-control-input" (change)="checkIfAllSelected(condition)">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"></span>
-              
-            </label>
+          <label class="custom-control custom-checkbox">
+            <input name="checkbox" type="checkbox" class="custom-control-input" (change)="selectedUpdate(condition,$event)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"></span>
 
-          </td>
+          </label>
 
-          <!-- <td>Neg</td>
+        </td>
+
+        <!-- <td>Neg</td>
         <td>Neg</td>
         <td>Neg</td>
 
@@ -151,9 +151,9 @@
         <td>4+</td>
         <td>4+</td> -->
 
-          <!-- <td>Group O with unexpected alloantibody</td> -->
+        <!-- <td>Group O with unexpected alloantibody</td> -->
 
-          <!-- <td>Neg</td>
+        <!-- <td>Neg</td>
         <td>2+</td>
         <td>2+</td>
 
@@ -162,26 +162,26 @@
         <td>Neg</td>
 
         <td>Group O with unexpected alloantibody</td> -->
-          <td>{{condition.AntiA}}</td>
-          <td>{{condition.AntiB}}</td>
-          <td>{{condition.AntiAB}}</td>
+        <td>{{condition.AntiA}}</td>
+        <td>{{condition.AntiB}}</td>
+        <td>{{condition.AntiAB}}</td>
 
-          <td>{{condition.Acell}}</td>
-          <td>{{condition.Bcell}}</td>
-          <td>{{condition.Ocell}}</td>
+        <td>{{condition.Acell}}</td>
+        <td>{{condition.Bcell}}</td>
+        <td>{{condition.Ocell}}</td>
 
-          <!-- <td>Group O with unexpected alloantibody</td> -->
+        <!-- <td>Group O with unexpected alloantibody</td> -->
 
-          <td>Neg</td>
-          <td>2+</td>
-          <td>2+</td>
+        <td>Neg</td>
+        <td>2+</td>
+        <td>2+</td>
 
-          <td>{{condition.TestAntiA}}</td>
-          <td>{{condition.TestAntiB}}</td>
-          <td>{{condition.TestAntiH}}</td>
+        <td>{{condition.TestAntiA}}</td>
+        <td>{{condition.TestAntiB}}</td>
+        <td>{{condition.TestAntiH}}</td>
 
-          <td>{{condition.result}}</td>
-        </tr>
+        <td>{{condition.result}}</td>
+      </tr>
       <!-- </form> -->
 
     </tbody>
@@ -198,5 +198,3 @@
   crossorigin="anonymous"></script> -->
 
 <!-- <router-outlet></router-outlet> -->
-
-
