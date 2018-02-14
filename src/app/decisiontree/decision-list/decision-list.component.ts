@@ -56,8 +56,6 @@ export class DecisionListComponent implements OnInit {
     this.decisiontreeService.queryAllCondition().subscribe(data => {
       this.rule = data;
       // console.log(this.rule);
-
-      // this.rule[0].AntiA = this.rule[0].AntiA + '+';
       this.rule.forEach(item => {
         for (const property in item) {
           // console.log(item[property])
@@ -89,7 +87,7 @@ export class DecisionListComponent implements OnInit {
       }
     }
     this.conditionList = all_or_one;
-    console.log(this.conditionList);
+    // console.log(this.conditionList);
   }
 
   selectedUpdate(condition, e) {
@@ -98,15 +96,13 @@ export class DecisionListComponent implements OnInit {
     if (e.target.checked === false) {
       selectedAll[0].checked = false;
     }
-    console.log(e.target);
 
     if (!this.conditionList.some(x => x === condition.key)) {
       this.conditionList.push(condition.key);
     } else {
       this.conditionList = this.conditionList.filter(item => item !== condition.key);
     }
-    console.log('checkIfAllSelected');
-    console.log(this.conditionList);
+    // console.log(this.conditionList);
   }
   removeCondition() {
     this.decisiontreeService.removeCondition(this.conditionList);

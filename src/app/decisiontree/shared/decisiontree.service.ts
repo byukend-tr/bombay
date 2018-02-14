@@ -33,11 +33,11 @@ export class DecisiontreeService {
 
     this.itemsRef = db.list('decisions');
 
+    // this.items = this.itemsRef.snapshotChanges().map(changes => {
+    //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    // });
+    // console.log(this.items);
 
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
-    console.log(this.items);
   }
 
   createDecisionTree(decisiontree: Decisiontree) {
@@ -120,7 +120,7 @@ export class DecisiontreeService {
   //   })
 
 
-  removeCondition(id: string) {
+  removeCondition(idList: any) {
 
     // if (confirm('Do you want to remove ' + ' sure!')) {
     //   this.db.object('/decisions/id').remove().then(() => {
@@ -129,7 +129,9 @@ export class DecisiontreeService {
     // }
     // this.db.object('/decisions' + id).remove();
 
-    console.log(id);
-    this.itemsRef.remove(id);
+    // console.log(idList);
+    for (const id of idList) {
+      this.itemsRef.remove(id);
+    }
   }
 }
