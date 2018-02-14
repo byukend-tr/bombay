@@ -13,17 +13,24 @@ export class DecisionListComponent implements OnInit {
   rule: any;
   conditionList: any = [];
 
-  form: FormGroup;
+  selectForm: FormGroup;
 
-  constructor(private decisiontree: DecisiontreeService,
+  constructor(private decisiontreeService: DecisiontreeService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.loadData();
+    // this.buildForm();
+  }
+
+  buildForm() {
+    this.selectForm = new FormGroup({
+      checkAllSelect: new FormControl()
+    });
   }
 
   trainNewModel(event) {
-    this.decisiontree.trainModel();
+    this.decisiontreeService.trainModel();
   }
   // checkAll(ev) {
   //   const checkBox = document.getElementById('radio-state1');
@@ -46,11 +53,11 @@ export class DecisionListComponent implements OnInit {
   // }
 
   private loadData() {
-    this.decisiontree.queryAllCondition().subscribe(data => {
+    this.decisiontreeService.queryAllCondition().subscribe(data => {
       this.rule = data;
-      console.log(this.rule);
+      // console.log(this.rule);
 
-      this.rule[0].AntiA = this.rule[0].AntiA + '+';
+      // this.rule[0].AntiA = this.rule[0].AntiA + '+';
       this.rule.forEach(item => {
         for (const property in item) {
           // console.log(item[property])
@@ -74,6 +81,7 @@ export class DecisionListComponent implements OnInit {
     } else {
       this.conditionList = [];
     }
+    console.log('checkAll');
     console.log(this.conditionList);
   }
 
@@ -85,6 +93,10 @@ export class DecisionListComponent implements OnInit {
     } else {
       this.conditionList = this.conditionList.filter(item => item !== condition.key);
     }
+    console.log('checkIfAllSelected');
     console.log(this.conditionList);
+  }
+  removeCondition() {
+    this.decisiontreeService.removeCondition(this.conditionList);
   }
 }

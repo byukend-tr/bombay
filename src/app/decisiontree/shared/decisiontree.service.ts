@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import 'rxjs/add/operator/switchMap';
-
+// Class decisiontree
 import { Decisiontree } from './decisiontree';
 
 @Injectable()
@@ -20,9 +20,8 @@ export class DecisiontreeService {
   userRef: AngularFireObject<any>;
   conditionList: any;
 
-  itemsRef = this.db.list('decisions');
-
-
+  itemsRef: AngularFireList<any>;
+  items: Observable<any[]>;
   constructor(private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private router: Router,
@@ -31,6 +30,14 @@ export class DecisiontreeService {
       this.authState = auth;
       console.log(this.authState);
     });
+
+    this.itemsRef = db.list('decisions');
+
+
+    this.items = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+    console.log(this.items);
   }
 
   createDecisionTree(decisiontree: Decisiontree) {
@@ -68,17 +75,17 @@ export class DecisiontreeService {
     });
   }
 
-  private addCondition(AntiA: string, AntiB: string, AntiAB: string, Acell: string, Bcell: string, Ocell: string, result: string): void {
+  private addCondition(decisiontree: Decisiontree): void {
     console.log(firebase.database());
-    firebase.database().ref('/decision').push({ AntiA, AntiB, AntiAB, Acell, Bcell, Ocell, result });
+    firebase.database().ref('/decision').push(decisiontree);
   }
 
-  createCondition(AntiA: string, AntiB: string, AntiAB: string, Acell: string, Bcell: string, Ocell: string, result: string) {
-    this.addCondition(AntiA, AntiB, AntiAB, Acell, Bcell, Ocell, result);
+  createCondition(decisiontree: Decisiontree) {
+    this.addCondition(decisiontree);
     this.router.navigate(['/conditions']);
   }
-  items: Observable<any[]>;
-  queryAllCondition(): Observable<any[]>{ // first edit callback 8/2/18
+
+  queryAllCondition(): Observable<any[]> { // first edit callback 8/2/18
     // return this.db.list('/decisions').valueChanges().subscribe(data => {
     //   callback(data);
     // });
@@ -102,6 +109,7 @@ export class DecisiontreeService {
       // });
 
     }
+
   }
 
 
@@ -110,4 +118,18 @@ export class DecisiontreeService {
   //   return this.db.list('/decisions').valueChanges().subscribe(data => {
 
   //   })
+
+
+  removeCondition(id: string) {
+
+    // if (confirm('Do you want to remove ' + ' sure!')) {
+    //   this.db.object('/decisions/id').remove().then(() => {
+    //     alert('remove ' + 'success!');
+    //   });
+    // }
+    // this.db.object('/decisions' + id).remove();
+
+    console.log(id);
+    this.itemsRef.remove(id);
   }
+}

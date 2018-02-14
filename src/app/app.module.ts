@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 
@@ -51,8 +52,8 @@ import { EditPatientComponent } from './patient/edit-patient/edit-patient.compon
 
 // Result
 import { ResultListComponent } from './result/result-list/result-list.component';
-
-
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -89,6 +90,9 @@ import { ResultListComponent } from './result/result-list/result-list.component'
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatCardModule,
 
     // firebase
     AngularFireAuthModule,

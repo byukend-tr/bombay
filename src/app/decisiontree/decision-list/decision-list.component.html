@@ -78,11 +78,12 @@
 
   <!-- </form> -->
   <!-- <button type="button" class="btn btn-outline-danger">ลบ</button> -->
+  <!-- <form (ngSubmit)="checkSelectForm(items)" [formGroup]="selectForm" #items="ngForm"> -->
   <table class="table table-sm table-striped table-bordered table-hover">
     <thead class="thead-table">
       <tr>
         <th border="1">
-          <button type="button" class="btn btn-sm btn-primary">ลบ</button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="removeCondition()">ลบ</button>
         </th>
         <th colspan="6" border="1">การตรวจหมู่เลือดเอบีโอ</th>
         <th colspan="6" border="1">การตรวจน้ำลาย</th>
@@ -131,19 +132,19 @@
     <tbody>
       <!-- <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
 
-        <tr *ngFor="let condition of rule">
-          <td>
+      <tr *ngFor="let condition of rule">
+        <td>
 
-            <label class="custom-control custom-checkbox">
-              <input id="radio-state1" name="radio" type="checkbox"  class="custom-control-input" (change)="checkIfAllSelected(condition)">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"></span>
-              
-            </label>
+          <label class="custom-control custom-checkbox">
+            <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input" (change)="checkIfAllSelected(condition)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"></span>
 
-          </td>
+          </label>
 
-          <!-- <td>Neg</td>
+        </td>
+
+        <!-- <td>Neg</td>
         <td>Neg</td>
         <td>Neg</td>
 
@@ -151,9 +152,9 @@
         <td>4+</td>
         <td>4+</td> -->
 
-          <!-- <td>Group O with unexpected alloantibody</td> -->
+        <!-- <td>Group O with unexpected alloantibody</td> -->
 
-          <!-- <td>Neg</td>
+        <!-- <td>Neg</td>
         <td>2+</td>
         <td>2+</td>
 
@@ -162,30 +163,47 @@
         <td>Neg</td>
 
         <td>Group O with unexpected alloantibody</td> -->
-          <td>{{condition.AntiA}}</td>
-          <td>{{condition.AntiB}}</td>
-          <td>{{condition.AntiAB}}</td>
+        <td>{{condition.AntiA}}</td>
+        <td>{{condition.AntiB}}</td>
+        <td>{{condition.AntiAB}}</td>
 
-          <td>{{condition.Acell}}</td>
-          <td>{{condition.Bcell}}</td>
-          <td>{{condition.Ocell}}</td>
+        <td>{{condition.Acell}}</td>
+        <td>{{condition.Bcell}}</td>
+        <td>{{condition.Ocell}}</td>
 
-          <!-- <td>Group O with unexpected alloantibody</td> -->
+        <!-- <td>Group O with unexpected alloantibody</td> -->
+        <td>
+          <div *ngIf="condition.secretor; else showNull">
+            {{condition.secretor}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="condition.nonSecretor; else showNull">
+            {{condition.nonSecretor}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="condition.nss; else showNull">
+            {{condition.nss}}
+          </div>
+        </td>
 
-          <td>Neg</td>
-          <td>2+</td>
-          <td>2+</td>
+        <ng-template #showNull>
+          -
+        </ng-template>
 
-          <td>{{condition.TestAntiA}}</td>
-          <td>{{condition.TestAntiB}}</td>
-          <td>{{condition.TestAntiH}}</td>
 
-          <td>{{condition.result}}</td>
-        </tr>
+        <td>{{condition.TestAntiA}}</td>
+        <td>{{condition.TestAntiB}}</td>
+        <td>{{condition.TestAntiH}}</td>
+
+        <td>{{condition.result}}</td>
+      </tr>
       <!-- </form> -->
 
     </tbody>
   </table>
+  <!-- </form> -->
 
 </div>
 
@@ -198,5 +216,3 @@
   crossorigin="anonymous"></script> -->
 
 <!-- <router-outlet></router-outlet> -->
-
-
