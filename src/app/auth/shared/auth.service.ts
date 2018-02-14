@@ -183,7 +183,7 @@ export class AuthService {
   queryAllUsers(callback: (data) => void) {
     return this.db.list('/users').valueChanges().subscribe(data => {
       callback(data);
-    })
+    });
   }
   queryUser(condition, callback) {
     if (condition === 'all') {

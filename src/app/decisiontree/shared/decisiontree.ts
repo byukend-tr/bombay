@@ -5,5 +5,15 @@ export class Decisiontree {
     aCell: string;
     bcell: string;
     oCell: string;
+
+    secretor: string;
+    nonSecretor: string;
+    nss: string;
+    testAntiA: string;
+    testAntiB: string;
+    testAntiH: string;
+
+    groupAbo: string;
+    groupSaliva: string;
     result: string;
 }
