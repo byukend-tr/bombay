@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <h3>ค้นหาผู้ใช้งาน</h3>
+  <nav>
+    <button type="button" class="btn btn-info btn-sm" routerLink="create">สร้างผู้ใช้งานใหม่</button>
+  </nav>
+  <router-outlet></router-outlet>
+
+  <!-- <nav>
+    <a routerLink="/addWiki">AAAA -->
+  <!-- <button type="button" class="btn btn-info btn-sm">สร้างผู้ใช้งานใหม่</button> -->
+  <!-- </a>
+  </nav> -->
+  <!-- <router-outlet></router-outlet> -->
+
+  <form class="form-control">
+    <div class="row">
+      <div class="col">
+        อีเมล์
+        <input id="username" type="text" class="form-control form-control-sm">
+        <div class="row">
+          <div class="col">
+            ชื่อจริง
+            <input type="text" class="form-control form-control-sm">
+          </div>
+          <div class="col">
+            นามสกุล
+            <input type="text" class="form-control form-control-sm">
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        สิทธิ์การใช้งาน
+        <select class="form-control form-control-sm" id="privilege">
+          <option value="-">---- เลือกสิทธิ์การใช้งาน ----</option>
+          <option value="1">พยาบาล</option>
+          <option value="2">เจ้าหน้าที่เทคนิคการแพทย์</option>
+          <option value="3">ผู้ดูแลระบบ</option>
+        </select>
+        สังกัดโรงพยาบาล
+        <select class="form-control form-control-sm" id="hospital">
+          <option value="-">---- เลือกชื่อโรงพยาบาล ----</option>
+          <option value="1">มหาราช</option>
+          <option value="2">เชียงใหม่ราม</option>
+          <option value="3">ช้างเผือก</option>
+          <option value="4">ลานนา</option>
+        </select>
+      </div>
+    </div><br>
+
+    <div class="row">
+      <div class="col text-center">
+        <button type="button" class="btn btn-outline-primary btn-sm">ค้นหา</button>
+      </div>
+    </div>
+
+  </form>
+  <br>
+  <!-- <div class="row"> -->
+  <!-- <div class="h-100 row align-items-center"> -->
+  <!-- <table id="tempTable" class="table table-sm table-striped table-bordered table-hover table-responsive " align="right" style="display: block"> -->
+  <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+
+    <thead class="thead-table">
+      <tr>
+        <th>อีเมล์</th>
+        <th>ชื่อ</th>
+        <th>นามสกุล</th>
+        <th>สิทธิ์การใช้งาน</th>
+        <th>สังกัดโรงพยาบาล</th>
+        <th>รายละเอียด</th>
+        <th>ลบ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.email }}</td>
+        <td>{{ user.fName }}</td>
+        <td>{{ user.lName }}</td>
+        <td>{{ user.privileage }}</td>
+        <td>{{ user.hospital }}</td>
+        <td>
+          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline-danger" (click)="remove(user)">ลบ</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- </div> -->
+  <!-- </div> -->
+</div>
