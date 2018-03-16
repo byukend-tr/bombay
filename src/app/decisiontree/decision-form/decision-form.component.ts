@@ -16,10 +16,13 @@ export class DecisionFormComponent implements OnInit {
   conditionForm: FormGroup;
 
   constructor(private auth: AuthService, private decisiontreeService: DecisiontreeService) {
+
   }
 
   ngOnInit() {
     this.buildForm();
+    // this.validationForm();
+
   }
 
   buildForm() {
@@ -70,6 +73,7 @@ export class DecisionFormComponent implements OnInit {
     const valueGroupAbo = this.conditionForm.value.groupAbo;
     const valueGroupSaliva = this.conditionForm.value.groupSaliva;
     let canCreate;
+
     if (!this.groupType()) {
       this.setDatagroupAbo();
       canCreate = true;
@@ -93,7 +97,10 @@ export class DecisionFormComponent implements OnInit {
     }
     if (canCreate === true) {
       this.createCondition();
+
     }
+
+
   }
 
   validationForm() {
@@ -115,11 +122,18 @@ export class DecisionFormComponent implements OnInit {
     if (validationSuccess) {
       this.validationInput();
     } else {
-      console.log('input error');
+      console.log('input error form');
     }
+
+
+
   }
+
   createCondition(): void { // Input data
+
     this.decisiontreeService.createDecisionTree(this.conditionForm.value);
+
   }
+
 
 }

@@ -45,15 +45,22 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
 import { SearchbloodComponent } from './patient/searchblood/searchblood.component';
 import { DetailHomeComponent } from './patient/detail-home/detail-home.component';
 import { DetailComponent } from './patient/detail/detail.component';
+import { DetailListComponent } from './patient/detail-list/detail-list.component';
 import { SearchtestComponent } from './patient/searchtest/searchtest.component';
 import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
 import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
 
+import { RelativesFormComponent } from './patient/relatives-form/relatives-form.component';
 
 // Result
 import { ResultListComponent } from './result/result-list/result-list.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { PatientService } from './patient/shared/patient.service';
+
+
+
 
 
 
@@ -80,7 +87,9 @@ import {MatCardModule} from '@angular/material/card';
     ResetPasswordComponent,
     ProfileComponent,
     CreatePatientComponent,
-    EditPatientComponent
+    EditPatientComponent,
+    RelativesFormComponent,
+    DetailListComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +113,8 @@ import {MatCardModule} from '@angular/material/card';
     AuthGuard,
     AngularFireDatabase,
     DecisiontreeService,
-    MutationDetectionService
+    MutationDetectionService,
+    PatientService
   ],
   bootstrap: [AppComponent]
 })

@@ -12,20 +12,27 @@ import { Observable } from 'rxjs/Observable';
 export class DecisionListComponent implements OnInit {
   rule: any;
   conditionList: any = [];
+  isFound = false;
 
   selectForm: FormGroup;
+  searchConditionForm: FormGroup;
 
   constructor(private decisiontreeService: DecisiontreeService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.buildForm();
     this.loadData();
-    // this.buildForm();
+
   }
 
   buildForm() {
     this.selectForm = new FormGroup({
       checkAllSelect: new FormControl()
+    });
+    this.searchConditionForm = new FormGroup({
+      groupAbo: new FormControl(),
+      groupSaliva: new FormControl()
     });
   }
 
@@ -53,22 +60,11 @@ export class DecisionListComponent implements OnInit {
   // }
 
   private loadData() {
-    this.decisiontreeService.queryAllCondition().subscribe(data => {
-      this.rule = data;
-      // console.log(this.rule);
-      this.rule.forEach(item => {
-        for (const property in item) {
-          // console.log(item[property])
-          if (item[property] > 0) {
-            item[property] = item[property] + '+';
-          } else if (item[property] === '0') {
-            item[property] = 'Neg';
-          } else if (item[property] < 0) {
-            item[property] = '-';
-          }
-        }
-      });
-    });
+
+    if (this.searchConditionForm.value.groupAbo === null && this.searchConditionForm.value.groupSaliva === null) { /*first load*/
+      this.isFound = false;
+
+    }
   }
 
   selectAll(e) {
@@ -106,5 +102,45 @@ export class DecisionListComponent implements OnInit {
   }
   removeCondition() {
     this.decisiontreeService.removeCondition(this.conditionList);
+  }
+
+  searchCondition() {
+    let queryCondition;
+    const abo = this.searchConditionForm.value.groupAbo;
+    const saliva = this.searchConditionForm.value.groupSaliva;
+    if (abo === null && saliva === null) { /*first load*/
+      this.isFound = false;
+    } else {
+      if (abo === 'all' && saliva === 'all') {
+        queryCondition = this.decisiontreeService.queryAllCondition();
+      } else {
+        queryCondition = this.decisiontreeService.queryAboCondition(abo); /* not finished*/
+      }
+      this.loadData2(queryCondition);
+    }
+
+  }
+  loadData2(queryCondition) {
+    queryCondition.subscribe(data => {
+      this.rule = data;
+      // console.log(this.rule);
+      if (this.rule != null) {
+        this.rule.forEach(item => {
+          for (const property in item) {
+            // console.log(item[property])
+            if (item[property] > 0) {
+              item[property] = item[property] + '+';
+            } else if (item[property] === '0') {
+              item[property] = 'Neg';
+            } else if (item[property] < 0) {
+              item[property] = '-';
+            }
+          }
+        });
+        this.isFound = true;
+      } else {
+        this.isFound = false;
+      }
+    });
   }
 }

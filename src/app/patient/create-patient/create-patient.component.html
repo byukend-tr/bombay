@@ -2,15 +2,20 @@
 <div class="container-fluid">
   <h2 style="color:#365082">เพิ่มคนไข้รายใหม่</h2>
 
-  <form>
+  <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
+
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
-        <input id="myId" type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก" value="1111111111111">
+        <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก" formControlName="id">
+        <!-- <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก"> -->
+
         <div class="row">
           <div class="col">
             คำนำหน้าชื่อ&nbsp;
-            <select id="minit" class="form-control form-control-sm">
+            <select id="minit" class="form-control form-control-sm" formControlName="minit">
+              <!-- <select id="minit" class="form-control form-control-sm"> -->
+
               <option value="นาย">นาย</option>
               <option value="นาง">นาง</option>
               <option value="นางสาว" selected>นางสาว</option>
@@ -20,42 +25,58 @@
           </div>
           <div class="col">
             ชื่อ
-            <input id="fName" type="text" class="form-control form-control-sm" value="พัชราภา">
+            <input type="text" class="form-control form-control-sm" value="พัชราภา" formControlName="fName">
+            <!-- <input type="text" class="form-control form-control-sm" value="พัชราภา"> -->
+
           </div>
           <div class="col">
             นามสกุล
-            <input id="lName" type="text" class="form-control form-control-sm" value="ไชยเชื้อ">
+            <input type="text" class="form-control form-control-sm" value="ไชยเชื้อ" formControlName="lName">
+            <!-- <input type="text" class="form-control form-control-sm" value="ไชยเชื้อ"> -->
+
           </div>
         </div>
         <div class="row">
           <div class="col">
             วันเดือนปีเกิด
-            <input id="bDate" type="date" class="form-control form-control-sm" value="1995-10-11">
+            <input type="date" class="form-control form-control-sm" value="1995-10-11" formControlName="birthDay">
+            <!-- <input type="date" class="form-control form-control-sm" value="1995-10-11"> -->
+
           </div>
           <div class="col">
             อายุ (ปี)
-            <input id="bDate" type="text" class="form-control form-control-sm" value="22">
+            <input type="text" class="form-control form-control-sm" value="22" formControlName="age">
+            <!-- <input type="text" class="form-control form-control-sm" value="22"> -->
+
           </div>
         </div>
         <div class="row">
           <div class="col">
             เบอร์ติดต่อ1
-            <input id="tel1" type="number" class="form-control form-control-sm" value="0895564203">
+            <input type="number" class="form-control form-control-sm" value="0895564203" formControlName="tel1">
+            <!-- <input type="number" class="form-control form-control-sm" value="0895564203" > -->
+
           </div>
           <div class="col">
             เบอร์ติดต่อ2
-            <input id="tel2" type="number" class="form-control form-control-sm" value="0994264286">
+            <input type="number" class="form-control form-control-sm" value="0994264286" formControlName="tel2">
+            <!-- <input type="number" class="form-control form-control-sm" value="0994264286"> -->
+
           </div>
         </div>
       </div>
       <div class="col">
 
         ที่อยู่
-        <input id="address" type="text" class="form-control form-control-sm" value="239 ถ. ห้วยแก้ว">
+        <input type="text" class="form-control form-control-sm" value="239 ถ. ห้วยแก้ว" formControlName="address">
+        <!-- <input type="text" class="form-control form-control-sm" value="239 ถ. ห้วยแก้ว"> -->
+
         <div class="row">
           <div class="col">
             จังหวัด
-            <select id="city" class="form-control form-control-sm">
+            <select id="city" class="form-control form-control-sm" formControlName="province">
+              <!-- <select id="city" class="form-control form-control-sm"> -->
+
               <option value="volvo" selected>เชียงใหม่</option>
               <option value="saab">กรุงเทพมหานคร</option>
               <option value="mercedes">เชียงราย</option>
@@ -65,7 +86,9 @@
           </div>
           <div class="col">
             อำเภอ
-            <select id="amphoe" class="form-control form-control-sm">
+            <select id="amphoe" class="form-control form-control-sm" formControlName="district">
+              <!-- <select id="amphoe" class="form-control form-control-sm"> -->
+
               <option value="volvo" selected>เมือง เชียงใหม่</option>
               <option value="saab">สันทราย</option>
               <option value="mercedes">ดอยสะเก็ด</option>
@@ -78,7 +101,9 @@
           <div class="col">
             ตำบล
             <br>
-            <select id="tbon" class="form-control form-control-sm">
+            <select id="tbon" class="form-control form-control-sm" formControlName="subDistrict">
+              <!-- <select id="tbon" class="form-control form-control-sm" > -->
+
               <option value="volvo" selected>สุเทพ</option>
               <option value="saab">วัดเกตุ</option>
               <option value="mercedes">ช้างเผือก</option>
@@ -88,7 +113,9 @@
             รหัสไปรษณีย์
             <div class="row">
               <div class="col">
-                <input id="post" type="number" class="form-control form-control-sm" value="50200">
+                <input id="post" type="number" class="form-control form-control-sm" value="50200" formControlName="zip">
+                <!-- <input id="post" type="number" class="form-control form-control-sm" value="50200" > -->
+
               </div>
             </div>
           </div>
@@ -97,9 +124,12 @@
         <br>
       </div>
     </div>
+    <br>
+    <div class="text-center">
+      <button type="submit" id="anaBtn" class="btn btn-sm btn-success " style="text-align:center">สร้าง</button>
+    </div>
   </form>
-  <br>
-  <a href="search2detail.php" class="btn btn-sm btn-outline-secondary">สร้าง</a>
+
 
   <br>
 </div>

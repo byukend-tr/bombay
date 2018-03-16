@@ -6,9 +6,13 @@ import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angular
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
+
 import 'rxjs/add/operator/switchMap';
 // Class decisiontree
+
 import { Decisiontree } from './decisiontree';
+
+
 
 @Injectable()
 export class DecisiontreeService {
@@ -43,6 +47,7 @@ export class DecisiontreeService {
   createDecisionTree(decisiontree: Decisiontree) {
     firebase.database().ref('/decisions').push(decisiontree);
     this.router.navigate(['/conditions']);
+
   }
 
   testData(data1: string, data2: string, data3: string, data4: string, data5: string, data6: string) {
@@ -96,21 +101,39 @@ export class DecisiontreeService {
     );
 
   }
-  queryCondition(condition, callback) {
-    // this.conditionList = db.list('/decision').valueChanges();
-    if (condition === 'all') {
-      // this.queryAllCondition(callback);
-      // var ref = firebase.database().ref();
+  queryAboCondition(value): Observable<any[]> { // first edit callback 8/2/18
+    // return this.db.list('/decisions').valueChanges().subscribe(data => {
+    //   callback(data);
+    // });
+    console.log('querySomeCondition');
+    console.log(value);
 
-      // ref.on("decision", function (snapshot) {
-      //   console.log(snapshot.val());
-      // }, function (error) {
-      //   console.log("Error: " + error.code);
-      // });
-
+    // tslint:disable-next-line:max-line-length
+    return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
 
+    );
+
   }
+  querySalivaCondition(value): Observable<any[]> {
+    return this.db.list('/decisions', ref => ref.orderByChild('groupSaliva').equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }
+
+    );
+
+  }
+  queryDynamicCondition(abo, saliva): Observable<any[]> {
+    // tslint:disable-next-line:max-line-length
+    return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').orderByChild('groubSaliva').equalTo(abo)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }
+
+    );
+
+  }
+
 
 
   // test

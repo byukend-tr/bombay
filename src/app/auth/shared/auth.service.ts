@@ -114,7 +114,7 @@ export class AuthService {
         this.authState = user;
         this.addUserData();
         this.updateUserData();
-        this.router.navigate(['/']);
+        this.router.navigate(['/users']);
       })
       .catch(error => console.log(error));
   }
@@ -124,7 +124,7 @@ export class AuthService {
     this.emailSignUp(user.email, '123456');
     this.addUserData();
     firebase.database().ref('/users').push(user);
-    this.router.navigate(['/']);
+    this.router.navigate(['/users']);
 
   }
   emailLogin(email: string, password: string) {

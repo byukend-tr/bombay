@@ -1,0 +1,93 @@
+  <div class="container-fluid">
+    <h2 style="color:#365082">Relatives</h2>
+
+    <form>
+      <!-- <h5>ค้นหาคนไข้</h5> -->
+      <div class="row">
+
+        <div class="col-7">
+          ID&nbsp;
+          <input id="inputId" type="text" class="form-control" placeholder="เลขบัตรประจำตัวประชาชน 13 หลัก" value="1"> Firstname&nbsp;
+          <input type="text" class="form-control" placeholder="ชื่อจริง"> Lastname&nbsp;
+          <input type="text" class="form-control" placeholder="นามสกุล">
+
+        </div>
+        <button type="button" class="btn btn-outline-secondary " onclick="showTable();" href="#">Search</button>
+      </div>
+    </form>
+    <br>
+
+      <div class="card border-danger mb-3" style="max-width: 20rem;display: none" id="tempNotFound">
+        <div class="card-block">
+          <div class="card-header">ผลลัพธ์จากการค้นหา</div>
+          <div class="card-body text-danger">
+            <h4 class="card-title">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
+          </div>
+        </div>
+      </div>
+
+    <table id="tempTable" class="table table-striped table-bordered table-hover table-responsive thead-inverse" style="display: none">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+
+          <th>Relatives</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1111111111111</td>
+          <td>พัชราภา</td>
+          <td>ไชยเชื้อ</td>
+
+          <td>
+            <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+          </td>
+        </tr>
+        <tr>
+          <td>1010151598115</td>
+          <td>ณเดชน์</td>
+          <td>คูกิมิยะ</td>
+          <td>
+            <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+          </td>
+        </tr>
+        <!-- <tr>
+            <td>2222222222222</td>
+            <td>ศรราม</td>
+            <td>เทพพิทักษ์</td>
+
+            <td>
+              <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+            </td>
+          </tr> -->
+        <tr>
+          <td>1532655803211</td>
+          <td>อุรัสยา</td>
+          <td>เสปอร์บันด์</td>
+          <td>
+            <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+          </td>
+        </tr>
+        <!-- <tr>
+            <td>3333333333333</td>
+            <td>อารยา</td>
+            <td>เอ ฮาร์เก็ต</td>
+            <td>
+                <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+            </td>
+
+          </tr> -->
+        <tr>
+          <td>4565532102589</td>
+          <td>คิมเบอร์ลี</td>
+          <td>แอนเทียมศิริ</td>
+          <td>
+            <a href="addrelation.php" class="btn btn-outline-success">Manage</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

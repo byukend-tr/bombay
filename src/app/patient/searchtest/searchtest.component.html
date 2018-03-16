@@ -2,12 +2,12 @@
   <div style="color:#365082">
     <h2>ผลการทดลอง</h2>
   </div>
-  <!-- <form class="form-control"> -->
-  <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">    
+
+  <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
-        <input id="inputId" type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 1-13 หลัก" value="00000">
+        <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 1-13 หลัก" formControlName="id">
         <div class="row">
           <div class="col">
             ชื่อจริง&nbsp;
@@ -278,169 +278,62 @@
     </div>
   </form>
   <br>
-  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="tempNotFound" style="display:none">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <h6>ผลลัพธ์จากการค้นหา</h6>
-    <h4>ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
-    <a href="patient.php" class="btn btn-sm btn-outline-success">เพิ่มคนไข้รายใหม่</a>
+
+  <div *ngIf="!isFound; else notFound">
+    <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+      <thead class="thead-table">
+        <tr>
+          <th colspan="3" border="1">ประวัติ</th>
+          <th colspan="3" border="1">ฟีโนไทป์</th>
+          <th colspan="3" border="1">จีโนไทป์</th>
+          <th rowspan="2" style="text-align:center; vertical-align:middle; ">สรุปหมู่เลือด</th>
+          <th rowspan="2" style="text-align:center; vertical-align:middle; ">รายละเอียด</th>
+          <th rowspan="2" style="text-align:center; vertical-align:middle; ">ลบ</th>
+        </tr>
+        <tr>
+          <th>รหัสบัตรประชาชน</th>
+          <th>ชื่อจริง</th>
+          <th>นามสกุล</th>
+          <th>เอบีโอ</th>
+          <th>แอนติบอดี</th>
+          <th>น้ำลาย</th>
+          <th>เอบีโอ</th>
+          <th>FUT1</th>
+          <th>FUT2</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1111111111111</td>
+          <td>พัชราภา</td>
+          <td>ไชยเชื้อ</td>
+          <td>Group O</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td class="text-green">Group O</td>
+          <td class="text-green">
+            <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+          </td>
+          <td>
+            <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- <table id="tempTable" class="table table-sm table-striped table-bordered table-hover table-responsive thead-inverse" style="display: none"> -->
-  <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
-    <thead class="thead-table">
-      <tr>
-        <th colspan="3" border="1">ประวัติ</th>
-        <th colspan="3" border="1">ฟีโนไทป์</th>
-        <th colspan="3" border="1">จีโนไทป์</th>
-        <th rowspan="2" style="text-align:center; vertical-align:middle; ">สรุปหมู่เลือด</th>
-        <th rowspan="2" style="text-align:center; vertical-align:middle; ">รายละเอียด</th>
-        <th rowspan="2" style="text-align:center; vertical-align:middle; ">ลบ</th>
-      </tr>
-      <tr>
-        <th>รหัสบัตรประชาชน</th>
-        <th>ชื่อจริง</th>
-        <th>นามสกุล</th>
-        <th>เอบีโอ</th>
-        <th>แอนติบอดี</th>
-        <th>น้ำลาย</th>
-        <th>เอบีโอ</th>
-        <th>FUT1</th>
-        <th>FUT2</th>
 
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1111111111111</td>
-        <td>พัชราภา</td>
-        <td>ไชยเชื้อ</td>
-        <td>Group O</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="text-green">Group O</td>
-        <td class="text-green">
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>1010151598115</td>
-        <td>ณเดชน์</td>
-        <td>คูกิมิยะ</td>
-        <td>Group A with unexpected alloantibody</td>
-        <td>-</td>
-        <td>*****</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td class="text-red">A para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>2222222222222</td>
-        <td>ศรราม</td>
-        <td>เทพพิทักษ์</td>
-        <td>Group O</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="text-green">Group O</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>1532655803211</td>
-        <td>อุรัสยา</td>
-        <td>เสปอร์บันด์</td>
-        <td>Group AB with unexpected alloantibody</td>
-        <td>-</td>
-        <td>*****</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td class="text-red">A para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>3333333333333</td>
-        <td>อารยา</td>
-        <td>เอ ฮาร์เก็ต</td>
-        <td>Group O with unexpected alloantibody</td>
-        <td>-</td>
-        <td>*****</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td class="text-red">A para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>4565532102589</td>
-        <td>คิมเบอร์ลี</td>
-        <td>แอนเทียมศิริ</td>
-        <td>Group O with unexpected alloantibody</td>
-        <td>-</td>
-        <td>*****</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td>328G>A</td>
-        <td class="text-red">A para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-      <tr>
-        <td>4565532102589</td>
-        <td>ปริญ</td>
-        <td>สุภารัตน์</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="text-yellow">
-          <a routerLink="/menutest" class="btn btn-sm btn-outline-warning">การตรวจหมู่เลือดเอบีโอ</a>
-        </td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-        <td>
-          <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-template #notFound>
+    <div class="alert alert-warning container" role="alert" style="text-align:center;">
+      <h4 class="alert-heading">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
+      <hr>
+      <p>สร้างรายชื่อคนไข้ใหม่</p>
+      <button type="submit" routerLink="create" class="btn btn-sm btn-info">เพิ่มคนไข้ใหม่</button>
+    </div>
+  </ng-template>
 
 </div>
