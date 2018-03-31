@@ -2,7 +2,7 @@
   <div style="color:#365082">
     <h2>จัดการเงื่อนไขในการวิเคราะห์</h2>
   </div>
-  <a routerLink="create" class="btn btn-sm btn-outline-primary">สร้างเงื่อนไขใหม่</a>
+  <button routerLink="create" class="btn btn-sm btn-outline-primary">สร้างเงื่อนไขใหม่</button>
   <button (click)="trainNewModel($event)" class="btn btn-sm btn-outline-primary">สร้างโมเดลใหม่</button>
 
   <form (ngSubmit)="searchCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">

@@ -97,11 +97,22 @@ export class DecisiontreeService {
     return this.db.list('/decisions').snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
-
     );
 
   }
-  queryAboCondition(value): Observable<any[]> { // first edit callback 8/2/18
+  // queryAboCondition(value): Observable<any[]> {
+  //   console.log('querySomeCondition');
+  //   console.log(value);
+
+  //   // tslint:disable-next-line:max-line-length
+  //   return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').equalTo(value)).snapshotChanges().map(changes => {
+  //     return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+  //   }
+
+  //   );
+
+  // }
+  queryTwoCondition(value): Observable<any[]> { // first edit callback 8/2/18
     // return this.db.list('/decisions').valueChanges().subscribe(data => {
     //   callback(data);
     // });
@@ -109,6 +120,17 @@ export class DecisiontreeService {
     console.log(value);
 
     // tslint:disable-next-line:max-line-length
+    return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => {
+        const id = c.payload.key;
+        const data = c.payload.val();
+        return { key: id, ...data };
+      });
+    }
+    );
+
+  }
+  queryAboCondition(value): Observable<any[]> {
     return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').equalTo(value)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }

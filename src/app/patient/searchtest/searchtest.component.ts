@@ -1,8 +1,11 @@
-import { Component, OnInit, AfterContentInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
 import { PatientService } from '../shared/patient.service';
 import { Observable } from 'rxjs/Observable';
+import { SharingdataService } from '../shared/sharingdata.service';
 
 @Component({
   selector: 'app-searchtest',
@@ -13,16 +16,24 @@ export class SearchtestComponent implements OnInit {
 
   conditionForm: FormGroup;
 
+  isFound = false;
 
-  rule: any;
+  patients: any;
+
+  message: string;
+
+  @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
   constructor(private patientService: PatientService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private msg: SharingdataService
+  ) { }
 
   ngOnInit() {
     this.buildForm();
-    const isFound = true;
-    this.query();
+    const isFound = false;
+    // this.query();
   }
 
   buildForm() {
@@ -33,24 +44,33 @@ export class SearchtestComponent implements OnInit {
 
   query() {
     console.log('queryyy');
+    this.patientService.query().subscribe(data => {
+      this.patients = data;
+      if (data.length !== 0) { this.isFound = true; }
+      console.log(this.patients);
+    });
 
-    // this.patientService.query('all', data => {
-    //   this.rule = data;
-    // });
-    // this.patientService.query.subscribe(data => {
-    //   this.rule = data;
-    // }
+
   }
 
   search() {
-    console.log('search');
-    console.log(this.conditionForm.value.id);
     if (this.conditionForm.value.id === '00000') {
-
+      this.isFound = false;
     } else {
       this.query();
     }
 
+
+  }
+  viewDetail(id: string) {
+    this.message = id;
+    this.newMessage();
+    this.router.navigate(['/test/detail']);
+
+  }
+
+  newMessage() {
+    this.msg.changeMessage(this.message);
   }
 
 

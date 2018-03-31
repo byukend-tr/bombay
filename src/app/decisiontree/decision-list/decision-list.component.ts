@@ -108,39 +108,144 @@ export class DecisionListComponent implements OnInit {
     let queryCondition;
     const abo = this.searchConditionForm.value.groupAbo;
     const saliva = this.searchConditionForm.value.groupSaliva;
-    if (abo === null && saliva === null) { /*first load*/
+    console.log(abo + saliva);
+    if (abo === 'null' && saliva === 'null') { /*first load*/
       this.isFound = false;
     } else {
       if (abo === 'all' && saliva === 'all') {
         queryCondition = this.decisiontreeService.queryAllCondition();
+      } else if (abo === 'all' && saliva === 'null') {
+        queryCondition = this.decisiontreeService.queryAllCondition();
+      } else if (saliva === 'all' && abo === 'null') {
+        queryCondition = this.decisiontreeService.queryAllCondition();
+      } else if (abo === 'all' || abo === 'null') {
+        queryCondition = this.decisiontreeService.querySalivaCondition(saliva);
+      } else if (saliva === 'all' || saliva === 'null') {
+        queryCondition = this.decisiontreeService.queryAboCondition(abo);
       } else {
-        queryCondition = this.decisiontreeService.queryAboCondition(abo); /* not finished*/
+        queryCondition = this.decisiontreeService.queryTwoCondition(abo); /* not finished*/
+        // this.filterData(queryCondition, saliva);
       }
-      this.loadData2(queryCondition);
+
+      this.loadData2(queryCondition, saliva);
+
+
+
     }
 
   }
-  loadData2(queryCondition) {
+  // filterData(queryCondition, saliva) {
+  //   queryCondition.subscribe(data => {
+  //     this.rule = data;
+  //     // console.log(this.rule);
+  //     if (this.rule != null) {
+  //       // filter
+  //       for (let i = 0; i < this.rule.length; i++) {
+  //         if (this.rule[i].groupSaliva !== saliva) {
+  //           this.rule.splice(i, 1);
+  //           i -= 1;
+  //         }
+  //       } // end filter
+  //     }
+  //   });
+  //   this.loadData2();
+  // }
+
+  // loadData2() {
+
+  //   this.rule.forEach(item => {
+  //     for (const property in item) {
+  //       // console.log(item[property])
+  //       if (item[property] > 0) {
+  //         item[property] = item[property] + '+';
+  //       } else if (item[property] === '0') {
+  //         item[property] = 'Neg';
+  //       } else if (item[property] < 0) {
+  //         item[property] = '-';
+  //       }
+  //     }
+  //   });
+  //   if (this.rule != null) {
+  //     this.isFound = true;
+  //   } else {
+  //     this.isFound = false;
+  //   }
+
+  // }
+
+  loadData2(queryCondition, saliva) {
+    console.log('okko');
+
     queryCondition.subscribe(data => {
       this.rule = data;
-      // console.log(this.rule);
-      if (this.rule != null) {
-        this.rule.forEach(item => {
-          for (const property in item) {
-            // console.log(item[property])
-            if (item[property] > 0) {
-              item[property] = item[property] + '+';
-            } else if (item[property] === '0') {
-              item[property] = 'Neg';
-            } else if (item[property] < 0) {
-              item[property] = '-';
-            }
+      // console.log(this.rule.value);
+
+      // if (this.rule !== null && (saliva !== 'null' && saliva !== 'all') && this.rule !== [] && this.rule !== undefined) {
+      console.log('not null 180');
+
+      // filter
+      if (saliva !== 'null' && saliva !== 'all') {
+        for (let i = 0; i < this.rule.length; i++) {
+          if (this.rule[i].groupSaliva !== saliva) {
+            this.rule.splice(i, 1);
+            i -= 1;
           }
-        });
+        } // end filter
+      }
+      if (this.rule !== []) {
         this.isFound = true;
       } else {
         this.isFound = false;
       }
+      console.log(this.rule.value);
+
+      this.rule.forEach(item => {
+        for (const property in item) {
+          // console.log(item[property])
+          if (item[property] > 0) {
+            item[property] = item[property] + '+';
+          } else if (item[property] === '0') {
+            item[property] = 'Neg';
+          } else if (item[property] < 0) {
+            item[property] = '-';
+          }
+        }
+      });
+
+      // }
     });
   }
+
+  // loadData2(queryCondition, saliva) {
+  //       queryCondition.subscribe(data => {
+  //         this.rule = data;
+  //         // console.log(this.rule);
+  //         if (this.rule != null) {
+  //           // filter
+  //           for (let i = 0; i < this.rule.length; i++) {
+  //             if (this.rule[i].groupSaliva !== saliva) {
+  //               this.rule.splice(i, 1);
+  //               i -= 1;
+  //             }
+  //           } // end filter
+  //           this.rule.forEach(item => {
+  //             for (const property in item) {
+  //               // console.log(item[property])
+  //               if (item[property] > 0) {
+  //                 item[property] = item[property] + '+';
+  //               } else if (item[property] === '0') {
+  //                 item[property] = 'Neg';
+  //               } else if (item[property] < 0) {
+  //                 item[property] = '-';
+  //               }
+  //             }
+  //           });
+  //           if (this.rule != null) {
+  //             this.isFound = true;
+  //           }
+  //         } else {
+  //           this.isFound = false;
+  //         }
+  //       });
+  //     }
 }

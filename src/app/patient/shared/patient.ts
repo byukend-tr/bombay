@@ -5,7 +5,7 @@ export class Patient {
     lName: string;
     birthDay: Date;
     age: Int16Array;
-    tel1: CharacterData;
+    tel1: string;
     tel2: CharacterData;
     address: string;
     province: string;

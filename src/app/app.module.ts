@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 
@@ -58,6 +58,7 @@ import { ResultListComponent } from './result/result-list/result-list.component'
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { PatientService } from './patient/shared/patient.service';
+import { SharingdataService } from './patient/shared/sharingdata.service';
 
 
 
@@ -114,7 +115,8 @@ import { PatientService } from './patient/shared/patient.service';
     AngularFireDatabase,
     DecisiontreeService,
     MutationDetectionService,
-    PatientService
+    PatientService,
+    SharingdataService
   ],
   bootstrap: [AppComponent]
 })

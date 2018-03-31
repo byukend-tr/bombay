@@ -279,13 +279,14 @@
   </form>
   <br>
 
-  <div *ngIf="!isFound; else notFound">
+  <div *ngIf="isFound; else notFound">
     <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
       <thead class="thead-table">
         <tr>
           <th colspan="3" border="1">ประวัติ</th>
           <th colspan="3" border="1">ฟีโนไทป์</th>
           <th colspan="3" border="1">จีโนไทป์</th>
+          <th rowspan="2" style="text-align:center; vertical-align:middle; ">ทำการทดลองต่อ</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">สรุปหมู่เลือด</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">รายละเอียด</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">ลบ</th>
@@ -304,11 +305,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1111111111111</td>
-          <td>พัชราภา</td>
-          <td>ไชยเชื้อ</td>
-          <td>Group O</td>
+        <tr *ngFor="let patient of patients;">
+          <td>{{patient.id}}</td>
+          <td>{{patient.fName}}</td>
+          <td>{{patient.lName}}</td>
+          <td>-</td>
           <td>-</td>
           <td>-</td>
           <td>-</td>
@@ -316,7 +317,10 @@
           <td>-</td>
           <td class="text-green">Group O</td>
           <td class="text-green">
-            <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
+            <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
+          </td>
+          <td class="text-green">
+            <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
           </td>
           <td>
             <a href="#" class="btn btn-sm btn-outline-danger">ลบ</a>
