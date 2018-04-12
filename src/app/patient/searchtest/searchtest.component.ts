@@ -68,8 +68,8 @@ export class SearchtestComponent implements OnInit {
     this.router.navigate(['/test/detail']);
 
   }
-  phenotypeAbo(id: string) {
-    this.router.navigate(['/test/phenotypeabo']);
+  phenotype(id: string) {
+    this.router.navigate(['/test/phenotype']);
   }
   deletePatient(id: string) {
     console.log('delete' + id);

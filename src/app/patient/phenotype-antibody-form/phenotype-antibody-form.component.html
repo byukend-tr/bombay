@@ -1,0 +1,417 @@
+<!-- <div class="py-1" id="wrapper">
+  <div class="container-col"> -->
+<div class="container-fluid">
+  <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
+
+    <!-- <div class="py-1" id="wrapper">
+                      <div class="container-col"> -->
+    <!-- <div class="py-3 border border-primary" id="saliva" style="display: none;"> -->
+    <div class="py-3 border border-primary" id="saliva">
+
+      <div class="container-fluid">
+
+        <!-- <div class="text-red">12/31/2017 01:30 PM (ดด/วว/ปป ชั่วโมง:วินาที)</div> -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจกรองแอนติบอดี้</h2>
+
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="py-1 text-center bg-light border border-primary">
+                  <div class="container">
+
+                    <div class="row">
+                      <div class="col-11">
+                        <h4>Screening cells O
+                          <sub>1</sub>
+                        </h4>
+                      </div>
+                      <div class="col-1">
+
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="text-left">RT*</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="rt11" name="rt1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt12" name="rt1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt13" name="rt1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt14" name="rt1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt16" name="rt1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt15" name="rt1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">37
+                          <sup>o</sup>C</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="37C11" name="37C1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C12" name="37C1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C13" name="37C1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C14" name="37C1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C16" name="37C1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C15" name="37C1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">AHG</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="AHG11" name="AHG1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG12" name="AHG1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG13" name="AHG1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG14" name="AHG1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG16" name="AHG1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG15" name="AHG1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">CCC</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="CCC11" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC12" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC13" name="CCC1" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC14" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC17" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC15" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC16" name="CCC1" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">ND</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-6"> </div> -->
+
+              </div>
+
+
+
+              <div class="col-md-6">
+                <div class="py-1 text-center bg-light border border-primary">
+                  <div class="container">
+
+
+                    <div class="row">
+                      <div class="col-11">
+                        <h4>Screening cells O
+                          <sub>2</sub>
+                        </h4>
+                      </div>
+                      <div class="col-1">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="text-left">RT*</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="rt21" name="rt2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt22" name="rt2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt23" name="rt2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt24" name="rt2" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt26" name="rt2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="rt25" name="rt2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">37
+                          <sup>o</sup>C</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="37C21" name="37C2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C22" name="37C2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C23" name="37C2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C24" name="37C2" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C26" name="37C2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="37C25" name="37C2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">AHG</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="AHG21" name="AHG2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG22" name="AHG2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG23" name="AHG2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG24" name="AHG2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG26" name="AHG2" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="AHG25" name="AHG2" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">CCC</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="CCC21" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC22" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC23" name="CCC2" type="radio" class="custom-control-input" checked="">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC24" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC25" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC26" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">w+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="CCC26" name="CCC2" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">ND</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <p class="mb-0">*    แทน การบันทึกผลปฏิกิริยาระหว่างซีรัมและ O cells ที่ 4C</p>
+            <p>ND แทน ไม่ได้ทำการทดลอง</p>
+            <p>หมายเหตุ</p>
+            <input id="note" type="text" class="form-control-sm form-control">
+
+            <br>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <!-- <label class="btn btn-sm btn-outline-secondary">
+                                  Add Photo
+                                  <input type="file" hidden id="photoBtn">
+                                </label> -->
+            <label class="btn btn-sm btn-outline-secondary">
+              Add Photo
+              <input type="file" hidden (change)="selectFile($event)" multiple>
+            </label>
+
+          </div>
+          <div class="col-5">
+            <!-- <a href="#" id="editBtn" class="btn btn-warning btn-block" onclick="canEdit();" style="display:none" >Edit</a>
+                                                  <a href="#" id="anaBtn" class="btn btn-success btn-block" onclick="showAnalysis();" >บันทึก</a> -->
+            <div id="tempNotFound" style="display: none;color:red">
+              <h5>group O with unexpected alloantibody</h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-4 text-center">
+        <a class="text-muted" [routerLink]="['/conditions']">ย้อนกลับ</a>
+      </div>
+      <!-- <div class="col-sm-4"></div> -->
+      <div class="col-12 col-md-4 text-center">
+        <button type="submit" [disabled]="!selectedFiles" (click)="upload()" class="btn btn-sm btn-success " style="text-align:center">เพิ่ม</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- <br>
+                <div class="alert alert-danger" role="alert" *ngIf="!validationSuccess;">
+                  กรุณากรอกข้อมูลให้ครบถ้วน
+                </div> -->
+
+<br>
+<!-- <center>
+                                          <button type="button" id="anaBtn" class="btn btn-sm btn-success " onclick="showAnalysis();">บันทึก</button>
+                                        </center> -->
+
+<!-- <br> -->
+<!-- <a href="phenotype1more.php" class="btn btn-dark" onclick="addTest();">More</a> -->
+<!-- </div>
+                            </div> -->

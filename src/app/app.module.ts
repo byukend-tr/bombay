@@ -50,6 +50,9 @@ import { SearchtestComponent } from './patient/searchtest/searchtest.component';
 import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
 import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
 
+import { PhenotypeHomeComponent } from './patient/phenotype-home/phenotype-home.component';
+import { PhenotypeAntibodyFormComponent } from './patient/phenotype-antibody-form/phenotype-antibody-form.component';
+import { PhenotypeSalivaFormComponent } from './patient/phenotype-saliva-form/phenotype-saliva-form.component';
 import { PhenotypeAboFormComponent } from './patient/phenotype-abo-form/phenotype-abo-form.component';
 
 
@@ -64,6 +67,8 @@ import { MatCardModule } from '@angular/material/card';
 // Service
 import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
+
+
 
 
 
@@ -97,7 +102,10 @@ import { SharingdataService } from './patient/shared/sharingdata.service';
     EditPatientComponent,
     RelativesFormComponent,
     DetailListComponent,
-    PhenotypeAboFormComponent
+    PhenotypeAboFormComponent,
+    PhenotypeHomeComponent,
+    PhenotypeAntibodyFormComponent,
+    PhenotypeSalivaFormComponent
   ],
   imports: [
     BrowserModule,

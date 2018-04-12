@@ -13,12 +13,13 @@ import { FileUpload } from '../shared/file-upload';
 // import { GalleryImage } from 'models/galleryImage.model';
 import { Observable } from 'rxjs/Observable';
 
+
 @Component({
-  selector: 'app-phenotype-abo-form',
-  templateUrl: './phenotype-abo-form.component.html',
-  styleUrls: ['./phenotype-abo-form.component.css']
+  selector: 'app-phenotype-antibody-form',
+  templateUrl: './phenotype-antibody-form.component.html',
+  styleUrls: ['./phenotype-antibody-form.component.css']
 })
-export class PhenotypeAboFormComponent implements OnInit {
+export class PhenotypeAntibodyFormComponent implements OnInit {
 
   conditionForm: FormGroup;
 
@@ -158,5 +159,6 @@ export class PhenotypeAboFormComponent implements OnInit {
     console.log('endshowwww');
 
   }
+
 
 }

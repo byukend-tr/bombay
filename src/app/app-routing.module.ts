@@ -32,6 +32,9 @@ import { EditPatientComponent } from './patient/edit-patient/edit-patient.compon
 
 import { RelativesFormComponent } from './patient/relatives-form/relatives-form.component';
 
+import { PhenotypeHomeComponent } from './patient/phenotype-home/phenotype-home.component';
+import { PhenotypeAntibodyFormComponent } from './patient/phenotype-antibody-form/phenotype-antibody-form.component';
+import { PhenotypeSalivaFormComponent } from './patient/phenotype-saliva-form/phenotype-saliva-form.component';
 import { PhenotypeAboFormComponent } from './patient/phenotype-abo-form/phenotype-abo-form.component';
 
 
@@ -93,7 +96,7 @@ const routes: Routes = [
       { path: 'edit', component: EditPatientComponent },
       { path: 'relatives', component: RelativesFormComponent },
       { path: 'detaillist', component: DetailListComponent },
-      { path: 'phenotypeabo', component: PhenotypeAboFormComponent}
+      { path: 'phenotype', component: PhenotypeHomeComponent }
     ]
   },
 
