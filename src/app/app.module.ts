@@ -50,6 +50,9 @@ import { SearchtestComponent } from './patient/searchtest/searchtest.component';
 import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
 import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
 
+import { PhenotypeAboFormComponent } from './patient/phenotype-abo-form/phenotype-abo-form.component';
+
+
 import { RelativesFormComponent } from './patient/relatives-form/relatives-form.component';
 
 // Result
@@ -57,8 +60,11 @@ import { ResultListComponent } from './result/result-list/result-list.component'
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+
+// Service
 import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
+
 
 
 
@@ -90,7 +96,8 @@ import { SharingdataService } from './patient/shared/sharingdata.service';
     CreatePatientComponent,
     EditPatientComponent,
     RelativesFormComponent,
-    DetailListComponent
+    DetailListComponent,
+    PhenotypeAboFormComponent
   ],
   imports: [
     BrowserModule,

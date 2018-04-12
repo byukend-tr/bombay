@@ -3,9 +3,12 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
+
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
+
+import 'firebase/storage';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -16,12 +19,19 @@ import { Relatives } from './relatives';
 
 import Swal from 'sweetalert2';
 
+import { FileUpload } from './file-upload';
 @Injectable()
 export class PatientService {
 
   Swal = require('sweetalert2');
   itemsRef: AngularFireList<any>;
   swal: any;
+
+  // private basePath = '/uploads';
+  // fileUploads: Observable<FileUpload[]>;
+  private basePath: String = '/uploads';
+  private uploadTask: firebase.storage.UploadTask;
+  uploads: AngularFireList<any>;
 
   constructor(private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
@@ -99,5 +109,70 @@ export class PatientService {
       });
     }
 
+  }
+  pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }) {
+    console.log('uploaddddsfsfsf');
+
+    const storageRef = firebase.storage().ref();
+
+    fileUpload.name = '1' + fileUpload.file.name;
+
+    const uploadTask = storageRef.child(`${this.basePath}/${'1' + fileUpload.file.name}`).put(fileUpload.file);
+
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => {
+        // in progress
+        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+        progress.percentage = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+      },
+      (error) => {
+        // fail
+        console.log(error);
+      },
+      () => {
+        // success
+        fileUpload.url = uploadTask.snapshot.downloadURL;
+        fileUpload.name = '1' + fileUpload.file.name;
+        this.saveFileData(fileUpload);
+        console.log(fileUpload.name);
+      }
+    );
+  }
+  private saveFileData(fileUpload: FileUpload) {
+    this.db.list(`${this.basePath}/`).push(fileUpload);
+  }
+
+  getFileUploads(numberItems) {
+    console.log(this.basePath);
+
+    console.log(this.db.list(`${this.basePath}/`));
+
+    return this.db.list(`${this.basePath}/`);
+
+    // return this.db.list(`${this.basePath}/`, ref => ref.orderByValue());
+  }
+
+  deleteFileUpload(fileUpload: FileUpload) {
+    this.deleteFileDatabase(fileUpload.$key)
+      .then(() => {
+        this.deleteFileStorage(fileUpload.name);
+      })
+      .catch(error => console.log(error));
+  }
+
+  private deleteFileDatabase(key: string) {
+    return this.db.list(`${this.basePath}/`).remove(key);
+  }
+
+  private deleteFileStorage(name: string) {
+    const storageRef = firebase.storage().ref();
+    storageRef.child(`${this.basePath}/${name}`).delete();
+  }
+  // getImages(): Observable<GalleryImage[]> {
+  //   return this.db.list('uploads');
+  // }
+  getImage(key: string) {
+    return firebase.database().ref('upload/' + key).once('value')
+      .then((snap) => snap.val());
   }
 }

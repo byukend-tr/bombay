@@ -11,137 +11,138 @@
     <h2>รายละเอียดคนไข้</h2>
     <button type="button" class="btn btn-sm btn-outline-primary" routerLink="/test/edit">แก้ไขข้อมูลคนไข้</button>
   </div>
-    <div class="row" >
-      <div class="col">
-        <table class="table table-sm table-striped table-bordered table-hover">
-          <tbody *ngFor="let patient of patients;">
-            <tr >
-              <td>รหัสบัตรประชาชน</td>
-              <td>{{patient.id}}</td>
-            </tr>
-            <tr>
-              <td>ชื่อ-นามสกุล</td>
-              <td>{{patient.fName+" "+patient.lName}}</td>
-            </tr>
-            <tr>
-              <td>วันเดือนปีเกิด</td>
-              <td>{{patient.birthDay}}</td>
-            </tr>
-            <tr>
-              <td>อายุ (ปี)</td>
-              <td>27</td>
-            </tr>
-            <tr>
-              <td>เบอร์ติดต่อ 1</td>
-              <td>{{patient.tel1}}</td>
-            </tr>
-            <tr>
-              <td>เบอร์ติดต่อ 2</td>
-              <td>{{patient.tel2}}</td>
-            </tr>
-            <tr>
-              <td>ที่อยู่</td>
-              <td>{{patient.address}}</td>
-            </tr>
-            <tr>
-              <td>ตำบล</td>
-              <td>{{patient.subDistrict}}</td>
-            </tr>
-            <tr>
-              <td>อำเภอ</td>
-              <td>{{patient.district}}</td>
-            </tr>
-            <tr>
-              <td>จังหวัด</td>
-              <td>{{patient.province}}</td>
-            </tr>
-            <tr>
-              <td>รหัสไปรษณีย์</td>
-              <td>{{patient.zip}}</td>
-            </tr>
-            <tr>
-              <td>หมู่เลือด</td>
-              <td class="text-red">O para-Bombay</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col">
-        <h5>ฟีโนไทป์</h5>
-        <table class="table table-sm table-striped table-bordered table-hover table-responsive">
-          <thead class="thead-dark">
-            <tr>
-              <th>การตรวจหมู่เลือดเอบีโอ</th>
-              <th>การตรวจกรองแอนติบอดี</th>
-              <th>การตรวจน้ำลาย</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Group O with unexpected alloantibody</td>
-              <td>พบ alloantibody, ชนิด IgG</td>
-              <td>Secretor,gr.O</td>
-            </tr>
-            <tr>
-              <td colspan="3">O para-Bombay</td>
-            </tr>
-          </tbody>
-        </table>
-        <h5>จีโนไทป์</h5>
-        <table class="table table-sm table-striped table-bordered table-hover table-responsive">
-          <thead class="thead-dark">
-            <tr>
-              <th>เอบีโอ</th>
-              <th>FUT1</th>
-              <th>FUT2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>O
-                <sup>1</sup>O
-                <sup>2</sup>
-              </td>
-              <td>328G>A</td>
-              <td>357C>T</td>
-            </tr>
-            <tr>
-              <td colspan="3">O para-Bombay</td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm">รายละเอียดการทดลอง</button>
-      </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm table-striped table-bordered table-hover">
+        <tbody *ngFor="let patient of patients;">
+          <tr>
+            <td>รหัสบัตรประชาชน</td>
+            <td>{{patient.id}}</td>
+          </tr>
+          <tr>
+            <td>ชื่อ-นามสกุล</td>
+            <td>{{patient.fName+" "+patient.lName}}</td>
+          </tr>
+          <tr>
+            <td>วันเดือนปีเกิด</td>
+            <td>{{patient.birthDay}}</td>
+          </tr>
+          <tr>
+            <td>อายุ (ปี)</td>
+            <td>27</td>
+          </tr>
+          <tr>
+            <td>เบอร์ติดต่อ 1</td>
+            <td>{{patient.tel1}}</td>
+          </tr>
+          <tr>
+            <td>เบอร์ติดต่อ 2</td>
+            <td>{{patient.tel2}}</td>
+          </tr>
+          <tr>
+            <td>ที่อยู่</td>
+            <td>{{patient.address}}</td>
+          </tr>
+          <tr>
+            <td>ตำบล</td>
+            <td>{{patient.subDistrict}}</td>
+          </tr>
+          <tr>
+            <td>อำเภอ</td>
+            <td>{{patient.district}}</td>
+          </tr>
+          <tr>
+            <td>จังหวัด</td>
+            <td>{{patient.province}}</td>
+          </tr>
+          <tr>
+            <td>รหัสไปรษณีย์</td>
+            <td>{{patient.zip}}</td>
+          </tr>
+          <tr>
+            <td>หมู่เลือด</td>
+            <td class="text-red">O para-Bombay</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div class="col">
+      <button type="button" class="btn btn-sm btn-outline-warning" routerLink="/test/phenotypeabo">ฟีโนไทป์:เอบีโอ</button>
+      <h5>ฟีโนไทป์</h5>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>การตรวจหมู่เลือดเอบีโอ</th>
+            <th>การตรวจกรองแอนติบอดี</th>
+            <th>การตรวจน้ำลาย</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Group O with unexpected alloantibody</td>
+            <td>พบ alloantibody, ชนิด IgG</td>
+            <td>Secretor,gr.O</td>
+          </tr>
+          <tr>
+            <td colspan="3">O para-Bombay</td>
+          </tr>
+        </tbody>
+      </table>
+      <h5>จีโนไทป์</h5>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>เอบีโอ</th>
+            <th>FUT1</th>
+            <th>FUT2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>O
+              <sup>1</sup>O
+              <sup>2</sup>
+            </td>
+            <td>328G>A</td>
+            <td>357C>T</td>
+          </tr>
+          <tr>
+            <td colspan="3">O para-Bombay</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm">รายละเอียดการทดลอง</button>
+    </div>
+  </div>
 
 
-    <div class="row">
-      <div class="col">
-        <h3 style="color:#1F7FF0">ความสัมพันธ์ที่เกี่ยวข้องกับคนไข้</h3>
-        <button type="button" class="btn btn-sm btn-outline-primary" (click)="editRelatives(message)">แก้ไขความสัมพันธ์</button>
-        <table class="table table-sm table-striped table-bordered table-hover table-responsive">
-          <thead class="thead-dark">
-            <tr>
-              <th>รหัสบัตรประชาชน</th>
-              <th>ชื่อ</th>
-              <th>นามสกุล</th>
-              <th>ความสัมพันธ์</th>
-              <th>หมู่เลือด</th>
-              <th>รายละเอียด</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let relative of relatives;">
-              <td>{{relative.patientId}}</td>
-              <td>{{relative.fName}}</td>
-              <td>{{relative.lName}}</td>
-              <td>{{relative.relativeName}}</td> 
-              <td class="text-yellow">Not confirm</td>
-              <td>
-                <button (click)="viewDetail(relative.patientId)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
-              </td>
-            </tr>
-            <!-- <tr>
+  <div class="row">
+    <div class="col">
+      <h3 style="color:#1F7FF0">ความสัมพันธ์ที่เกี่ยวข้องกับคนไข้</h3>
+      <button type="button" class="btn btn-sm btn-outline-primary" (click)="editRelatives(message)">แก้ไขความสัมพันธ์</button>
+      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+          <tr>
+            <th>รหัสบัตรประชาชน</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>ความสัมพันธ์</th>
+            <th>หมู่เลือด</th>
+            <th>รายละเอียด</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let relative of relatives;">
+            <td>{{relative.patientId}}</td>
+            <td>{{relative.fName}}</td>
+            <td>{{relative.lName}}</td>
+            <td>{{relative.relativeName}}</td>
+            <td class="text-yellow">Not confirm</td>
+            <td>
+              <button (click)="viewDetail(relative.patientId)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
+            </td>
+          </tr>
+          <!-- <tr>
               <td>3333333333333</td>
               <td>อารยา</td>
               <td>เอ ฮาร์เก็ต</td>
@@ -161,12 +162,12 @@
                 <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
               </td>
             </tr> -->
-          </tbody>
-        </table>
-
-      </div>
+        </tbody>
+      </table>
 
     </div>
+
+  </div>
 
   <!-- </div> -->
 

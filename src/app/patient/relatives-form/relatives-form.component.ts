@@ -72,7 +72,6 @@ export class RelativesFormComponent implements OnInit {
       this.relatives = new Array<Relatives>();
 
       this.patientService.loaddetailPatient(data, (cb, i) => {
-        console.log('nownow');
         this.relatives.push({
           patientId: cb[0].id,
           fName: cb[0].fName,
