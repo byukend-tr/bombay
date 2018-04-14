@@ -98,13 +98,11 @@ export class RelativesFormComponent implements OnInit {
   addRelatives(relativeId: string) {
     // this.relativeForm.value.patientId = this.message;
     // this.relativeForm.value.relativeId = relativeId;
-    // console.log(this.relativeForm.value.relativeId);
+    console.log(this.relativeForm.value.relativeId);
     this.patientService.addRelatives(this.relativeForm.value, this.message, relativeId);
 
   }
   deleteRelative(id: string) {
-    console.log('id' + id);
-
     this.patientService.deleteRelative(this.message, id);
   }
 

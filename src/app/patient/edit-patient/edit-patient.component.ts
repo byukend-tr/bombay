@@ -55,12 +55,13 @@ export class EditPatientComponent implements OnInit {
   loadData() {
     this.patientService.detailPatient(this.message).subscribe(data => {
       this.patients = data;
-      console.log(this.patients[0].id);
+      // console.log(this.patients[0].id);
       // this.buildForm2();
     });
   }
   validationInput() {
-    this.patientService.createPatient(this.conditionForm.value);
+    const id = this.patients[0].id;
+    this.patientService.createPatient(this.conditionForm.value, id);
     this.message = this.conditionForm.value.id;
     this.newMessage();
     this.router.navigate(['/test/detail']);

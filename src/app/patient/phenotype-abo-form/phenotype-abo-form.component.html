@@ -233,7 +233,7 @@
 
             </div>
             <p>หมายเหตุ</p>
-            <input id="note" type="text" class="form-control-sm form-control">
+            <input id="note" type="text" class="form-control-sm form-control" formControlName="Note">
             <br>
           </div>
         </div>
@@ -243,7 +243,7 @@
           <div class="col">
             <label class="btn btn-sm btn-outline-secondary">
               Add Photo
-              <input type="file" hidden (change)="selectFile($event)">
+              <input type="file" hidden (change)="selectFile($event)" multiple>
             </label>
 
             <!-- <div class="progress">
@@ -285,7 +285,8 @@
       </div>
       <!-- <div class="col-sm-4"></div> -->
       <div class="col-12 col-md-4 text-center">
-        <button type="submit" [disabled]="!selectedFiles" (click)="upload()" class="btn btn-sm btn-success " style="text-align:center">เพิ่ม</button>
+        <!-- <button type="submit" [disabled]="!selectedFiles" (click)="upload()" class="btn btn-sm btn-success " style="text-align:center">เพิ่มการทดสอบ</button> -->
+        <button type="submit" (click)="validationForm()" class="btn btn-sm btn-success " style="text-align:center">เพิ่มการทดสอบ</button>
       </div>
     </div>
     <br>

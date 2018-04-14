@@ -6,12 +6,17 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 import { AuthService } from '../../auth/shared/auth.service';
 
 import { PatientService } from '../shared/patient.service';
+import { DecisiontreeService } from '../../decisiontree/shared/decisiontree.service';
+import { SharingdataService } from '../shared/sharingdata.service';
 import { FileUpload } from '../shared/file-upload';
 
+import { Router } from '@angular/router';
 
 // Gallery
 // import { GalleryImage } from 'models/galleryImage.model';
 import { Observable } from 'rxjs/Observable';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-phenotype-abo-form',
@@ -30,11 +35,34 @@ export class PhenotypeAboFormComponent implements OnInit {
   fileUploads: FirebaseListObservable<FileUpload[]>;
   temp: any;
 
-  constructor(private patient: PatientService) { }
+  patients: any;
+  message: string;
+
+  constructor(private patientService: PatientService,
+    private decisionService: DecisiontreeService,
+    private msg: SharingdataService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.buildForm();
-    this.loadPhoto();
+    this.msg.currentMessage.subscribe(message => {
+      this.message = message;
+      this.loadData();
+      this.buildForm();
+      this.loadPhoto();
+    }
+    );
+
+  }
+  loadData() {
+    this.patientService.detailPatient(this.message).subscribe(data => {
+      this.patients = data;
+      console.log(this.patients);
+
+    });
+  }
+
+  newMessage() {
+    this.msg.changeMessage(this.message);
   }
 
   buildForm() {
@@ -45,93 +73,96 @@ export class PhenotypeAboFormComponent implements OnInit {
       Acell: new FormControl(),
       Bcell: new FormControl(),
       Ocell: new FormControl(),
-      groupAbo: new FormControl(),
-      secretor: new FormControl(),
-      nonSecretor: new FormControl(),
-      nss: new FormControl(),
-      TestAntiA: new FormControl(),
-      TestAntiB: new FormControl(),
-      TestAntiH: new FormControl(),
-      groupSaliva: new FormControl(),
-      checkBoxAdd: new FormControl()
+      Note: new FormControl(),
+      groupAbo: new FormControl
+      // secretor: new FormControl(),
+      // nonSecretor: new FormControl(),
+      // nss: new FormControl(),
+      // TestAntiA: new FormControl(),
+      // TestAntiB: new FormControl(),
+      // TestAntiH: new FormControl(),
+      // groupSaliva: new FormControl(),
+      // checkBoxAdd: new FormControl()
     });
   }
 
   validationInput() {
-    const valueGroupAbo = this.conditionForm.value.groupAbo;
-    const valueGroupSaliva = this.conditionForm.value.groupSaliva;
-    // let canCreate;
-
-    // if (!this.groupType()) {
-    //   this.setDatagroupAbo();
-    //   canCreate = true;
-    // } else if (valueGroupAbo === 'Group A with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.A') {
-    //   this.conditionForm.value.result = 'para-Bombay A';
-    //   canCreate = true;
-    // } else if (valueGroupAbo === 'Group B with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.B') {
-    //   this.conditionForm.value.result = 'para-Bombay B';
-    //   canCreate = true;
-    // } else if (valueGroupAbo === 'Group AB with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.AB') {
-    //   this.conditionForm.value.result = 'para-Bombay AB';
-    //   canCreate = true;
-    // } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.O') {
-    //   this.conditionForm.value.result = 'para-Bombay O';
-    //   canCreate = true;
-    // } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Non-Secretor') {
-    //   this.conditionForm.value.result = 'O Bombay';
-    //   canCreate = true;
-    // } else {
-    //   canCreate = false;
-    // }
-    // if (canCreate === true) {
-    //   this.createCondition();
-
-    // }
-
-
+    if (this.selectedFiles) {
+      this.upload();
+    }
+    this.createTest();
   }
 
   validationForm() {
-    // let validationSuccess = true;
+
     // tslint:disable-next-line:max-line-length
-    // if (!this.conditionForm.value.AntiA || !this.conditionForm.value.AntiB || !this.conditionForm.value.AntiAB || !this.conditionForm.value.Acell || !this.conditionForm.value.Bcell || !this.conditionForm.value.Ocell || !this.conditionForm.value.groupAbo) {
-    //   // tslint:disable-next-line:max-line-length
-    //   validationSuccess = false;
-    //   // tslint:disable-next-line:max-line-length
-    // } else if (!this.groupType()) { // Abo
-    //   this.setDatagroupAbo();
-    // } else if (this.groupType()) { // Abo and Saliva
-    //   // tslint:disable-next-line:max-line-length
-    //   if (!this.conditionForm.value.secretor || !this.conditionForm.value.nonSecretor || !this.conditionForm.value.nss || !this.conditionForm.value.TestAntiA || !this.conditionForm.value.TestAntiB || !this.conditionForm.value.TestAntiH || !this.conditionForm.value.groupSaliva) {
-    //     validationSuccess = false;
-    //   }
-    // }
-    // console.log(validationSuccess);
-    // if (validationSuccess) {
-    //   this.validationInput();
-    // } else {
-    //   console.log('input error form');
-    // }
+    if (this.conditionForm.value.AntiA && this.conditionForm.value.AntiB && this.conditionForm.value.AntiAB && this.conditionForm.value.Acell && this.conditionForm.value.Bcell && this.conditionForm.value.Ocell) {
+
+      Swal({
+        title: 'คุณแน่ใจใช่หรือไม่?',
+        text: 'ต้องการเพิ่มการทดสอบ"การตรวจหมู่เลือดเอบีโอ" ของคนไข้ ' +
+          this.patients[0].fName + ' ' +
+          this.patients[0].lName + ' ใช่หรือไม่',
+        // ' ได้แก่ <br/>' +
+        // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
+        // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
+        // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
+        // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
+        // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
+        // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
+        // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
+
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+        cancelButtonText: 'ไม่ ต้องการเพิ่ม'
+      }).then((result) => {
+        if (result.value) {
+
+          // this.patientService.createPatient(this.conditionForm.value);
+
+          this.validationInput();
+
+          this.router.navigate(['/test/detail']);
+          Swal(
+            'สร้างการทดสอบเรียบร้อยแล้ว!',
+            this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
+            'success'
+          );
+          // For more information about handling dismissals please visit
+          // https://sweetalert2.github.io/#handling-dismissals
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal(
+            'ยกเลิก!',
+            'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
+            'error'
+          );
+        }
+      });
+    } else {
+      Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+    }
 
 
 
   }
 
-  createCondition(): void { // Input data
-
+  createTest(): void { // Input data
     // this.decisiontreeService.createDecisionTree(this.conditionForm.value);
+    console.log(this.patients);
+    const id = this.patients[0].id;
 
+    this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
+    // this.decisionService.analyzeAboTest(this.conditionForm.value);
+    this.patientService.createAboTest(this.conditionForm.value, id);
   }
 
   selectFile(event) {
-    console.log('yeahhhhhh');
-
     const file = event.target.files.item(0);
 
+    console.log(file) คิดแปบ
     if (file.type.match('image.*')) {
       this.selectedFiles = event.target.files;
-      console.log('selelelele');
-
       console.log(this.selectedFiles.item);
 
       this.fileList.push();
@@ -147,16 +178,12 @@ export class PhenotypeAboFormComponent implements OnInit {
     this.selectedFiles = undefined;
 
     this.currentFileUpload = new FileUpload(file);
-    this.patient.pushFileToStorage(this.currentFileUpload, this.progress);
+    this.patientService.pushFileToStorage(this.currentFileUpload, this.progress);
   }
 
   loadPhoto() {
     // this.fileUploads = this.patient.getFileUploads({ limitToLast: 3 });
-    this.temp = this.patient.getFileUploads({ limitToLast: 10 });
-    console.log('showwww');
-    console.log(this.temp);
-    console.log('endshowwww');
-
+    this.temp = this.patientService.getFileUploads({ limitToLast: 10 });
   }
 
 }

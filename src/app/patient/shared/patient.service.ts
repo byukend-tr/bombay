@@ -42,13 +42,32 @@ export class PatientService {
     this.itemsRef = db.list('decisions');
 
   }
+  isFoundPatient(id: string) {
+    this.db.list('patients', ref => ref.equalTo(id)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+
+  createPatient(patient: Patient, id: string) {
+
+    const isFound = this.isFoundPatient(id);
+    console.log('isFound' + isFound);
+
+    if (isFound === null) {
+      return false;
+    } else {
+      firebase.database().ref('patients' + '/' + id).set(patient);
+      return true;
+    }
 
 
-  createPatient(patient: Patient): void {
+  }
+  createAboTest(patient: Patient, id: string) {
+    console.log('creeee');
+    console.log(patient);
 
-    firebase.database().ref('/patients').push(patient);
-
-
+    firebase.database().ref('patients/' + id + '/abo').push(patient);
+    // firebase.database().ref('relatives/' + id + '/' + relativeId).set(relative);
   }
 
   query() {
@@ -83,31 +102,57 @@ export class PatientService {
 
   }
   relativesOfPatient(value: string) {
-    // return this.db.list('/relatives').snapshotChanges().map(changes => {
+    // return this.db.list(`/relatives/${value}`).snapshotChanges().map(changes => {
     //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     // }
 
     // );
-    return this.db.list(`/relatives/${value}`).snapshotChanges().map(changes => {
+
+    return this.db.list(`/patients/${value}/relatives`).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
 
     );
   }
   addRelatives(relative: Relatives, id: string, relativeId: string) {
-    // console.log(relative, id);
+    console.log(relative, id);
 
 
-    firebase.database().ref('relatives/' + id + '/' + relativeId).set(relative);
+    firebase.database().ref('patients/' + id + '/relatives/' + relativeId).set(relative);
     // firebase.database().ref('relatives/').set(relative);
   }
   deleteRelative(idPatient: string, id: string) {
-    if (confirm('คุณต้องการลบ' + ' หรือไม่!')) {
-      this.db.object('/decisions/id').remove().then(() => {
-        this.db.object('/relatives' + '/' + idPatient + '/' + id).remove();
-        alert('ลบ ' + 'เรียบร้อย!');
-      });
-    }
+    // if (confirm('คุณต้องการลบ' + ' หรือไม่!')) {
+    //   this.db.object('/decisions/id').remove().then(() => {
+    //     this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
+    //     alert('ลบ ' + 'เรียบร้อย!');
+    //   });
+    // }
+
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการที่จะลบความสัมพันธ์ใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.db.object('/decisions/id').remove().then(() => {
+          this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
+          Swal('สำเร็จ!', 'ลบความสัมพันธ์เรียบร้อยแล้ว',
+            'success'
+          );
+        });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบความสัมพันธ์ของคนไข้',
+          'error'
+        );
+      }
+    });
 
   }
   pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }) {
@@ -175,4 +220,5 @@ export class PatientService {
     return firebase.database().ref('upload/' + key).once('value')
       .then((snap) => snap.val());
   }
+
 }

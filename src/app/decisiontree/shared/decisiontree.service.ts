@@ -41,42 +41,46 @@ export class DecisiontreeService {
     //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     // });
     // console.log(this.items);
-
+    this.trainModel();
   }
-
+  
   createDecisionTree(decisiontree: Decisiontree) {
     firebase.database().ref('/decisions').push(decisiontree);
     this.router.navigate(['/conditions']);
 
   }
 
-  testData(data1: string, data2: string, data3: string, data4: string, data5: string, data6: string) {
+  testData(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['AntiA', 'AntiB', 'AntiAB', 'Acell', 'Bcell', 'Ocell'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
-    // console.log(dt)
+
     const predicted_class = dt.predict({
-      AntiA: data1,
-      AntiB: data2,
-      AntiAB: data3,
-      Acell: data4,
-      Bcell: data5,
-      Ocell: data6
+      AntiA: test.AntiA,
+      AntiB: test.AntiB,
+      AntiAB: test.AntiAB,
+      ACell: test.ACell,
+      BCell: test.Bcell,
+      OCell: test.OCell
     });
+
     // var predicted_class = dt.predict({
     //   color: "blue",
     //   shape: "hexagon"
     // });
     // var accuracy = dt.evaluate(this.test_data);
-    const treeModel = dt.toJSON();
-    console.log(predicted_class);
-  }
+    // const treeModel = dt.toJSON();
 
+    return predicted_class;
+  }
+  analyzeAboTest(test: Decisiontree) {
+    return this.testData(test);
+  }
   trainModel() {
     console.log('decisionokok');
     this.db.list('/decisions').valueChanges().subscribe(data => {
       this.training_data = data;
-      this.testData('1', '2', '3', '4', '0', '0');
+      // this.testData('1', '2', '3', '4', '0', '0');
     });
   }
 

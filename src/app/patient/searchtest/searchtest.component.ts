@@ -69,6 +69,8 @@ export class SearchtestComponent implements OnInit {
 
   }
   phenotype(id: string) {
+    this.message = id;
+    this.newMessage();
     this.router.navigate(['/test/phenotype']);
   }
   deletePatient(id: string) {
