@@ -3,7 +3,17 @@
     <h3>{{patient.id}} {{patient.fName}} {{patient.lName}}</h3>
   </div>
   <router-outlet></router-outlet>
-  <app-phenotype-abo-form></app-phenotype-abo-form>
-  <!-- <app-phenotype-antibody-form></app-phenotype-antibody-form>
-  <app-phenotype-saliva-form></app-phenotype-saliva-form> -->
+  <div *ngIf="test =='Abo';else saliva">
+    <app-phenotype-abo-form></app-phenotype-abo-form>
+  </div>
+  <ng-template #saliva>
+    <div *ngIf="test =='Saliva';else antibody">
+      <app-phenotype-saliva-form></app-phenotype-saliva-form>
+    </div>
+  </ng-template>
+  <ng-template #antibody>
+    <div>
+      <app-phenotype-antibody-form></app-phenotype-antibody-form>
+    </div>
+  </ng-template>
 </div>

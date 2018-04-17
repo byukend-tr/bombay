@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <h2 style="color:#365082">ค้นหา</h2>
-  <form class="form-control">
+  <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
-        <input type="text" class="form-control form-control-sm" id="id" placeholder="รหัสบัตรประชาชน 1-13 หลัก" value="1">
+        <input type="text" class="form-control form-control-sm" id="id" placeholder="รหัสบัตรประชาชน 1-13 หลัก" formControlName="id">
         <div class="row">
           <div class="col">
             ชื่อจริง
@@ -114,7 +114,7 @@
 
     <div class="row">
       <div class="col text-center">
-        <button type="button" class="btn btn-sm btn-outline-primary " onclick="showTable();">ค้นหา</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary">ค้นหา</button>
       </div>
     </div>
 
@@ -131,58 +131,40 @@
   </center> -->
 
   <!-- <table id="tempTable" style="display: none" class="table table-sm table-striped table-bordered table-hover table-responsive thead-inverse"> -->
-  <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
-    <thead class="thead-table">
-      <tr>
-        <th>รหัสบัตรประชาชน</th>
-        <th>ชื่อจริง</th>
-        <th>นามสกุล</th>
-        <th>จังหวัด</th>
-        <th>อำเภอ</th>
-        <th>ตำบล</th>
-        <th>หมู่เลือด</th>
-        <th>รายละเอียด</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>4565532102589</td>
-        <td>คิมเบอร์ลี</td>
-        <td>แอนเทียมศิริ</td>
-        <td>เชียงใหม่</td>
-        <td>เมือง เชียงใหม่</td>
-        <td>สุเทพ</td>
-        <td>O para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-      </tr>
-      <tr>
-        <td>1532655803211</td>
-        <td>อุรัสยา</td>
-        <td>เสปอร์บันด์</td>
-        <td>กรุงเทพ</td>
-        <td>กรุงเทพ</td>
-        <td>กรุงเทพ</td>
-        <td>AB para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-      </tr>
-      <tr>
-        <td>1010151598115</td>
-        <td>ณเดชน์</td>
-        <td>คูกิมิยะ</td>
-        <td>เชียงราย</td>
-        <td>เชียงราย</td>
-        <td>เชียงราย</td>
-        <td>A para-Bombay</td>
-        <td>
-          <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="isFound; else notFound">
+    <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+      <thead class="thead-table">
+        <tr>
+          <th>รหัสบัตรประชาชน</th>
+          <th>ชื่อจริง</th>
+          <th>นามสกุล</th>
+          <th>จังหวัด</th>
+          <th>อำเภอ</th>
+          <th>ตำบล</th>
+          <th>หมู่เลือด</th>
+          <th>รายละเอียด</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of patients;">
+          <td>{{patient.id}}</td>
+          <td>{{patient.fName}}</td>
+          <td>{{patient.lName}}</td>
+          <td>{{patient.province}}</td>
+          <td>{{patient.district}}</td>
+          <td>{{patient.subDistrict}}</td>
+          <td>{{patient.result.result}}</td>
+          <td class="text-green">
+            <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #notFound>
+    <div class="alert alert-warning container" role="alert" style="text-align:center;">
+      <h4 class="alert-heading">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
+    </div>
+  </ng-template>
 </div>
-
 <router-outlet></router-outlet>

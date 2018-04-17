@@ -26,7 +26,9 @@ import Swal from 'sweetalert2';
 export class PhenotypeAboFormComponent implements OnInit {
 
   conditionForm: FormGroup;
+  resultForm: FormGroup;
 
+  allfileList: Array<any> = [];
   selectedFiles: FileList;
   fileList: any;
   currentFileUpload: FileUpload;
@@ -37,6 +39,8 @@ export class PhenotypeAboFormComponent implements OnInit {
 
   patients: any;
   message: string;
+
+  testList: any;
 
   constructor(private patientService: PatientService,
     private decisionService: DecisiontreeService,
@@ -56,8 +60,6 @@ export class PhenotypeAboFormComponent implements OnInit {
   loadData() {
     this.patientService.detailPatient(this.message).subscribe(data => {
       this.patients = data;
-      console.log(this.patients);
-
     });
   }
 
@@ -74,23 +76,26 @@ export class PhenotypeAboFormComponent implements OnInit {
       Bcell: new FormControl(),
       Ocell: new FormControl(),
       Note: new FormControl(),
-      groupAbo: new FormControl
-      // secretor: new FormControl(),
-      // nonSecretor: new FormControl(),
-      // nss: new FormControl(),
-      // TestAntiA: new FormControl(),
-      // TestAntiB: new FormControl(),
-      // TestAntiH: new FormControl(),
-      // groupSaliva: new FormControl(),
-      // checkBoxAdd: new FormControl()
+      groupAbo: new FormControl()
+    });
+    this.resultForm = new FormGroup({
+      idAbo: new FormControl(),
+      resultAbo: new FormControl()
     });
   }
 
   validationInput() {
-    if (this.selectedFiles) {
-      this.upload();
+
+    const keyTest = this.createTest();
+    console.log(this.selectedFiles);
+    // if (this.selectedFiles) {
+    //   console.log('sele file');
+    //   this.upload(keyTest);
+    // }
+    if (this.allfileList) {
+      this.upload(keyTest);
     }
-    this.createTest();
+
   }
 
   validationForm() {
@@ -147,42 +152,53 @@ export class PhenotypeAboFormComponent implements OnInit {
 
   }
 
-  createTest(): void { // Input data
-    // this.decisiontreeService.createDecisionTree(this.conditionForm.value);
-    console.log(this.patients);
+  createTest() { // Input data
     const id = this.patients[0].id;
 
     this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
-    // this.decisionService.analyzeAboTest(this.conditionForm.value);
-    this.patientService.createAboTest(this.conditionForm.value, id);
+    const newRef = this.patientService.createAboTest(this.conditionForm.value, id);
+
+    this.resultForm.value.idAbo = newRef.key;
+    this.resultForm.value.resultAbo = this.conditionForm.value.groupAbo;
+    this.patientService.updateResult(this.resultForm.value, id, 'resultAbo');
+
+    return newRef.key;
   }
 
   selectFile(event) {
-    const file = event.target.files.item(0);
+    const list = event.target.files;
+    console.log('list' + list);
 
-    console.log(file) คิดแปบ
-    if (file.type.match('image.*')) {
-      this.selectedFiles = event.target.files;
-      console.log(this.selectedFiles.item);
-
-      this.fileList.push();
-    } else {
-      alert('invalid format!');
+    for (let i = list.length - 1; i >= 0; i--) {
+      // console.log(list[i]);
+      if (this.allfileList.length === 0) {
+        this.allfileList.push(list[i]);
+      } else {
+        let duplicate = false;
+        for (let j = 0; j < this.allfileList.length; j++) {
+          if (list[i].name === this.allfileList[j].name) {
+            duplicate = true;
+            break;
+          }
+        }
+        if (!duplicate) {
+          this.allfileList.push(list[i]);
+        }
+      }
     }
   }
 
-  upload() {
-
-
-    const file = this.selectedFiles.item(0);
-    this.selectedFiles = undefined;
-
-    this.currentFileUpload = new FileUpload(file);
-    this.patientService.pushFileToStorage(this.currentFileUpload, this.progress);
+  upload(key: string) {
+    let i;
+    for (i = 0; i < this.allfileList.length; i++) {
+      const file = this.allfileList[i];
+      this.currentFileUpload = new FileUpload(file);
+      this.patientService.pushFileToStorage_abo(this.currentFileUpload, this.progress, this.patients[0].id, key, i);
+    }
+    this.allfileList = undefined;
   }
 
   loadPhoto() {
-    // this.fileUploads = this.patient.getFileUploads({ limitToLast: 3 });
     this.temp = this.patientService.getFileUploads({ limitToLast: 10 });
   }
 

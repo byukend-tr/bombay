@@ -24,7 +24,10 @@ export class UserListComponent implements OnInit {
     //   this.users = items;
     // });
   }
-  remove(user) {
+  remove(user: string) {
+    console.log(user);
+
     this.auth.removeUser(user);
+
   }
 }

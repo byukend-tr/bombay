@@ -12,6 +12,14 @@ export class Patient {
     district: string;
     subDistrict: string;
     zip: string;
+
+    idAbo: string;
+    resultAbo: string;
+    idAntibody: string;
+    resultAntibody: string;
+    idSaliva: string;
+    resultSaliva: string;
+
     antiA: string;
     antiB: string;
     antiAB: string;
@@ -19,7 +27,25 @@ export class Patient {
     BCell: string;
     OCell: string;
     groupAbo: string;
+    photoAbo: Array<any>;
+
+    rt1: string;
+    c1: string;
+    ahg1: string;
+    ccc1: string;
+    rt2: string;
+    c2: string;
+    ahg2: string;
+    ccc2: string;
     antibody: string;
+    photoAntibody: Array<any>;
+
+    secretor: string;
+    nonSecretor: string;
+    nss: string;
+    testAntiA: string;
+    testAntiB: string;
+    testAntiH: string;
     groupSaliva: string;
-    result: string;
+    photoSaliva: Array<any>;
 }

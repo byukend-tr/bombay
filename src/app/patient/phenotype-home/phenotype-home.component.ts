@@ -14,6 +14,7 @@ export class PhenotypeHomeComponent implements OnInit {
 
   patients: any;
   message: string;
+  test: string;
 
   constructor(private patientService: PatientService,
     private msg: SharingdataService,
@@ -23,7 +24,12 @@ export class PhenotypeHomeComponent implements OnInit {
   ngOnInit() {
     this.msg.currentMessage.subscribe(message => {
       this.message = message;
-      this.loadData();
+      this.msg.test.subscribe(test => {
+        this.loadData();
+        this.test = test;
+        console.log(this.test);
+
+      });
     }
     );
   }

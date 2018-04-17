@@ -285,7 +285,7 @@
         <tr>
           <th colspan="3" border="1">ประวัติ</th>
           <th colspan="3" border="1">ฟีโนไทป์</th>
-          <th colspan="3" border="1">จีโนไทป์</th>
+          <!-- <th colspan="3" border="1">จีโนไทป์</th> -->
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">สรุปหมู่เลือด</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">ทำการทดลองต่อ</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">รายละเอียด</th>
@@ -298,9 +298,9 @@
           <th>เอบีโอ</th>
           <th>แอนติบอดี</th>
           <th>น้ำลาย</th>
-          <th>เอบีโอ</th>
+          <!-- <th>เอบีโอ</th>
           <th>FUT1</th>
-          <th>FUT2</th>
+          <th>FUT2</th> -->
 
         </tr>
       </thead>
@@ -309,16 +309,31 @@
           <td>{{patient.id}}</td>
           <td>{{patient.fName}}</td>
           <td>{{patient.lName}}</td>
+          <td>{{patient.resultAbo.resultAbo}}</td>
+          <td>{{patient.resultAntibody.resultAntibody}}</td>
+          <td>{{patient.resultSaliva.resultSaliva}}</td>
+          <!-- <td>-</td>
           <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td class="text-green">Group O</td>
-          <td class="text-green">
-            <button (click)="phenotype(patient.id)" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:เอบีโอ</button>
+          <td>-</td> -->
+          <td class="text-green">{{patient.result.result}}</td>
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo == '-' && patient.result.result == '-';else antibody">
+            <button (click)="phenotype(patient.id,'Abo')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:เอบีโอ</button>
           </td>
+          <ng-template #antibody>
+            <td class="text-green" *ngIf="patient.resultAntibody.resultAntibody == '-' && patient.result.result == '-';else saliva">
+              <button (click)="phenotype(patient.id,'Antibody')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:แอนติบอดี</button>
+            </td>
+          </ng-template>
+          <ng-template #saliva>
+            <td class="text-green" *ngIf="patient.resultSaliva.resultSaliva == '-' && patient.result.result == '-';else isNull">
+              <button (click)="phenotype(patient.id,'Saliva')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:น้ำลาย</button>
+            </td>
+          </ng-template>
+          <ng-template #isNull>
+            <td class="text-green">
+              -
+            </td>
+          </ng-template>
           <td class="text-green">
             <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
           </td>

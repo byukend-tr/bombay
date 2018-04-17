@@ -43,14 +43,14 @@ export class DecisiontreeService {
     // console.log(this.items);
     this.trainModel();
   }
-  
+
   createDecisionTree(decisiontree: Decisiontree) {
     firebase.database().ref('/decisions').push(decisiontree);
     this.router.navigate(['/conditions']);
 
   }
 
-  testData(test: Decisiontree) {
+  testData_Abo(test: Decisiontree) {
     this.class_name = 'result';
     this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
@@ -73,8 +73,23 @@ export class DecisiontreeService {
 
     return predicted_class;
   }
+  testData_Saliva(test: Decisiontree) {
+    this.class_name = 'result';
+    this.features = ['TestAntiA', 'TestAntiB', 'TestAntiH'];
+    const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
+
+    const predicted_class = dt.predict({
+      TestAntiA: test.testAntiA,
+      TestAntiB: test.testAntiB,
+      TestAntiH: test.testAntiH
+    });
+    return predicted_class;
+  }
   analyzeAboTest(test: Decisiontree) {
-    return this.testData(test);
+    return this.testData_Abo(test);
+  }
+  analyzeSalivaTest(test: Decisiontree) {
+    return this.testData_Saliva(test);
   }
   trainModel() {
     console.log('decisionokok');

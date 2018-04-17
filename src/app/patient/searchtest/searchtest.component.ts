@@ -22,6 +22,8 @@ export class SearchtestComponent implements OnInit {
 
   message: string;
 
+  test: string;
+
   @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
   constructor(private patientService: PatientService,
@@ -47,7 +49,6 @@ export class SearchtestComponent implements OnInit {
     this.patientService.query().subscribe(data => {
       this.patients = data;
       if (data.length !== 0) { this.isFound = true; }
-      console.log(this.patients);
     });
 
 
@@ -58,6 +59,7 @@ export class SearchtestComponent implements OnInit {
       this.isFound = false;
     } else {
       this.query();
+      // this.showAntibody();
     }
 
 
@@ -68,8 +70,9 @@ export class SearchtestComponent implements OnInit {
     this.router.navigate(['/test/detail']);
 
   }
-  phenotype(id: string) {
+  phenotype(id: string, test: string) {
     this.message = id;
+    this.test = test;
     this.newMessage();
     this.router.navigate(['/test/phenotype']);
   }
@@ -81,7 +84,14 @@ export class SearchtestComponent implements OnInit {
 
   newMessage() {
     this.msg.changeMessage(this.message);
+    this.msg.testName(this.test);
   }
+  showAntibody() {
+    this.message = '1509954621331';
+    this.patientService.antibody(this.message);
 
+      // if (data.length !== 0) { this.isFound = true; }
+
+  }
 
 }

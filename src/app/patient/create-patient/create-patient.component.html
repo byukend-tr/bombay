@@ -41,11 +41,10 @@
             วันเดือนปีเกิด*
             <input type="date" class="form-control form-control-sm" formControlName="birthDay" (change)="setAge()">
             <!-- <input type="date" class="form-control form-control-sm" value="1995-10-11"> -->
-
           </div>
           <div class="col">
             อายุ (ปี)
-            <input type="text" class="form-control form-control-sm" formControlName="age">
+            <input type="text" class="form-control form-control-sm" formControlName="age" value={{age}} readonly>
             <!-- <input type="text" class="form-control form-control-sm" value="22"> -->
 
           </div>
@@ -77,11 +76,11 @@
             <select id="city" class="form-control form-control-sm" formControlName="province">
               <!-- <select id="city" class="form-control form-control-sm"> -->
 
-              <option value="volvo" selected>เชียงใหม่</option>
-              <option value="saab">กรุงเทพมหานคร</option>
-              <option value="mercedes">เชียงราย</option>
-              <option value="audi">ลำพูน</option>
-              <option value="volvo">ลำปาง</option>
+              <option value="เชียงใหม่" selected>เชียงใหม่</option>
+              <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+              <option value="เชียงราย">เชียงราย</option>
+              <option value="ลำพูน">ลำพูน</option>
+              <option value="ลำปาง">ลำปาง</option>
             </select>
           </div>
           <div class="col">
@@ -89,10 +88,10 @@
             <select id="amphoe" class="form-control form-control-sm" formControlName="district">
               <!-- <select id="amphoe" class="form-control form-control-sm"> -->
 
-              <option value="volvo" selected>เมือง เชียงใหม่</option>
-              <option value="saab">สันทราย</option>
-              <option value="mercedes">ดอยสะเก็ด</option>
-              <option value="audi">เชียงดาว</option>
+              <option value="เมือง เชียงใหม่" selected>เมือง เชียงใหม่</option>
+              <option value="สันทราย">สันทราย</option>
+              <option value="ดอยสะเก็ด">ดอยสะเก็ด</option>
+              <option value="เชียงดาว">เชียงดาว</option>
             </select>
           </div>
         </div>

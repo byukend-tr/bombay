@@ -21,7 +21,15 @@ import { DatePipe } from '@angular/common';
 export class CreatePatientComponent implements OnInit {
 
   conditionForm: FormGroup;
+  resultAboForm: FormGroup;
+  resultAntibodyForm: FormGroup;
+  resultSalivaForm: FormGroup;
+  resultForm: FormGroup;
+
   message: string;
+
+  public birthdate: Date;
+  public age: any;
 
   constructor(
     private auth: AuthService,
@@ -50,7 +58,23 @@ export class CreatePatientComponent implements OnInit {
       province: new FormControl(),
       district: new FormControl(),
       subDistrict: new FormControl(),
-      zip: new FormControl()
+      zip: new FormControl(),
+
+    });
+    this.resultForm = new FormGroup({
+      result: new FormControl()
+    });
+    this.resultAboForm = new FormGroup({
+      idAbo: new FormControl(),
+      resultAbo: new FormControl()
+    });
+    this.resultAntibodyForm = new FormGroup({
+      idAntibody: new FormControl(),
+      resultAntibody: new FormControl()
+    });
+    this.resultSalivaForm = new FormGroup({
+      idSaliva: new FormControl(),
+      resultSaliva: new FormControl()
     });
   }
   validationInput() {
@@ -68,7 +92,7 @@ export class CreatePatientComponent implements OnInit {
         const isFound = this.patientService.createPatient(this.conditionForm.value, id);
         this.message = this.conditionForm.value.id;
         this.newMessage();
-
+        this.setResult(id);
 
         if (isFound) {
           Swal(
@@ -127,17 +151,34 @@ export class CreatePatientComponent implements OnInit {
     // Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
     // Swal('เกิดความผิดพลาด!', 'กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง', 'error');
   }
+  setResult(id: string) {
+    this.resultForm.value.result = '-';
+    this.patientService.updateResult(this.resultForm.value, id, 'result');
+
+    this.resultAboForm.value.idAbo = '-';
+    this.resultAboForm.value.resultAbo = '-';
+    this.patientService.updateResult(this.resultAboForm.value, id, 'resultAbo');
+
+    this.resultAntibodyForm.value.idAntibody = '-';
+    this.resultAntibodyForm.value.resultAntibody = '-';
+    this.patientService.updateResult(this.resultAntibodyForm.value, id, 'resultAntibody');
+
+    this.resultSalivaForm.value.idSaliva = '-';
+    this.resultSalivaForm.value.resultSaliva = '-';
+    this.patientService.updateResult(this.resultSalivaForm.value, id, 'resultSaliva');
+  }
   setAge() {
     const yy = new Date().getFullYear();
     const mm = new Date().getMonth();
     const dd = new Date().getDate();
-    const today: any = yy + '-' + mm + '-' + dd;
-    console.log('today ' + today);
-    console.log('b ' + this.conditionForm.value.birthDay);
 
-    const age = today - this.conditionForm.value.birthDay;
-    console.log('age ' + age);
+    const start = Date.now();
 
+    const birthday = this.conditionForm.value.birthDay.split();
+    const yearBirth = new Date(birthday[0]).getFullYear();
+    this.age = yy - yearBirth;
+    console.log(this.age);
+    this.conditionForm.value.age = this.age;
   }
   newMessage() {
     this.msg.changeMessage(this.message);

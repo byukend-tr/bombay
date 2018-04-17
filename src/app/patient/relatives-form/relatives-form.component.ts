@@ -69,6 +69,8 @@ export class RelativesFormComponent implements OnInit {
   loadRelative() {
 
     this.patientService.relativesOfPatient(this.message).subscribe(data => {
+      console.log('dataaaa' + data);
+
       this.relatives = new Array<Relatives>();
 
       this.patientService.loaddetailPatient(data, (cb, i) => {

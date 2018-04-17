@@ -19,15 +19,14 @@ export class UserFormComponent implements OnInit {
   }
   buildForm(): void {
     this.userForm = new FormGroup({
-      emailSignup: new FormControl('', [
+      fName: new FormControl(),
+      lName: new FormControl(),
+      position: new FormControl(),
+      hospital: new FormControl(),
+      email: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
-      fName: new FormControl('มะยม'),
-      lName: new FormControl('มะนาว'),
-      position: new FormControl(),
-      hospital: new FormControl(),
-      email: new FormControl('m@gmail.com'),
       privilege: new FormControl()
 
     });

@@ -27,7 +27,7 @@
                         <h4>Controls</h4>
                       </div>
                       <div class="col-1">
-                        
+
                       </div>
                     </div>
                     <div class="row">
@@ -140,7 +140,7 @@
                         <h4>Tests</h4>
                       </div>
                       <div class="col-1">
-                      
+
                       </div>
                     </div>
                     <div class="row">
@@ -241,7 +241,7 @@
 
             </div>
 
-            <p>หมายเหตุ</p>
+            <p class="mb-0">หมายเหตุ</p>
             <input id="note" type="text" class="form-control-sm form-control">
             <br>
           </div>
@@ -250,16 +250,24 @@
 
         <div class="row">
           <div class="col">
-            <!-- <label class="btn btn-sm btn-outline-secondary">
-                          Add Photo
-                          <input type="file" hidden id="photoBtn">
-                        </label> -->
-            <label class="btn btn-sm btn-outline-secondary">
-              Add Photo
+            <label class="btn btn-sm btn-outline-primary">
+              เพิ่มรูปภาพ
               <input type="file" hidden (change)="selectFile($event)" multiple>
             </label>
-
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h5 style="color:#2ecc71">รายชื่อไฟล์รูปภาพ</h5>
+              </div>
+              <div *ngFor="let file of allfileList">
+                <div class="panel-body">
+                  <!-- <details-upload [fileUpload]='file'></details-upload> -->
+                  <h6 style="color:#3498db">{{ file.name }}</h6>
+                </div>
+              </div>
+            </div>
           </div>
+
+
           <div class="col-5">
             <!-- <a href="#" id="editBtn" class="btn btn-warning btn-block" onclick="canEdit();" style="display:none" >Edit</a>
                                           <a href="#" id="anaBtn" class="btn btn-success btn-block" onclick="showAnalysis();" >บันทึก</a> -->
@@ -274,11 +282,11 @@
     <br>
     <div class="row">
       <div class="col-4 text-center">
-        <a class="text-muted" [routerLink]="['/conditions']">ย้อนกลับ</a>
+        <a class="text-muted" [routerLink]="['/test/detail']">ย้อนกลับ</a>
       </div>
       <!-- <div class="col-sm-4"></div> -->
       <div class="col-12 col-md-4 text-center">
-        <button type="submit" [disabled]="!selectedFiles" (click)="upload()" class="btn btn-sm btn-success " style="text-align:center">เพิ่ม</button>
+        <button type="submit" (click)="validationForm()" class="btn btn-sm btn-success " style="text-align:center">เพิ่มการทดสอบ</button>
       </div>
     </div>
   </form>

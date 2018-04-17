@@ -1,275 +1,229 @@
-<div class="container">
+<div class="container-fluid">
 
-  <div class="row">
-    <div class="col-md-12">
-      <!-- <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a href="phenotype1.php" class="active nav-link">การตรวจหมู่เลือดเอบีโอ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="phenotype2.php">การตรวจกรองแอนติบอดี</a>
-            </li>
-            <li class="nav-item">
-              <a href="phenotype3.php" class="nav-link">การตรวจน้ำลาย</a>
-            </li>
-            <li>
-              <h4 class="text-green">1111111111111&nbsp;นางสาว&nbsp;พัชราภา&nbsp;ไชยเชื้อ</h4>
-            </il>  
-          </ul> -->
-      <div class="py-1" id="wrapper">
-        <div class="container-col">
-          <h2 style="color:#365082">ฟีโนไทป์ : การตรวจหมู่เลือดเอบีโอ</h2>
-          <h4 class="text-green">1111111111111&nbsp;นางสาว&nbsp;พัชราภา&nbsp;ไชยเชื้อ</h4>
-          <!-- <center><h4 class="text-green">1111111111111&nbsp;นางสาว&nbsp;พัชราภา&nbsp;ไชยเชื้อ</h4></center> -->
-          <div class="py-3 border border-primary">
-            <div class="container">
-              <button type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <div class="text-red">12/31/2017 01:30 PM (ดด/วว/ปป ชั่วโมง:วินาที)</div>
+  <div class="container-fluid">
+    <div class="container-fluid" *ngFor="let patient of patients;">
+      <h3>{{patient.id}} {{patient.fName}} {{patient.lName}}</h3>
+    </div>
+    <div class="py-3 border border-primary">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจหมู่เลือดเอบีโอ</h2>
+            <!-- <div *ngIf="isFound"> -->
 
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="py-1 text-center bg-light border border-primary">
-                        <div class="container">
 
-                          <div class="row">
-                            <div class="col-md-12">
-                              <h4>Cell Grouping</h4>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">Anti-A</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-A1" name="Anti-A" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-A2" name="Anti-A" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-A3" name="Anti-A" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-A4" name="Anti-A" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-A5" name="Anti-A" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">Anti-B</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-B1" name="Anti-B" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-B2" name="Anti-B" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-B3" name="Anti-B" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-B4" name="Anti-B" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-B5" name="Anti-B" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">Anti-A,B</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-AB1" name="Anti-AB" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-AB2" name="Anti-AB" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-AB3" name="Anti-AB" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-AB4" name="Anti-AB" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Anti-AB5" name="Anti-AB" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6"> </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="1 text-center bg-light border border-primary">
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <h4>Serum Grouping</h4>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">A cells</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Acell1" name="Acell" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Acell2" name="Acell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Acell3" name="Acell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Acell4" name="Acell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Acell5" name="Acell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">B cells</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Bcell1" name="Bcell" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Bcell2" name="Bcell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Bcell3" name="Bcell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Bcell4" name="Bcell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Bcell5" name="Bcell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                            <div class="col-md-4 p-4">
-                              <h5 class="text-left">O cells</h5>
-                              <div class="custom-controls-stacked">
-                                <label class="custom-control custom-radio">
-                                  <input id="Ocell1" name="Ocell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">4+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Ocell2" name="Ocell" type="radio" class="custom-control-input" checked="">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">3+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Ocell3" name="Ocell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">2+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Ocell4" name="Ocell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">1+</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                  <input id="Ocell5" name="Ocell" type="radio" class="custom-control-input">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-description">Neg</span>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+            <div class="row">
+              <div class="col-6" *ngFor="let aboList of aboLists; let i = index">
+                <table class="table table-sm table-striped table-bordered table-hover">
+
+                  <thead class="thead-table">
+                    <tr>
+                      <th colspan="3" border="1">Cell Grouping</th>
+                      <th colspan="3" border="1">Serum Grouping</th>
+                    </tr>
+                    <tr>
+                      <th>Anti-A</th>
+                      <th>Anti-B</th>
+                      <th>Anti-AB</th>
+
+                      <th>A cells</th>
+                      <th>B cells</th>
+                      <th>O cells</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{aboList.AntiA}}</td>
+                      <td>{{aboList.AntiB}}</td>
+                      <td>{{aboList.AntiAB}}</td>
+
+                      <td>{{aboList.Acell}}</td>
+                      <td>{{aboList.Bcell}}</td>
+                      <td>{{aboList.Ocell}}</td>
+                      <ng-template #showNull>
+                        -
+                      </ng-template>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{aboList.groupAbo}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--  -->
+                <div *ngFor="let listphoto of aboLists_photo; let j = index">
+                  <!-- {{i}} {{j}} -->
+                  <div class="row" *ngIf="i==j;">
+                    <div class="col-4" *ngFor="let photo of listphoto;">
+                      <img src={{photo.url}} class="rounded" width="200" height="200">
                     </div>
                   </div>
-                  <p>หมายเหตุ</p>
-                  <input id="note" type="text" class="form-control-sm form-control">
-                  <br> </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <label class="btn btn-sm btn-outline-secondary">
-                    Add Photo
-                    <input type="file" hidden id="photoBtn">
-                  </label>
+
                 </div>
-                <div class="col-5">
-                  <!-- <a href="#" id="editBtn" class="btn btn-warning btn-block" onclick="canEdit();" style="display:none" >Edit</a>
-                      <a href="#" id="anaBtn" class="btn btn-success btn-block" onclick="showAnalysis();" >บันทึก</a> -->
-                  <div id="tempNotFound" style="display: none;color:red">
-                    <h5>group O with unexpected alloantibody</h5>
-                  </div>
-                </div>
+                <br>
+
+                <!--  -->
               </div>
 
             </div>
+
+
           </div>
-          <br>
-          <button type="button" id="anaBtn" class="btn btn-sm btn-success " onclick="showAnalysis();">บันทึก</button>
-
-
-
-
-          <br>
-          <!-- <a href="phenotype1more.php" class="btn btn-dark" onclick="addTest();">More</a> -->
         </div>
       </div>
     </div>
+
+    <br>
+
+
+
+    <div class="py-3 border border-primary">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจน้ำลาย</h2>
+            <!-- <div *ngIf="isFound"> -->
+
+            <div class="row">
+              <div class="col-6" *ngFor="let salivaList of salivaLists; let i = index">
+                <table class="table table-sm table-striped table-bordered table-hover">
+
+                  <thead class="thead-table">
+                    <tr>
+                      <th colspan="3" border="1">Controls</th>
+                      <th colspan="3" border="1">Tests</th>
+                    </tr>
+                    <tr>
+                      <th>Secretor</th>
+                      <th>Non-secretor</th>
+                      <th>NSS</th>
+
+                      <th>Anti-A</th>
+                      <th>Anti-B</th>
+                      <th>Anti-H lectin</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{salivaList.secretor}}</td>
+                      <td>{{salivaList.nonSecretor}}</td>
+                      <td>{{salivaList.nss}}</td>
+
+                      <td>{{salivaList.TestAntiA}}</td>
+                      <td>{{salivaList.TestAntiB}}</td>
+                      <td>{{salivaList.TestAntiH}}</td>
+                      <ng-template #showNull>
+                        -
+                      </ng-template>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{salivaList.groupSaliva}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--  -->
+                <div *ngFor="let listphoto of salivaLists_photo; let j = index">
+                  <!-- {{i}} {{j}} -->
+                  <div class="row" *ngIf="i==j;">
+                    <div class="col-4" *ngFor="let photo of listphoto;">
+                      <img src={{photo.url}} class="rounded" width="200" height="200">
+                    </div>
+                  </div>
+
+                </div>
+                <br>
+
+                <!--  -->
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="py-3 border border-primary">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจกรองแอนติบอดี</h2>
+            <!-- <div *ngIf="isFound"> -->
+
+            <div class="row">
+              <div class="col-6" *ngFor="let antibodyList of antibodyLists; let i = index">
+                <table class="table table-sm table-striped table-bordered table-hover">
+
+                  <thead class="thead-table">
+                    <tr>
+                      <th colspan="4" border="1">Screening cells O
+                        <sub>1</sub>
+                      </th>
+                      <th colspan="4" border="1">Screening cells O
+                        <sub>2</sub>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>RT*</th>
+                      <th>37
+                        <sup>o</sup>C</th>
+                      <th>AHG</th>
+                      <th>CCC</th>
+
+                      <th>RT*</th>
+                      <th>37
+                        <sup>o</sup>C</th>
+                      <th>AHG</th>
+                      <th>CCC</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{antibodyList.rt1}}</td>
+                      <td>{{antibodyList.c1}}</td>
+                      <td>{{antibodyList.ahg1}}</td>
+                      <td>{{antibodyList.ccc1}}</td>
+                      <td>{{antibodyList.rt1}}</td>
+                      <td>{{antibodyList.c2}}</td>
+                      <td>{{antibodyList.ahg2}}</td>
+                      <td>{{antibodyList.ccc2}}</td>
+                      <ng-template #showNull>
+                        -
+                      </ng-template>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{antibodyList.antibody}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--  -->
+                <div *ngFor="let listphoto of antibodyLists_photo; let j = index">
+                  <!-- {{i}} {{j}} -->
+                  <div class="row" *ngIf="i==j;">
+                    <div class="col-4" *ngFor="let photo of listphoto;">
+                      <img src={{photo.url}} class="rounded" width="200" height="200">
+                    </div>
+                  </div>
+
+                </div>
+                <br>
+
+                <!--  -->
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+
+  </div>
+</div>
+
+<br>

@@ -50,9 +50,11 @@ export class DetailComponent implements OnInit {
           relativeId: data[i].key,
           relativeName: data[i].relativeName
         });
-        // console.log(data);
+
+
       });
     });
+    console.log(this.relatives);
   }
   editRelatives(id: string) {
     this.message = id;
