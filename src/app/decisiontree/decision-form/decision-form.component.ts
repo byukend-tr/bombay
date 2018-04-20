@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } 
 import { AuthService } from '../../auth/shared/auth.service';
 import { DecisiontreeService } from '../shared/decisiontree.service';
 import { Decisiontree } from './../shared/decisiontree';
+import { log } from '@firebase/database/dist/esm/src/core/util/util';
 
 @Component({
   selector: 'app-decision-form',
@@ -52,11 +53,14 @@ export class DecisionFormComponent implements OnInit {
       return true;
     }
   }
-  groupAboChange() {
-    if (!this.groupType()) {
+  groupAboChange(e) {
+    const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+    console.log(e.target.checked);
+    if (e.target.checked === false) {
       document.getElementById('saliva').style.display = 'none';
     } else {
       document.getElementById('saliva').style.display = 'block';
+
     }
   }
   setDatagroupAbo() {
@@ -69,6 +73,16 @@ export class DecisionFormComponent implements OnInit {
     this.conditionForm.value.groupSaliva = null;
     this.conditionForm.value.result = this.conditionForm.value.groupAbo;
   }
+  setDatagroupSaliva() {
+    this.conditionForm.value.secretor = null;
+    this.conditionForm.value.nonSecretor = null;
+    this.conditionForm.value.nss = null;
+    this.conditionForm.value.TestAntiA = '-1';
+    this.conditionForm.value.TestAntiB = '-1';
+    this.conditionForm.value.TestAntiH = '-1';
+    this.conditionForm.value.groupSaliva = null;
+    this.conditionForm.value.result = this.conditionForm.value.groupAbo;
+  }
   validationInput() {
     const valueGroupAbo = this.conditionForm.value.groupAbo;
     const valueGroupSaliva = this.conditionForm.value.groupSaliva;
@@ -76,6 +90,9 @@ export class DecisionFormComponent implements OnInit {
 
     if (!this.groupType()) {
       this.setDatagroupAbo();
+      canCreate = true;
+    } else if (this.groupType()) {
+      this.setDatagroupSaliva();
       canCreate = true;
     } else if (valueGroupAbo === 'Group A with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.A') {
       this.conditionForm.value.result = 'para-Bombay A';
@@ -112,6 +129,8 @@ export class DecisionFormComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
     } else if (!this.groupType()) { // Abo
       this.setDatagroupAbo();
+    } else if (this.groupType()) { // Saliva
+      this.setDatagroupSaliva();
     } else if (this.groupType()) { // Abo and Saliva
       // tslint:disable-next-line:max-line-length
       if (!this.conditionForm.value.secretor || !this.conditionForm.value.nonSecretor || !this.conditionForm.value.nss || !this.conditionForm.value.TestAntiA || !this.conditionForm.value.TestAntiB || !this.conditionForm.value.TestAntiH || !this.conditionForm.value.groupSaliva) {

@@ -63,14 +63,10 @@ export class SearchbloodComponent implements OnInit {
   viewDetail(id: string) {
     this.message = id;
     this.newMessage();
-    this.router.navigate(['/test/detail']);
+    this.router.navigate(['/blood/detail']);
 
   }
-  phenotype(id: string) {
-    this.message = id;
-    this.newMessage();
-    this.router.navigate(['/test/phenotype']);
-  }
+
   deletePatient(id: string) {
     console.log('delete' + id);
 

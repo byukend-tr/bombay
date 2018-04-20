@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { PatientService } from '../shared/patient.service';
 import { SharingdataService } from '../shared/sharingdata.service';
@@ -28,17 +29,29 @@ export class DetailListComponent implements OnInit {
 
 
   constructor(private patientService: PatientService,
-    private msg: SharingdataService) { }
+    private msg: SharingdataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.msg.currentMessage.subscribe(message => {
       this.message = message;
+      this.goToRoot(this.message);
       this.loadData();
       this.loadAbo();
       this.loadAntibody();
       this.loadSaliva();
     }
     );
+  }
+  goToRoot(message: string) {
+    if (message === 'default message') {
+      if (this.getPath() === '/test/detaillist') {
+        this.router.navigate(['/test']);
+      }
+    }
+  }
+  getPath() {
+    return this.router.url;
   }
   showData(Lists: any) {
     Lists.forEach(item => {

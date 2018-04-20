@@ -73,7 +73,7 @@
         <div class="row">
           <div class="col">
             จังหวัด*
-            <select id="city" class="form-control form-control-sm" formControlName="province">
+            <select id="province" type="text" class="form-control form-control-sm" formControlName="province">
               <!-- <select id="city" class="form-control form-control-sm"> -->
 
               <option value="เชียงใหม่" selected>เชียงใหม่</option>
@@ -85,7 +85,7 @@
           </div>
           <div class="col">
             อำเภอ*
-            <select id="amphoe" class="form-control form-control-sm" formControlName="district">
+            <select id="amphoe" type="text" class="form-control form-control-sm" formControlName="district">
               <!-- <select id="amphoe" class="form-control form-control-sm"> -->
 
               <option value="เมือง เชียงใหม่" selected>เมือง เชียงใหม่</option>
@@ -99,20 +99,21 @@
 
           <div class="col">
             ตำบล*
-            <br>
-            <select id="tbon" class="form-control form-control-sm" formControlName="subDistrict">
+            <br><input type="text" id="district">
+            <select id="district" type="text" class="form-control form-control-sm" formControlName="subDistrict">
               <!-- <select id="tbon" class="form-control form-control-sm" > -->
 
-              <option value="volvo" selected>สุเทพ</option>
-              <option value="saab">วัดเกตุ</option>
-              <option value="mercedes">ช้างเผือก</option>
+              <option value="สุเทพ" selected>สุเทพ</option>
+              <option value="วัดเกตุ">วัดเกตุ</option>
+              <option value="ช้างเผือก">ช้างเผือก</option>
+              <!-- <option value="วัดเกตุ">{{district}}</option> -->
             </select>
           </div>
           <div class="col">
             รหัสไปรษณีย์*
             <div class="row">
               <div class="col">
-                <input id="post" type="number" class="form-control form-control-sm" value="50200" formControlName="zip">
+                <input id="zipcode" type="text" class="form-control form-control-sm" value="50200" formControlName="zip">
                 <!-- <input id="post" type="number" class="form-control form-control-sm" value="50200" > -->
 
               </div>
@@ -132,4 +133,7 @@
 
   <br>
 </div>
+
+
+
 <!-- </div> -->

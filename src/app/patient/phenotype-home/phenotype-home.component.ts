@@ -18,12 +18,12 @@ export class PhenotypeHomeComponent implements OnInit {
 
   constructor(private patientService: PatientService,
     private msg: SharingdataService,
-    private router: Router
-  ) { }
+    private router: Router) { }
 
   ngOnInit() {
     this.msg.currentMessage.subscribe(message => {
       this.message = message;
+      this.goToRoot(this.message);
       this.msg.test.subscribe(test => {
         this.loadData();
         this.test = test;
@@ -32,6 +32,16 @@ export class PhenotypeHomeComponent implements OnInit {
       });
     }
     );
+  }
+  goToRoot(message: string) {
+    if (message === 'default message') {
+      if (this.getPath() === '/test/phenotype') {
+        this.router.navigate(['/test']);
+      }
+    }
+  }
+  getPath() {
+    return this.router.url;
   }
   loadData() {
     this.patientService.detailPatient(this.message).subscribe(data => {

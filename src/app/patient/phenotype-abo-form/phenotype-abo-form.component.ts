@@ -53,8 +53,9 @@ export class PhenotypeAboFormComponent implements OnInit {
       this.loadData();
       this.buildForm();
       this.loadPhoto();
-    }
-    );
+      this.conditionForm.value.dateTimeNow = this.getDateTime();
+      console.log(this.conditionForm.value.dateTimeNow);
+    });
 
   }
   loadData() {
@@ -76,7 +77,12 @@ export class PhenotypeAboFormComponent implements OnInit {
       Bcell: new FormControl(),
       Ocell: new FormControl(),
       Note: new FormControl(),
-      groupAbo: new FormControl()
+      groupAbo: new FormControl(),
+      dateTimeNow: new FormControl(),
+
+      TestAntiA: new FormControl(),
+      TestAntiB: new FormControl(),
+      TestAntiH: new FormControl(),
     });
     this.resultForm = new FormGroup({
       idAbo: new FormControl(),
@@ -102,12 +108,13 @@ export class PhenotypeAboFormComponent implements OnInit {
 
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.AntiA && this.conditionForm.value.AntiB && this.conditionForm.value.AntiAB && this.conditionForm.value.Acell && this.conditionForm.value.Bcell && this.conditionForm.value.Ocell) {
-
+      this.setValueInDecision();
+      this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
       Swal({
         title: 'คุณแน่ใจใช่หรือไม่?',
         text: 'ต้องการเพิ่มการทดสอบ"การตรวจหมู่เลือดเอบีโอ" ของคนไข้ ' +
           this.patients[0].fName + ' ' +
-          this.patients[0].lName + ' ใช่หรือไม่',
+          this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupAbo,
         // ' ได้แก่ <br/>' +
         // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
         // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
@@ -151,11 +158,21 @@ export class PhenotypeAboFormComponent implements OnInit {
 
 
   }
-
+  getDateTime() {
+    const today = new Date();
+    return today;
+  }
+  setValueInDecision() {
+    this.conditionForm.value.TestAntiA = '-2';
+    this.conditionForm.value.TestAntiB = '-2';
+    this.conditionForm.value.TestAntiH = '-2';
+  }
   createTest() { // Input data
     const id = this.patients[0].id;
-
+    this.setValueInDecision();
     this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
+    this.conditionForm.value.dateTimeNow = this.getDateTime().toString();
+
     const newRef = this.patientService.createAboTest(this.conditionForm.value, id);
 
     this.resultForm.value.idAbo = newRef.key;

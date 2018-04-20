@@ -14,6 +14,7 @@
 
             <div class="row">
               <div class="col-6" *ngFor="let aboList of aboLists; let i = index">
+                {{aboList.dateTimeNow}}
                 <table class="table table-sm table-striped table-bordered table-hover">
 
                   <thead class="thead-table">
@@ -43,6 +44,9 @@
                       <ng-template #showNull>
                         -
                       </ng-template>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{aboList.Note}}</td>
                     </tr>
                     <tr>
                       <td colspan="6" border="1">{{aboList.groupAbo}}</td>
@@ -75,77 +79,8 @@
     <br>
 
 
-
-    <div class="py-3 border border-primary">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <h2 style="color:#365082">ฟีโนไทป์: การตรวจน้ำลาย</h2>
-            <!-- <div *ngIf="isFound"> -->
-
-            <div class="row">
-              <div class="col-6" *ngFor="let salivaList of salivaLists; let i = index">
-                <table class="table table-sm table-striped table-bordered table-hover">
-
-                  <thead class="thead-table">
-                    <tr>
-                      <th colspan="3" border="1">Controls</th>
-                      <th colspan="3" border="1">Tests</th>
-                    </tr>
-                    <tr>
-                      <th>Secretor</th>
-                      <th>Non-secretor</th>
-                      <th>NSS</th>
-
-                      <th>Anti-A</th>
-                      <th>Anti-B</th>
-                      <th>Anti-H lectin</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{salivaList.secretor}}</td>
-                      <td>{{salivaList.nonSecretor}}</td>
-                      <td>{{salivaList.nss}}</td>
-
-                      <td>{{salivaList.TestAntiA}}</td>
-                      <td>{{salivaList.TestAntiB}}</td>
-                      <td>{{salivaList.TestAntiH}}</td>
-                      <ng-template #showNull>
-                        -
-                      </ng-template>
-                    </tr>
-                    <tr>
-                      <td colspan="6" border="1">{{salivaList.groupSaliva}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <!--  -->
-                <div *ngFor="let listphoto of salivaLists_photo; let j = index">
-                  <!-- {{i}} {{j}} -->
-                  <div class="row" *ngIf="i==j;">
-                    <div class="col-4" *ngFor="let photo of listphoto;">
-                      <img src={{photo.url}} class="rounded" width="200" height="200">
-                    </div>
-                  </div>
-
-                </div>
-                <br>
-
-                <!--  -->
-              </div>
-
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-
-    <div class="py-3 border border-primary">
-      <div class="container-fluid">
+    <div class="py-3 border border-primary" *ngFor="let antibody of antibodyLists;">
+      <div class="container-fluid" *ngIf="antibody.length !== 0">
         <div class="row">
           <div class="col-md-12">
             <h2 style="color:#365082">ฟีโนไทป์: การตรวจกรองแอนติบอดี</h2>
@@ -153,6 +88,7 @@
 
             <div class="row">
               <div class="col-6" *ngFor="let antibodyList of antibodyLists; let i = index">
+                {{antibodyList.dateTimeNow}}
                 <table class="table table-sm table-striped table-bordered table-hover">
 
                   <thead class="thead-table">
@@ -193,7 +129,10 @@
                       </ng-template>
                     </tr>
                     <tr>
-                      <td colspan="6" border="1">{{antibodyList.antibody}}</td>
+                      <td colspan="8" border="1">{{antibodyList.Note}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="8" border="1">{{antibodyList.antibody}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -222,6 +161,84 @@
 
     <br>
 
+    <div class="py-3 border border-primary" *ngFor="let saliva of salivaLists;">
+      <div class="container-fluid" *ngIf="saliva.length !== 0">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจน้ำลาย</h2>
+            <!-- <div *ngIf="isFound"> -->
+
+            <div class="row">
+              <div class="col-6" *ngFor="let salivaList of salivaLists; let i = index">
+                {{salivaList.dateTimeNow}}
+                <table class="table table-sm table-striped table-bordered table-hover">
+
+                  <thead class="thead-table">
+                    <tr>
+                      <th colspan="3" border="1">Controls</th>
+                      <th colspan="3" border="1">Tests</th>
+                    </tr>
+                    <tr>
+                      <th>Secretor</th>
+                      <th>Non-secretor</th>
+                      <th>NSS</th>
+
+                      <th>Anti-A</th>
+                      <th>Anti-B</th>
+                      <th>Anti-H lectin</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{salivaList.secretor}}</td>
+                      <td>{{salivaList.nonSecretor}}</td>
+                      <td>{{salivaList.nss}}</td>
+
+                      <td>{{salivaList.TestAntiA}}</td>
+                      <td>{{salivaList.TestAntiB}}</td>
+                      <td>{{salivaList.TestAntiH}}</td>
+                      <ng-template #showNull>
+                        -
+                      </ng-template>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{salivaList.Note}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" border="1">{{salivaList.groupSaliva}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--  -->
+                <div *ngFor="let listphoto of salivaLists_photo; let j = index">
+                  <!-- {{i}} {{j}} -->
+                  <div class="row" *ngIf="i==j;">
+                    <div class="col-4" *ngFor="let photo of listphoto;">
+                      <img src={{photo.url}} class="rounded" width="200" height="200">
+                    </div>
+                  </div>
+
+                </div>
+                <br>
+
+                <!--  -->
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <div class="row">
+      <div class="col text-center">
+        <a class="text-muted" [routerLink]="['/test/detail']">ย้อนกลับ</a>
+      </div>
+    </div>
 
   </div>
 </div>

@@ -9,7 +9,7 @@
   </div>
   <div style="color:#365082">
     <h2>รายละเอียดคนไข้</h2>
-    <button type="button" class="btn btn-sm btn-outline-primary" routerLink="/test/edit">แก้ไขข้อมูลคนไข้</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" routerLink="/test/edit" *ngIf="currentURL == '/test/detail'">แก้ไขข้อมูลคนไข้</button>
   </div>
   <div class="row">
     <div class="col">
@@ -71,17 +71,17 @@
       <div class="row">
         <div class="col-md">
           <td class="text-green">
-            <button (click)="phenotype(patient.id,'Abo')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:เอบีโอ</button>
+            <button (click)="phenotype(patient.id,'Abo')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:เอบีโอ</button>
           </td>
         </div>
-        <div class="col-md">
-          <td class="text-green" *ngIf="patient.resultSaliva.resultSaliva != '-'">
-            <button (click)="phenotype(patient.id,'Antibody')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:แอนติบอดี</button>
-          </td>
-        </div>
-        <div class="col-md">
+        <div class="col-md" >
           <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
-            <button (click)="phenotype(patient.id,'Saliva')" class="btn btn-sm btn-outline-warning">ฟีโนไทป์:น้ำลาย</button>
+            <button (click)="phenotype(patient.id,'Antibody')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:แอนติบอดี</button>
+          </td>
+        </div>
+        <div class="col-md" >
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
+            <button (click)="phenotype(patient.id,'Saliva')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:น้ำลาย</button>
           </td>
         </div>
       </div>
@@ -130,7 +130,7 @@
       </table> -->
       <br>
       <div *ngIf="patient.resultAbo.resultAbo != '-'" class="text-center">
-        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm">รายละเอียดการทดลอง</button>
+        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm" *ngIf="currentURL == '/test/detail'">รายละเอียดการทดลอง</button>
       </div>
     </div>
   </div>
@@ -139,7 +139,7 @@
   <div class="row">
     <div class="col">
       <h3 style="color:#1F7FF0">ความสัมพันธ์ที่เกี่ยวข้องกับคนไข้</h3>
-      <button type="button" class="btn btn-sm btn-outline-primary" (click)="editRelatives(message)">แก้ไขความสัมพันธ์</button>
+      <button type="button" class="btn btn-sm btn-outline-primary" (click)="editRelatives(message)" *ngIf="currentURL == '/test/detail'">แก้ไขความสัมพันธ์</button>
       <div *ngIf="relatives.length != 0;else isNull">
         <table class="table table-sm table-striped table-bordered table-hover">
           <thead class="thead-table">
@@ -158,7 +158,7 @@
               <td>{{relative.fName}}</td>
               <td>{{relative.lName}}</td>
               <td>{{relative.relativeName}}</td>
-              <td class="text-yellow">{{relative.result}}</td>
+              <td class="text-yellow">{{relative.group}}</td>
               <td>
                 <button (click)="viewDetail(relative.patientId)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
               </td>
@@ -175,5 +175,16 @@
       </ng-template>
     </div>
 
+  </div>
+  <br>
+  <div class="row">
+    <div class="col text-center" *ngIf="currentURL == '/test/detail';else blood">
+      <a class="text-muted" [routerLink]="['/test']">ย้อนกลับ</a>
+    </div>
+    <ng-template #blood>
+      <div class="col text-center">
+        <a class="text-muted" [routerLink]="['/blood']">ย้อนกลับ</a>
+      </div>
+    </ng-template>
   </div>
 </div>

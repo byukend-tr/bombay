@@ -3,7 +3,7 @@
 </p> -->
 <nav class="navbar navbar-expand-md navbar-dark bg-nav-purple fixed-top">
   <a class="navbar-brand text-white">
-    para-Bombay 
+    para-Bombay
   </a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="nav nav-pills mr-auto mt-2 mt-lg-0 btn-purple" id="pills-tab" role="tablist">
@@ -12,8 +12,7 @@
           aria-selected="true">ค้นหาหมู่เลือด</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
-        <a class="nav-link" id="pills-test-tab" data-toggle="pill" routerLink="/test" role="tab" aria-controls="pills-test"
-          aria-selected="false">ค้นหาการทดสอบ</a>
+        <a class="nav-link" id="pills-test-tab" data-toggle="pill" routerLink="/test" role="tab" aria-controls="pills-test" aria-selected="false">ค้นหาการทดสอบ</a>
       </li>
       <li class="nav-item" *ngIf="auth.authenticated">
         <a class="nav-link" id="pills-result-tab" data-toggle="pill" routerLink="/results" role="tab" aria-controls="pills-result"
@@ -26,11 +25,15 @@
         <a class="nav-link" id="pills-condition-tab" data-toggle="pill" routerLink="/conditions" role="tab" aria-controls="pills-condition"
           aria-selected="false">เงื่อนไขการวิเคราะห์</a>
       </li>
+      <li class="nav-item" *ngIf="auth.authenticated">
+        <a class="nav-link" id="pills-condition-tab" data-toggle="pill" routerLink="/genotypes" role="tab" aria-controls="pills-condition"
+          aria-selected="false">ทดสอบจีโนไทป์</a>
+      </li>
     </ul>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
     aria-expanded="false" aria-label="Toggle navigation">
-    
+
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">

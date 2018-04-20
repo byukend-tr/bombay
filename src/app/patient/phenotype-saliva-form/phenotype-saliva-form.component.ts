@@ -52,13 +52,14 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       this.loadData();
       this.buildForm();
       this.loadPhoto();
-    }
-    );
+
+    });
 
   }
   loadData() {
     this.patientService.detailPatient(this.message).subscribe(data => {
       this.patients = data;
+      this.setResultBlood();
     });
   }
   newMessage() {
@@ -73,7 +74,9 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       TestAntiA: new FormControl(),
       TestAntiB: new FormControl(),
       TestAntiH: new FormControl(),
-      groupSaliva: new FormControl()
+      groupSaliva: new FormControl(),
+      Note: new FormControl(),
+      dateTimeNow: new FormControl()
     });
     this.resultForm = new FormGroup({
       idSaliva: new FormControl(),
@@ -83,14 +86,10 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
   validationInput() {
     const keyTest = this.createTest();
-    console.log(this.selectedFiles);
-    // if (this.selectedFiles) {
-    //   console.log('sele file');
-    //   this.upload(keyTest);
-    // }
     if (this.allfileList) {
       this.upload(keyTest);
     }
+    this.setResultBlood();
   }
 
   validationForm() {
@@ -143,12 +142,25 @@ export class PhenotypeSalivaFormComponent implements OnInit {
     }
 
   }
+  setResultBlood() {
+    const id = this.patients[0].id;
+    console.log(id);
 
+    const detail = this.patientService.detailPatient(id);
+    console.log(detail);
+
+  }
+  getDateTime() {
+    const today = new Date();
+    return today;
+  }
 
   createTest() { // Input data
     const id = this.patients[0].id;
 
     this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+    this.conditionForm.value.dateTimeNow = this.getDateTime().toString();
+
     const newRef = this.patientService.createSalivaTest(this.conditionForm.value, id);
 
     this.resultForm.value.idSaliva = newRef.key;

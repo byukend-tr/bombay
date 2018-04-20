@@ -26,7 +26,7 @@ export class PatientService {
   Swal = require('sweetalert2');
   itemsRef: AngularFireList<any>;
   swal: any;
-  
+
   // private basePath = '/uploads';
   // fileUploads: Observable<FileUpload[]>;
   private basePath: String = '/patients';
@@ -44,7 +44,7 @@ export class PatientService {
 
   }
   isFoundPatient(id: string) {
-    this.db.list('patients', ref => ref.equalTo(id)).snapshotChanges().map(changes => {
+    return this.db.list('patients', ref => ref.orderByChild('id').equalTo(id)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }

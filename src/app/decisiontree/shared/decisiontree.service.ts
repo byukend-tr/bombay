@@ -11,13 +11,16 @@ import 'rxjs/add/operator/switchMap';
 // Class decisiontree
 
 import { Decisiontree } from './decisiontree';
+import { LOADIPHLPAPI } from 'dns';
+import { log } from 'util';
 
 
 
 @Injectable()
 export class DecisiontreeService {
   authState: any = null;
-  training_data: any;
+  training_data: Array<any> = [];
+  test_data: Array<any> = [];
   class_name: any;
   features: any;
   DecisionTree = require('decision-tree');
@@ -35,13 +38,13 @@ export class DecisiontreeService {
       console.log(this.authState);
     });
 
-    this.itemsRef = db.list('decisions');
+    // this.itemsRef = db.list('decisions');
 
     // this.items = this.itemsRef.snapshotChanges().map(changes => {
     //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     // });
     // console.log(this.items);
-    this.trainModel();
+    // this.trainModel();
   }
 
   createDecisionTree(decisiontree: Decisiontree) {
@@ -52,8 +55,10 @@ export class DecisiontreeService {
 
   testData_Abo(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
+
+    console.log(test);
 
     const predicted_class = dt.predict({
       AntiA: test.AntiA,
@@ -61,7 +66,10 @@ export class DecisiontreeService {
       AntiAB: test.AntiAB,
       ACell: test.ACell,
       BCell: test.Bcell,
-      OCell: test.OCell
+      OCell: test.OCell,
+      TestAntiA: test.testAntiA,
+      TestAntiB: test.testAntiB,
+      TestAntiH: test.testAntiH
     });
 
     // var predicted_class = dt.predict({
@@ -75,7 +83,7 @@ export class DecisiontreeService {
   }
   testData_Saliva(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['TestAntiA', 'TestAntiB', 'TestAntiH'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
 
     const predicted_class = dt.predict({
@@ -91,11 +99,96 @@ export class DecisiontreeService {
   analyzeSalivaTest(test: Decisiontree) {
     return this.testData_Saliva(test);
   }
+  crossValidation(data: any, number_test: number, start: number) {
+    this.test_data = [];
+    this.training_data = [];
+    let i = 0;
+    console.log(start, number_test);
+    console.log(data);
+
+    data.forEach(item => {
+      // for (const i in item) {
+      // console.log(item);
+
+      if (i < number_test && i >= start) {
+        // console.log('test');
+        this.test_data.push(item);
+
+      } else {
+        // console.log('tran');
+        this.training_data.push(item);
+
+      }
+      i++;
+      // }
+    });
+    // console.log(this.training_data);
+    // console.log(this.test_data);
+
+    this.class_name = 'result';
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+    const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
+    const predicted_class = dt.predict(this.test_data);
+
+    let accuracy = 0;
+    this.test_data.forEach(element => {
+      console.log(element);
+      const isCorrect = dt.evaluate(element);
+      console.log('isCorrect', isCorrect);
+
+      accuracy += isCorrect;
+    });
+    console.log('each', accuracy);
+
+    return accuracy;
+  }
   trainModel() {
     console.log('decisionokok');
+    // const k = 3;
     this.db.list('/decisions').valueChanges().subscribe(data => {
       this.training_data = data;
+      // const number_data = data.length;
+      // const number_test = Math.floor(number_data / k);
+      // const number_training = number_data - number_test;
+      // console.log(number_data);
+      // console.log(number_test);
+      // console.log(number_training);
+
+
+      // let accuracy = 0;
+      // for (let num = 0; num < k; num++) {
+      // accuracy += this.crossValidation(data, (num * number_test) + number_test, num * number_test);
+      // this.crossValidation(data, (num * number_test) + number_test, num * number_test);
+      // }
+      // console.log(accuracy);
+      // }
+      // const i = 0;
+      // const j = 0;
+      // accuracy = this.crossValidation(data, number_test, 0);
+      // accuracy += this.crossValidation(data, number_test, 0);
+      // for (let i = 0; i < number_data; i++) {
+      //   if (i < number_training) {
+      //     this.training_data[i] = data[i];
+      //   } else {
+      //     this.test_data[i] = data[i];
+      //   }
+      // }
+      // this.training_data = data;
       // this.testData('1', '2', '3', '4', '0', '0');
+      // console.log(this.training_data);
+
+      // console.log(predicted_class);
+      // console.log(dt);
+
+
+
+      // console.log('Accuracy = ' + accuracy);
+      this.class_name = 'result';
+      this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+      const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
+      const predicted_class = dt.predict(this.test_data);
+      // console.log(predicted_class);
+
     });
   }
 

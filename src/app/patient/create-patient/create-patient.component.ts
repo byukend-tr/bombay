@@ -11,7 +11,10 @@ import { Patient } from './../shared/patient';
 
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+// import * as $ from 'jquery';
 
+// declare var jquery: any;
+declare var $: any;
 
 @Component({
   selector: 'app-create-patient',
@@ -19,6 +22,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./create-patient.component.css']
 })
 export class CreatePatientComponent implements OnInit {
+
 
   conditionForm: FormGroup;
   resultAboForm: FormGroup;
@@ -42,6 +46,12 @@ export class CreatePatientComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    // $.Thailand({
+    //   $district: $('#district'), // input ของตำบล
+    //   $amphoe: $('#amphoe'), // input ของอำเภอ
+    //   $province: $('#province'), // input ของจังหวัด
+    //   $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+    // });
   }
 
   buildForm() {
@@ -172,16 +182,16 @@ export class CreatePatientComponent implements OnInit {
     const mm = new Date().getMonth();
     const dd = new Date().getDate();
 
-    const start = Date.now();
-
     const birthday = this.conditionForm.value.birthDay.split();
+
     const yearBirth = new Date(birthday[0]).getFullYear();
     this.age = yy - yearBirth;
-    console.log(this.age);
     this.conditionForm.value.age = this.age;
   }
+
   newMessage() {
     this.msg.changeMessage(this.message);
   }
+
 
 }

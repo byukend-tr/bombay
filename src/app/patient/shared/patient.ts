@@ -13,6 +13,8 @@ export class Patient {
     subDistrict: string;
     zip: string;
 
+    dateTimeNow: string;
+
     idAbo: string;
     resultAbo: string;
     idAntibody: string;

@@ -69,13 +69,6 @@ import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
 
 
-
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -135,4 +128,9 @@ import { SharingdataService } from './patient/shared/sharingdata.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private decisionService: DecisiontreeService) {
+    this.decisionService.trainModel();
+  }
+
+}

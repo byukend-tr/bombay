@@ -17,7 +17,7 @@ export class SearchtestComponent implements OnInit {
   conditionForm: FormGroup;
 
   isFound = false;
-
+  isFind = Array<any>();
   patients: any;
 
   message: string;
@@ -55,8 +55,21 @@ export class SearchtestComponent implements OnInit {
   }
 
   search() {
-    if (this.conditionForm.value.id === '00000') {
-      this.isFound = false;
+    if (this.conditionForm.value.id) {
+      // console.log('idididi');
+      this.patientService.detailPatient(this.conditionForm.value.id).subscribe(data => {
+        this.isFind = data;
+        console.log(this.isFind);
+        if (this.isFind === []) {
+          this.isFound = false;
+        } else {
+          this.patients = data;
+          this.isFound = true;
+        }
+      });
+
+
+
     } else {
       this.query();
       // this.showAntibody();
@@ -90,7 +103,7 @@ export class SearchtestComponent implements OnInit {
     this.message = '1509954621331';
     this.patientService.antibody(this.message);
 
-      // if (data.length !== 0) { this.isFound = true; }
+    // if (data.length !== 0) { this.isFound = true; }
 
   }
 

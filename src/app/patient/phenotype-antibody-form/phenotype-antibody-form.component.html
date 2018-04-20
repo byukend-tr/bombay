@@ -358,7 +358,7 @@
             <p class="mb-0">* แทน การบันทึกผลปฏิกิริยาระหว่างซีรัมและ O cells ที่ 4C</p>
             <p>ND แทน ไม่ได้ทำการทดลอง</p>
             <p class="mb-0">หมายเหตุ</p>
-            <input id="note" type="text" class="form-control-sm form-control">
+            <input id="note" type="text" class="form-control-sm form-control" formControlName="Note">
 
             <br>
           </div>
@@ -401,7 +401,7 @@
     <br>
     <div class="row">
       <div class="col-4 text-center">
-        <a class="text-muted" [routerLink]="['/conditions']">ย้อนกลับ</a>
+        <a class="text-muted" [routerLink]="['/test/detail']">ย้อนกลับ</a>
       </div>
       <!-- <div class="col-sm-4"></div> -->
       <div class="col-12 col-md-4 text-center">

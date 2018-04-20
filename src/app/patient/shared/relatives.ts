@@ -8,4 +8,5 @@ export class Relatives {
     lName: string;
     relativeId: string;
     relativeName: string;
+    group: string;
 }

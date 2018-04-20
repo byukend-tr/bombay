@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } 
 import { DecisiontreeService } from '../shared/decisiontree.service';
 import { Observable } from 'rxjs/Observable';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-decision-list',
   templateUrl: './decision-list.component.html',
@@ -37,7 +39,31 @@ export class DecisionListComponent implements OnInit {
   }
 
   trainNewModel(event) {
-    this.decisiontreeService.trainModel();
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'ต้องการสร้างต้นไม้การตัดสินใจใหม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการสร้าง',
+      cancelButtonText: 'ไม่ ต้องการสร้าง'
+    }).then((result) => {
+      if (result.value) {
+        this.decisiontreeService.trainModel();
+
+        Swal(
+          'สร้างต้นไม้การตัดสินใจใหม่เรียบร้อยแล้ว!', '',
+          'success'
+        );
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้สร้างต้นไม้การตัดสินใจใหม่',
+          'error'
+        );
+      }
+    });
   }
   // checkAll(ev) {
   //   const checkBox = document.getElementById('radio-state1');
@@ -116,7 +142,7 @@ export class DecisionListComponent implements OnInit {
         queryCondition = this.decisiontreeService.queryAllCondition();
       } else if (abo === 'all' && saliva === 'null') {
         queryCondition = this.decisiontreeService.queryAllCondition();
-      } else if (saliva === 'all' && abo === 'null') {
+      } else if (abo === 'null' && saliva === 'all') {
         queryCondition = this.decisiontreeService.queryAllCondition();
       } else if (abo === 'all' || abo === 'null') {
         queryCondition = this.decisiontreeService.querySalivaCondition(saliva);
@@ -126,8 +152,9 @@ export class DecisionListComponent implements OnInit {
         queryCondition = this.decisiontreeService.queryTwoCondition(abo); /* not finished*/
         // this.filterData(queryCondition, saliva);
       }
-
-      this.loadData2(queryCondition, saliva);
+      if (queryCondition !== []) {
+        this.loadData2(queryCondition, saliva);
+      }
 
 
 
@@ -178,41 +205,42 @@ export class DecisionListComponent implements OnInit {
 
     queryCondition.subscribe(data => {
       this.rule = data;
-      // console.log(this.rule.value);
+      console.log(this.rule);
 
       // if (this.rule !== null && (saliva !== 'null' && saliva !== 'all') && this.rule !== [] && this.rule !== undefined) {
-      console.log('not null 180');
+      if (this.rule !== null) {
+        // console.log('not null 180');
 
-      // filter
-      if (saliva !== 'null' && saliva !== 'all') {
-        for (let i = 0; i < this.rule.length; i++) {
-          if (this.rule[i].groupSaliva !== saliva) {
-            this.rule.splice(i, 1);
-            i -= 1;
-          }
-        } // end filter
-      }
-      if (this.rule !== []) {
-        this.isFound = true;
-      } else {
-        this.isFound = false;
-      }
-      console.log(this.rule.value);
-
-      this.rule.forEach(item => {
-        for (const property in item) {
-          // console.log(item[property])
-          if (item[property] > 0) {
-            item[property] = item[property] + '+';
-          } else if (item[property] === '0') {
-            item[property] = 'Neg';
-          } else if (item[property] < 0) {
-            item[property] = '-';
-          }
+        // filter
+        if (saliva !== 'null' && saliva !== 'all') {
+          for (let i = 0; i < this.rule.length; i++) {
+            if (this.rule[i].groupSaliva !== saliva) {
+              this.rule.splice(i, 1);
+              i -= 1;
+            }
+          } // end filter
         }
-      });
+        if (this.rule.length !== 0) {
+          this.isFound = true;
+        } else {
+          this.isFound = false;
+        }
+        // console.log(this.rule.value);
 
-      // }
+        this.rule.forEach(item => {
+          for (const property in item) {
+            // console.log(item[property])
+            if (item[property] > 0) {
+              item[property] = item[property] + '+';
+            } else if (item[property] === '0') {
+              item[property] = 'Neg';
+            } else if (item[property] < 0) {
+              item[property] = '-';
+            }
+          }
+        });
+
+      }
     });
   }
 
