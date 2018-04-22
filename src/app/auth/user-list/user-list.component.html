@@ -76,13 +76,13 @@
         <td>{{ user.email }}</td>
         <td>{{ user.fName }}</td>
         <td>{{ user.lName }}</td>
-        <td>{{ user.privileage }}</td>
+        <td>{{ user.privilege }}</td>
         <td>{{ user.hospital }}</td>
         <td>
           <a routerLink="detail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
         </td>
         <td>
-          <button class="btn btn-sm btn-outline-danger" (click)="remove(user)">ลบ</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="remove(user.email)">ลบ</button>
         </td>
       </tr>
     </tbody>

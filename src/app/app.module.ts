@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-
 import { AppComponent } from './app.component';
 
 // firebase
@@ -44,13 +43,25 @@ import { MutationDetectionService } from './genediagnosis/shared/mutation-detect
 import { SearchbloodComponent } from './patient/searchblood/searchblood.component';
 import { DetailHomeComponent } from './patient/detail-home/detail-home.component';
 import { DetailComponent } from './patient/detail/detail.component';
+import { DetailListComponent } from './patient/detail-list/detail-list.component';
 import { SearchtestComponent } from './patient/searchtest/searchtest.component';
 import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
 import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
 
+import { PhenotypeHomeComponent } from './patient/phenotype-home/phenotype-home.component';
+import { PhenotypeAntibodyFormComponent } from './patient/phenotype-antibody-form/phenotype-antibody-form.component';
+import { PhenotypeSalivaFormComponent } from './patient/phenotype-saliva-form/phenotype-saliva-form.component';
+import { PhenotypeAboFormComponent } from './patient/phenotype-abo-form/phenotype-abo-form.component';
+
+
+import { RelativesFormComponent } from './patient/relatives-form/relatives-form.component';
 
 // Result
 import { ResultListComponent } from './result/result-list/result-list.component';
+
+// Service
+import { PatientService } from './patient/shared/patient.service';
+import { SharingdataService } from './patient/shared/sharingdata.service';
 
 // Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -84,7 +95,13 @@ import { MatRadioModule } from '@angular/material/radio';
     ResetPasswordComponent,
     ProfileComponent,
     CreatePatientComponent,
-    EditPatientComponent
+    EditPatientComponent,
+    RelativesFormComponent,
+    DetailListComponent,
+    PhenotypeAboFormComponent,
+    PhenotypeHomeComponent,
+    PhenotypeAntibodyFormComponent,
+    PhenotypeSalivaFormComponent
   ],
   imports: [
     BrowserModule,
@@ -111,8 +128,15 @@ import { MatRadioModule } from '@angular/material/radio';
     AuthGuard,
     AngularFireDatabase,
     DecisiontreeService,
-    MutationDetectionService
+    MutationDetectionService,
+    PatientService,
+    SharingdataService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private decisionService: DecisiontreeService) {
+    this.decisionService.trainModel();
+  }
+
+}

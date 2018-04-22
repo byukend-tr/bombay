@@ -9,7 +9,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import 'rxjs/add/operator/switchMap';
 // Class User
 import { User } from '../shared/user';
-
+import Swal from 'sweetalert2';
 // export class User {
 //   uid: string;
 //   username: string = '';
@@ -111,27 +111,26 @@ export class AuthService {
   emailSignUp(email: string, password: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        this.authState = user;
+        // this.authState = user;
         this.addUserData();
-        this.updateUserData();
-        this.router.navigate(['/']);
+        // this.updateUserData();
+        this.router.navigate(['/users']);
       })
       .catch(error => console.log(error));
   }
   register(user: User) {
 
-    this.authState = user;
+    // this.authState = user;
     this.emailSignUp(user.email, '123456');
-    this.addUserData();
     firebase.database().ref('/users').push(user);
-    this.router.navigate(['/']);
+    this.router.navigate(['/users']);
 
   }
   emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.authState = user;
-        this.updateUserData();
+        // this.updateUserData();
         this.router.navigate(['/']);
       })
       .catch(error => console.log(error));
@@ -190,13 +189,41 @@ export class AuthService {
       this.queryAllUsers(callback);
     }
   }
-  removeUser(user) {
-    console.log(user.$key);
+  removeUser(user: string) {
+    console.log(user);
     // if (confirm('Do you want to remove ' + user.fName + ' sure!')) {
     //   this.db.remove(user.$key).then(() => {
     //     alert('remove ' + user.fName + 'success!');
     //   });
     // }
+    // this.db.list('users').remove(user.email);
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการที่จะลบผู้ใช้งานใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.db.object('/users/').remove().then(() => {
+          this.db.object('users/' + user).remove();
+          // this.afs.collection('users').({user});
+
+          Swal('สำเร็จ!', 'ลบผู้ใช้งานเรียบร้อยแล้ว',
+            'success'
+          );
+        });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบผู้ใช้งาน',
+          'error'
+        );
+      }
+    });
+
   }
 
 }

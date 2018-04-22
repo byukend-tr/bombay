@@ -1,33 +1,31 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div class="btn-group">
+      <!-- <div class="btn-group">
         <a class="btn btn-sm btn-primary" routerLink="detail">ข้อมูลคนไข้</a>
         <a routerLink="/menuviewdetail" class="btn btn-sm btn-outline-primary">ฟีโนไทป์</a>
-      </div>
+      </div> -->
     </div>
   </div>
   <div style="color:#365082">
     <h2>รายละเอียดคนไข้</h2>
-
-    <button class="btn btn-sm btn-outline-primary" routerLink="edit">แก้ไขข้อมูลคนไข้</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" routerLink="/test/edit" *ngIf="currentURL == '/test/detail'">แก้ไขข้อมูลคนไข้</button>
   </div>
   <div class="row">
     <div class="col">
-
       <table class="table table-sm table-striped table-bordered table-hover">
-        <tbody>
+        <tbody *ngFor="let patient of patients;">
           <tr>
             <td>รหัสบัตรประชาชน</td>
-            <td>4565532102589</td>
+            <td>{{patient.id}}</td>
           </tr>
           <tr>
             <td>ชื่อ-นามสกุล</td>
-            <td>นางสาว&nbsp;คิมเบอร์ลี&nbsp;แอนเทียมศิริ</td>
+            <td>{{patient.fName+" "+patient.lName}}</td>
           </tr>
           <tr>
             <td>วันเดือนปีเกิด</td>
-            <td>11/10/1990</td>
+            <td>{{patient.birthDay}}</td>
           </tr>
           <tr>
             <td>อายุ (ปี)</td>
@@ -35,64 +33,79 @@
           </tr>
           <tr>
             <td>เบอร์ติดต่อ 1</td>
-            <td>0804956231</td>
+            <td>{{patient.tel1}}</td>
           </tr>
           <tr>
             <td>เบอร์ติดต่อ 2</td>
-            <td>0998550623</td>
+            <td>{{patient.tel2}}</td>
           </tr>
           <tr>
             <td>ที่อยู่</td>
-            <td>239 ถ. ห้วยแก้ว</td>
+            <td>{{patient.address}}</td>
           </tr>
           <tr>
             <td>ตำบล</td>
-            <td>สุเทพ</td>
+            <td>{{patient.subDistrict}}</td>
           </tr>
           <tr>
             <td>อำเภอ</td>
-            <td>เมือง เชียงใหม่</td>
+            <td>{{patient.district}}</td>
           </tr>
           <tr>
             <td>จังหวัด</td>
-            <td>เชียงใหม่</td>
+            <td>{{patient.province}}</td>
           </tr>
           <tr>
             <td>รหัสไปรษณีย์</td>
-            <td>50200</td>
+            <td>{{patient.zip}}</td>
           </tr>
           <tr>
             <td>หมู่เลือด</td>
-            <td class="text-red">O para-Bombay</td>
+            <td class="text-red">{{patient.result.result}}</td>
           </tr>
-
-
         </tbody>
       </table>
     </div>
-    <div class="col">
+    <div class="col" *ngFor="let patient of patients;">
       <h5>ฟีโนไทป์</h5>
-      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
-        <thead class="thead-dark">
+      <div class="row">
+        <div class="col-md">
+          <td class="text-green">
+            <button (click)="phenotype(patient.id,'Abo')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:เอบีโอ</button>
+          </td>
+        </div>
+        <div class="col-md" >
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
+            <button (click)="phenotype(patient.id,'Antibody')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:แอนติบอดี</button>
+          </td>
+        </div>
+        <div class="col-md" >
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
+            <button (click)="phenotype(patient.id,'Saliva')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:น้ำลาย</button>
+          </td>
+        </div>
+      </div>
+      <br>
+      <table class="table table-sm table-striped table-bordered table-hover">
+        <thead class="thead-table">
           <tr>
             <th>การตรวจหมู่เลือดเอบีโอ</th>
             <th>การตรวจกรองแอนติบอดี</th>
             <th>การตรวจน้ำลาย</th>
-
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngFor="let patient of patients;">
           <tr>
-            <td>Group O with unexpected alloantibody</td>
-            <td>พบ alloantibody, ชนิด IgG</td>
-            <td>Secretor,gr.O</td>
+            <td>{{patient.resultAbo.resultAbo}}</td>
+            <td>{{patient.resultAntibody.resultAntibody}}</td>
+            <td>{{patient.resultSaliva.resultSaliva}}</td>
           </tr>
           <tr>
-            <td colspan="3">O para-Bombay</td>
+            <td colspan="3">{{patient.result.result}}</td>
           </tr>
         </tbody>
       </table>
-      <h5>จีโนไทป์</h5>
+      <!-- <h5>จีโนไทป์</h5>
       <table class="table table-sm table-striped table-bordered table-hover table-responsive">
         <thead class="thead-dark">
           <tr>
@@ -114,68 +127,64 @@
             <td colspan="3">O para-Bombay</td>
           </tr>
         </tbody>
-      </table>
-      <a routerLink="/menuviewdetail" class="btn btn-outline-success btn-sm">รายละเอียดการทดลอง</a>
+      </table> -->
+      <br>
+      <div *ngIf="patient.resultAbo.resultAbo != '-'" class="text-center">
+        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm" *ngIf="currentURL == '/test/detail'">รายละเอียดการทดลอง</button>
+      </div>
     </div>
   </div>
+
+
   <div class="row">
     <div class="col">
       <h3 style="color:#1F7FF0">ความสัมพันธ์ที่เกี่ยวข้องกับคนไข้</h3>
-      <a class="btn btn-sm btn-outline-primary" routerLink="/managerelative">แก้ไขความสัมพันธ์</a>
-      <table class="table table-sm table-striped table-bordered table-hover table-responsive">
-        <thead class="thead-dark">
-          <tr>
-            <th>รหัสบัตรประชาชน</th>
-            <th>ชื่อ</th>
-            <th>นามสกุล</th>
-            <th>ความสัมพันธ์</th>
-            <th>หมู่เลือด</th>
-            <th>รายละเอียด</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>2222222222222</td>
-            <td>ศรราม</td>
-            <td>เทพพิทักษ์</td>
-            <td>พ่อ</td>
-            <td class="text-yellow">Not confirm</td>
-            <td>
-              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-            </td>
-          </tr>
-          <tr>
-            <td>3333333333333</td>
-            <td>อารยา</td>
-            <td>เอ ฮาร์เก็ต</td>
-            <td>แม่</td>
-            <td class="text-green">Group O</td>
-            <td>
-              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-            </td>
-          </tr>
-          <tr>
-            <td>1532655803211</td>
-            <td>อุรัสยา</td>
-            <td>เสปอร์บันด์</td>
-            <td>ลูก</td>
-            <td class="text-red">AB para-Bombay</td>
-            <td>
-              <a routerLink="/viewdetail" class="btn btn-sm btn-outline-primary">รายละเอียด</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
+      <button type="button" class="btn btn-sm btn-outline-primary" (click)="editRelatives(message)" *ngIf="currentURL == '/test/detail'">แก้ไขความสัมพันธ์</button>
+      <div *ngIf="relatives.length != 0;else isNull">
+        <table class="table table-sm table-striped table-bordered table-hover">
+          <thead class="thead-table">
+            <tr>
+              <th>รหัสบัตรประชาชน</th>
+              <th>ชื่อ</th>
+              <th>นามสกุล</th>
+              <th>ความสัมพันธ์</th>
+              <th>หมู่เลือด</th>
+              <th>รายละเอียด</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let relative of relatives;">
+              <td>{{relative.patientId}}</td>
+              <td>{{relative.fName}}</td>
+              <td>{{relative.lName}}</td>
+              <td>{{relative.relativeName}}</td>
+              <td class="text-yellow">{{relative.group}}</td>
+              <td>
+                <button (click)="viewDetail(relative.patientId)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #isNull>
+        <div class="alert alert-warning container" role="alert" style="text-align:center;">
+          <h4 class="alert-heading">ไม่พบข้อมูลความสัมพันธ์คนไข้</h4>
+          <hr>
+          <p class="alert-heading">กดแก้ไขความสัมพันธ์ เพื่อเพิ่ม</p>
+        </div>
+      </ng-template>
     </div>
 
   </div>
-  <!-- </div> -->
-
-
-  <!-- <a href="search2.php" class="btn btn-sm btn-outline-secondary">กลับไปหน้าค้นหา</a> -->
-
-
-  <!-- &nbsp;<a href="detail2.php" class="btn btn-outline-success">Test Detail</a> -->
-
+  <br>
+  <div class="row">
+    <div class="col text-center" *ngIf="currentURL == '/test/detail';else blood">
+      <a class="text-muted" [routerLink]="['/test']">ย้อนกลับ</a>
+    </div>
+    <ng-template #blood>
+      <div class="col text-center">
+        <a class="text-muted" [routerLink]="['/blood']">ย้อนกลับ</a>
+      </div>
+    </ng-template>
+  </div>
 </div>

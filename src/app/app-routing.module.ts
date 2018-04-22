@@ -25,9 +25,19 @@ import { GenotypeHomeComponent } from './genediagnosis/genotype-home/genotype-ho
 import { SearchbloodComponent } from './patient/searchblood/searchblood.component';
 import { DetailHomeComponent } from './patient/detail-home/detail-home.component';
 import { DetailComponent } from './patient/detail/detail.component';
+import { DetailListComponent } from './patient/detail-list/detail-list.component';
 import { SearchtestComponent } from './patient/searchtest/searchtest.component';
 import { CreatePatientComponent } from './patient/create-patient/create-patient.component';
 import { EditPatientComponent } from './patient/edit-patient/edit-patient.component';
+
+import { RelativesFormComponent } from './patient/relatives-form/relatives-form.component';
+
+import { PhenotypeHomeComponent } from './patient/phenotype-home/phenotype-home.component';
+import { PhenotypeAntibodyFormComponent } from './patient/phenotype-antibody-form/phenotype-antibody-form.component';
+import { PhenotypeSalivaFormComponent } from './patient/phenotype-saliva-form/phenotype-saliva-form.component';
+import { PhenotypeAboFormComponent } from './patient/phenotype-abo-form/phenotype-abo-form.component';
+
+
 
 // Result
 import { ResultListComponent } from './result/result-list/result-list.component';
@@ -38,7 +48,13 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'profile', component: ProfileComponent },
+
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+
   { path: 'resetpassword', component: ResetPasswordComponent },
 
   {
@@ -46,9 +62,9 @@ const routes: Routes = [
     component: CreatePatientComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: CreatePatientComponent }, // *****************************
+      { path: '', component: CreatePatientComponent },
       { path: 'create', component: CreatePatientComponent },
-      { path: 'edit', component: EditPatientComponent },
+      { path: 'edit', component: EditPatientComponent }
     ]
   },
 
@@ -70,17 +86,24 @@ const routes: Routes = [
   },
 
   {
-    path: 'searchtest',
+    path: 'test',
     component: DetailHomeComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', component: SearchtestComponent },
-      { path: 'detail', component: DetailComponent }
+      { path: 'detail', component: DetailComponent },
+      { path: 'create', component: CreatePatientComponent },
+      { path: 'edit', component: EditPatientComponent },
+      { path: 'relatives', component: RelativesFormComponent },
+      { path: 'detaillist', component: DetailListComponent },
+      { path: 'phenotype', component: PhenotypeHomeComponent }
     ]
   },
 
-  { path: 'searchblood',
+  {
+    path: 'blood',
     component: DetailHomeComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: SearchbloodComponent },
       { path: 'detail', component: DetailComponent }
@@ -98,7 +121,11 @@ const routes: Routes = [
     ]
   },
 
-  { path: 'results', component: ResultListComponent }
+  {
+    path: 'results',
+    component: ResultListComponent,
+    canActivate: [AuthGuard],
+  }
 ];
 
 @NgModule({

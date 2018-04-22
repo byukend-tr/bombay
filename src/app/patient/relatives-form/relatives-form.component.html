@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <h2 style="color:#365082">Relatives</h2>
+
+  <div class="row">
+    <div class="col">
+      <form (ngSubmit)="searchRelatives(condition)" [formGroup]="conditionForm" #condition="ngForm">
+        รหัสบัตรประชาชน
+        <input id="inputId" type="text" class="form-control" placeholder="เลขบัตรประจำตัวประชาชน 13 หลัก" formControlName="id"> ชื่อจริง
+        <input type="text" class="form-control" placeholder="ชื่อจริง" formControlName="fName"> นามสกุล
+        <input type="text" class="form-control" placeholder="นามสกุล" formControlName="lName">
+        <br>
+        <div class="col text-center">
+          <button type="submit" class="btn btn-outline-primary btn-sm">ค้นหา</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col">
+      <div *ngIf="isFound; else notFound">
+        <form [formGroup]="relativeForm">
+          <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+            <thead class="thead-table">
+              <tr>
+                <th>รหัสบัตรประชาชน</th>
+                <th>ชื่อจริง</th>
+                <th>นามสกุล</th>
+                <th>ความสัมพันธ์</th>
+                <th>เพิ่ม</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let relative of findRelatives;">
+                <td>{{relative.id}}</td>
+                <td>{{relative.fName}}</td>
+                <td>{{relative.lName}}</td>
+                <td>
+                  <select class="form-control form-control-sm" formControlName="relativeName">
+                    <option value="null"></option>
+                    <option value="พ่อ">พ่อ</option>
+                    <option value="แม่">แม่</option>
+                    <option value="สามี">สามี</option>
+                    <option value="ภรรยา">ภรรยา</option>
+                    <option value="ลูก">ลูก</option>
+                    <option value="พี่">พี่</option>
+                    <option value="น้อง">น้อง</option>
+                    <option value="ปู่">ปู่</option>
+                    <option value="ย่า">ย่า</option>
+                    <option value="ตา">ตา</option>
+                    <option value="ยาย">ยาย</option>
+                    <option value="หลาน">หลาน</option>
+                  </select>
+                </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success btn-sm" (click)="addRelatives(relative.id)">เพิ่ม</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <ng-template #notFound>
+        <div class="alert alert-warning container" role="alert" style="text-align:center;">
+          ไม่พบข้อมูล
+        </div>
+      </ng-template>
+
+    </div>
+
+  </div>
+  <br>
+  <br>
+
+  <div *ngFor="let patient of patients;">
+    <h3>{{patient.id}} {{patient.fName}} {{patient.lName}}</h3>
+  </div>
+  <div *ngIf="relative == isloading; else notRelatives">
+    <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+      <thead class="thead-table">
+        <tr>
+          <th>รหัสบัตรประชาชน</th>
+          <th>ชื่อจริง</th>
+          <th>นามสกุล</th>
+
+          <th>ความสัมพันธ์</th>
+          <th>ลบ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let relative of relatives;">
+          <td>{{ relative.patientId }}</td>
+          <td>{{ relative.fName }}</td>
+          <td>{{ relative.lName }}</td>
+          <td>{{ relative.relativeName }}</td>
+
+          <td>
+            <button (click)="deleteRelative(relative.patientId)" class="btn btn-outline-danger btn-sm">ลบ</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #notRelatives>
+    <div class="alert alert-warning container" role="alert" style="text-align:center;">
+      ไม่พบข้อมูล
+    </div>
+  </ng-template>
+  <div style="text-align:center;">
+    <button routerLink="/test/detail" class="btn btn-outline-primary btn-sm">ย้อนกลับ</button>
+  </div>
+</div>

@@ -18,13 +18,16 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users.snapshortChanges().map(actions => {
-      return actions.map(action => ({ key: action.key, value: action.payload.val() }));
-    }).subscribe(items => {
-      this.users = items;
-    });
+    // this.users.snapshortChanges().map(actions => {
+    //   return actions.map(action => ({ key: action.key, value: action.payload.val() }));
+    // }).subscribe(items => {
+    //   this.users = items;
+    // });
   }
-  remove(user) {
+  remove(user: string) {
+    console.log(user);
+
     this.auth.removeUser(user);
+
   }
 }

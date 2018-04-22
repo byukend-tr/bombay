@@ -1,0 +1,301 @@
+<div class="container-fluid">
+  <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
+    <div class="py-3 border border-primary">
+      <div class="container-fluid">
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#365082">ฟีโนไทป์: การตรวจหมู่เลือดเอบีโอ</h2>
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="py-1 text-center bg-light border border-primary">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-11">
+                        <h4>Cell Grouping</h4>
+                      </div>
+                      <!-- <div class="col-1">
+                          <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="text-left">Anti-A</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-A1" type="radio" class="custom-control-input" value="4" formControlName="AntiA" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-A2" type="radio" class="custom-control-input" value="3" formControlName="AntiA" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-A3" type="radio" class="custom-control-input" value="2" formControlName="AntiA" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-A4" type="radio" class="custom-control-input" value="1" formControlName="AntiA" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-A5" type="radio" class="custom-control-input" value="0" formControlName="AntiA" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">Anti-B</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-B1" type="radio" class="custom-control-input" value="4" formControlName="AntiB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-B2" type="radio" class="custom-control-input" value="3" formControlName="AntiB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-B3" type="radio" class="custom-control-input" value="2" formControlName="AntiB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-B4" type="radio" class="custom-control-input" value="1" formControlName="AntiB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-B5" type="radio" class="custom-control-input" value="0" formControlName="AntiB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">Anti-A,B</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-AB1" type="radio" class="custom-control-input" value="4" formControlName="AntiAB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-AB2" type="radio" class="custom-control-input" value="3" formControlName="AntiAB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-AB3" type="radio" class="custom-control-input" value="2" formControlName="AntiAB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-AB4" type="radio" class="custom-control-input" value="1" formControlName="AntiAB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Anti-AB5" type="radio" class="custom-control-input" value="0" formControlName="AntiAB" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-6"> </div> -->
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="py-1 text-center bg-light border border-primary">
+                  <div class="container">
+
+
+                    <div class="row">
+                      <div class="col-11">
+                        <h4>Serum Grouping</h4>
+                      </div>
+                      <!-- <div class="col-1">
+                          <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="text-left">A cells</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="Acell1" type="radio" class="custom-control-input" value="4" formControlName="Acell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Acell2" type="radio" class="custom-control-input" value="3" formControlName="Acell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Acell3" type="radio" class="custom-control-input" value="2" formControlName="Acell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Acell4" type="radio" class="custom-control-input" value="1" formControlName="Acell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Acell5" type="radio" class="custom-control-input" value="0" formControlName="Acell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">B cells</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="Bcell1" type="radio" class="custom-control-input" value="4" formControlName="Bcell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Bcell2" type="radio" class="custom-control-input" value="3" formControlName="Bcell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Bcell3" type="radio" class="custom-control-input" value="2" formControlName="Bcell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Bcell4" type="radio" class="custom-control-input" value="1" formControlName="Bcell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Bcell5" type="radio" class="custom-control-input" value="0" formControlName="Bcell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-left">O cells</h5>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-radio">
+                            <input id="O-cell1" type="radio" class="custom-control-input" value="4" formControlName="Ocell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">4+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Ocell2" type="radio" class="custom-control-input" value="3" formControlName="Ocell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">3+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Ocell3" type="radio" class="custom-control-input" value="2" formControlName="Ocell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">2+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Ocell4" type="radio" class="custom-control-input" value="1" formControlName="Ocell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">1+</span>
+                          </label>
+                          <label class="custom-control custom-radio">
+                            <input id="Ocell5" type="radio" class="custom-control-input" value="0" formControlName="Ocell" [checked]>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Neg</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <p class="mb-0">หมายเหตุ</p>
+            <input id="note" type="text" class="form-control-sm form-control" formControlName="Note">
+            <br>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <label class="btn btn-sm btn-outline-primary">
+              เพิ่มรูปภาพ
+              <input type="file" hidden (change)="selectFile($event)" multiple>
+            </label>
+
+            <!-- <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(uploadProgress | async) + '%'"
+                          [attr.aria-valuenow]="(uploadProgress | async)" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div> -->
+
+
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h5 style="color:#2ecc71">รายชื่อไฟล์รูปภาพ</h5>
+              </div>
+              <div *ngFor="let file of allfileList">
+                <div class="panel-body">
+                  <h6 style="color:#3498db">
+                    <!-- <details-upload [fileUpload]='file'></details-upload> -->
+                    {{ file.name }}
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <!-- <a href="#" id="editBtn" class="btn btn-warning btn-block" onclick="canEdit();" style="display:none" >Edit</a>
+                                                <a href="#" id="anaBtn" class="btn btn-success btn-block" onclick="showAnalysis();" >บันทึก</a> -->
+            <div id="tempNotFound" style="display: none;color:red">
+              <h5>group O with unexpected alloantibody</h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-4 text-center">
+        <a class="text-muted" [routerLink]="['/test/detail']">ย้อนกลับ</a>
+      </div>
+      <!-- <div class="col-sm-4"></div> -->
+      <div class="col-12 col-md-4 text-center">
+        <!-- <button type="submit" [disabled]="!selectedFiles" (click)="upload()" class="btn btn-sm btn-success " style="text-align:center">เพิ่มการทดสอบ</button> -->
+        <button type="submit" (click)="validationForm()" class="btn btn-sm btn-success " style="text-align:center">เพิ่มการทดสอบ</button>
+      </div>
+    </div>
+    <br>
+
+
+
+  </form>
+</div>
+
+
+
+<br>
