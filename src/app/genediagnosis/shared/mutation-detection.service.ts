@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-
+import { of } from 'rxjs/observable/of';
+import * as _ from 'lodash'; // isEqual library
 @Injectable()
 export class MutationDetectionService {
   eval: Array<boolean>;
@@ -13,6 +14,8 @@ export class MutationDetectionService {
   mutation: Array<string>;
   start_at: number;
   stop_at: number;
+  correct_test: number;
+  test_result: any = [];
 
   // tslint:disable-next-line:max-line-length
   s1 = 'ATGTGGCTCCGGAGCCATCGTCAGCTCTGCCTGGCCTTCCTGCTAGTCTGTGTCCTCTCTGTAATCTTCTTCCTCCATATCCATCAAGACAGCTTTCCACATGGCCTAGGCCTGTCGATCCTGTGTCCAGACCGCCGCCTGGTGACACCCCCAGTGGCCATCTTCTGCCTGCCGGGTACTGCGATGGGCCCCAACGCCTCCTCTTCCTGTCCCCAGCACCCTGCTTCCCTCTCCGGCACCTGGACTGTCTACCCCAATGGCCGGTTTGGTAATCAGATGGGACAGTATGCCACGCTGCTGGCTCTGGCCCAGCTCAACGGCCGCCGGGCCTTTATCCTGCCTGCCATGCATGCCGCCCTGGCCCCGGTATTCCGCATCACCCTGCCCGTGCTGGCCCCAGAAGTGGACAGCCGCACGCCGTGGCGGGAGCTGCAGCTTCACGACTGGATGTCGGAGGAGTACGCGGACTTGAGAGATCCTTTCCTGAAGCTCTCTGGCTTCCCCTGCTCTTGGACTTTCTTCCACCATCTCCGGGAACAGATCCGCAGAGAGTTCACCCTGCACGACCACCTTCGGGAAGAGGCGCAGAGTGTGCTGGGTCAGCTCCGCCTGGGCCGCACAGGGGACCGCCCGCGCACCTTTGTCGGCGTCCACGTGCGCCGTGGGGACTATCTGCAGGTTATGCCTCAGCGCTGGAAGGGTGTGGTGGGCGACAGCGCCTACCTCCGGCAGGCCATGGACTGGTTCCGGGCACGGCACGAAGCCCCCGTTTTCGTGGTCACCAGCAACGGCATGGAGTGGTGTAAAGAAAACATCGACACCTCCCAGGGCGATGTGACGTTTGCTGGCGATGGACAGGAGGCTACACCGTGGAAAGACTTTGCCCTGCTCACACAGTGCAACCACACCATTATGACCATTGGCACCTTCGGCTTCTGGGCTGCCTACCTGGCTGGCGGAGACACTGTCTACCTGGCCAACTTCACCCTGCCAGACTCTGAGTTCCTGAAGATCTTTAAGCCGGAGGCGGCCTTCCTGCCCGAGTGGGTGGGCATTAATGCAGACTTGTCTCCACTCTGGACATTGGCTAAGCCTTGA';
@@ -20,51 +23,90 @@ export class MutationDetectionService {
 
   constructor(private http: Http) {
   }
+
+  initService() {
+    // tslint:disable-next-line:max-line-length
+    this.s2 = 'TGTGGCTCCGGAGCCATCGTCAGCTCTGCCTGGCCTTCCTGCTAGTCTGTGTCCTCTCTGTAATCTTCTTCCTCCATATCCATCAAGACAGCTTTCCACATGGCCTAGGCCTGTCGATCCTGTGTCCAGACCGCCGCCTGGTGACACCCCCAGTGGCCATCTTCTGCCTGCCGGGTACTGCGATGGGCCCCAACGCCTCCTCTTCCTGTCCCCAGCACCCTGCTTCCCTCTCCGGCACCTGGACTGTCTACCCCAATGGCCGGTTTGGTAATCAGATGGGACAGTATGCCACGCTGCTGGCTCTGGCCCAGCTCAACGGCCGCCGGACCTTTATCCTGCCTGCCATGCATGCCGCCCTGGCCCCGGTATTCCGCATCACCCTGCCCGTGCTGGCCCCAGAAGTGGACAGCCGCACGCCGTGGCGGGAGCTGCAGCTTCACGACTGGATGTCGGAGGAGTACGCGGACTTGAGAGATCCTTTCCTGAAGCTCTCTGGCTTCCCCTGCTCTTGGACTTTCTTCCACCATCTCCGGGAACAGATCCGCAGAGAGTTCACCCTGCACGACCACCTTCGGGAAGAGGCGCAGAGTGTGCTGGGTCAGCTCCGCCTGGGCCGCACAGGGGACCGCCCGCGCACCTTTGTCGGCGTCCACGTGCGCCGTGGGGACTATCTGCAGGTTATGCCTCAGCGCTGGAAGGGTGTGGTGGGCGACAGCGCCTACCTCCGGCAGGCCATGGACTGGTTCCGGGCACGGCACSAAGCCCCCGTTTTCGTGGTCACCAGCAACGGCATGGAGTGGTGTAAAGAAAACATCGACACCTCCCAGGGCGATGTGACGTTTGCTGGCGATGGACAGGAGGCTACACCGTGGAAAGACTTTGCCCTGCTCACACAGTGCAACCACACCATTATGACCATTGGCACCTTCGGCTTCTGGGCTGCCTACCTGGCTGGCGGAGACACTGTCTACCTGGCCAACTTCACCCTGCCAGACTCTGAGTTCCTGAAGATCTTTAAGCCGGAGGCGGCCTTCCTGCCCGAGTGGGTGGGCATTAATGCAGACTTGTCTCCACTCTGGACATTGG';
+
+    this.geneTest();
+    // this.testFromFiles();
+
+  }
+  geneTest() {
+    const gene = this.prepareInput(this.s1, this.s2);
+    this.__findMutate(gene[0], gene[1]);
+    // console.log('EDIT = ' + this.edit_val);
+    // console.log(this.edit);
+    // console.log(this.lcs.length);
+    console.log(this.lcs);
+    console.log(this.lcs_backtrack);
+    const found_set = new Set();
+    for (let i = 0; i < this.mutation.length; i++) {
+      found_set.add(this.mutation[i].trim());
+    }
+    console.log(found_set);
+  }
+
+  testFromFiles() {
+    let path;
+    this.correct_test = 0; // store number of correct test
+    for (let i = 0; i <= 49; i++) {
+      path = 'assets//caseD//testcaseD' + ('0' + i).slice(-2) + '.txt';
+      this.testWithFile(path);
+      // console.log(path);
+    }
+
+  }
+
+  prepareInput(s1, s2): any {
+    const res = [s1, s2];
+    // res[0] = 'ATGTGGCTCCGG';
+    // res[1] = 'ATGGTGGCTCCGG';
+    return res;
+  }
+
   testWithFile(PATH_TO_FILE) {
-    this.http.get(PATH_TO_FILE).subscribe(async data => {
+    this.http.get(PATH_TO_FILE).subscribe(data => {
       console.log(PATH_TO_FILE);
-      this.s2 = await data.text().split('\n')[1];
-      console.log(this.s2);
-      this.__findMutate();
-      console.log('ans: ' + data.text().split('\n')[0] + ', found: ' + this.mutation[0]);
-      if (data.text().split('\n')[0] === this.mutation[0]) {
+      this.s2 = data.text().split('\n')[1];
+      const gene = this.prepareInput(this.s1, this.s2);
+
+      // console.log(this.s2);
+      this.__findMutate(gene[0], gene[1]);
+      const ans_set = new Set();
+      const found_set = new Set();
+      const ans = data.text().split('\n')[0].split(' ');
+      ans.forEach(element => {
+        ans_set.add(element.trim()); // add strip string
+      });
+      for (let i = 0; i < this.mutation.length; i++) {
+        found_set.add(this.mutation[i].trim());
+      }
+
+      console.log('found:', found_set, 'ans:', ans_set);
+      if (_.isEqual(found_set, ans_set)) { // check ans
         console.log('Correct!');
+        this.test_result.push(['found: ', found_set, 'ans: ', ans_set, 'Correct']);
+
+        this.correct_test += 1;
       } else {
         console.log('Incorrect!');
+        this.test_result.push(['found: ', found_set, 'ans: ', ans_set, 'Incorrect']);
       }
       // this.mutation = [];
     });
   }
 
-  initService() {
-    // tslint:disable-next-line:max-line-length
-    this.s2 = 'ATCTGGCTCCGGAGCCATCGTCAGCTCTGCCTGGCCTTCCTGCTAGTCTGTGTCCTCTCTGTAATCTTCTTCCTCCATATCCATCAAGACAGCTTTCCACATGGCCTAGGCCTGTCGATCCTGTGTCCAGACCGCCGCCTGGTGACACCCCCAGTGGCCATCTTCTGCCTGCCGGGTACTGCGATGGGCCCCAACGCCTCCTCTTCCTGTCCCCAGCACCCTGCTTCCCTCTCCGGCACCTGGACTGTCTACCCCAATGGCCGGTTTGGTAATCAGATGGGACAGTATGCCACGCTGCTGGCTCTGGCCCAGCTCAACGGCCGCCGGGCCTTTATCCTGCCTGCCATGCATGCCGCCCTGGCCCCGGTATTCCGCATCACCCTGCCCGTGCTGGCCCCAGAAGTGGACAGCCGCACGCCGTGGCGGGAGCTGCAGCTTCACGACTGGATGTCGGAGGAGTACGCGGACTTGAGAGATCCTTTCCTGAAGCTCTCTGGCTTCCCCTGCTCTTGGACTTTCTTCCACCATCTCCGGGAACAGATCCGCAGAGAGTTCACCCTGCACGACCACCTTCGGGAAGAGGCGCAGAGTGTGCTGGGTCAGCTCCGCCTGGGCCGCACAGGGGACCGCCCGCGCACCTTTGTCGGCGTCCACGTGCGCCGTGGGGACTATCTGCAGGTTATGCCTCAGCGCTGGAAGGGTGTGGTGGGCGACAGCGCCTACCTCCGGCAGGCCATGGACTGGTTCCGGGCACGGCACGAAGCCCCCGTTTTCGTGGTCACCAGCAACGGCATGGAGTGGTGTAAAGAAAACATCGACACCTCCCAGGGCGATGTGACGTTTGCTGGCGATGGACAGGAGGCTACACCGTGGAAAGACTTTGCCCTGCTCACACAGTGCAACCACACCATTATGACCATTGGCACCTTCGGCTTCTGGGCTGCCTACCTGGCTGGCGGAGACACTGTCTACCTGGCCAACTTCACCCTGCCAGACTCTGAGTTCCTGAAGATCTTTAAGCCGGAGGCGGCCTTCCTGCCCGAGTGGGTGGGCATTAATGCAGACTTGTCTCCACTCTGGACATTGGCTAAGCCTCGA';
-    // console.log('EDIT = ' + this.edit_val);
-    // console.log(this.edit);
-
-    // console.log(this.lcs.length);
-    this.__findMutate();
-    console.log(this.lcs);
-    console.log(this.lcs_backtrack);
-
-    // let path;
-    // for (let i = 1; i <= 56; i++) {
-    //   path = 'assets/testcase' + ('0' + i).slice(-2) + '.txt';
-    //   this.testWithFile(path);
-    //   console.log(path);
-    // }
-  }
-
-  __findMutate() {
-    // console.log(this.s1, this.s2);
-    this.edit_val = this.__editDistance(this.s1, this.s2);
-    this.lcs_val = this.__lcs(this.s1, this.s2);
+  __findMutate(s1, s2) {
+    // console.log(s1, s2);
+    this.edit_val = this.__editDistance(s1, s2);
+    this.lcs_val = this.__lcs(s1, s2);
     // console.log(this.edit_val, this.lcs_val);
     let i = this.lcs.length - 1;
     let j = this.lcs[0].length - 1;
-    console.log(this.lcs, i, j);
+    // console.log(this.lcs, i, j);
     const lcs_res = this.lcs[i][j];
-    let mutate_pos = this.s1.length - 1;
+    let mutate_pos = s1.length - 1;
     this.start_at = -1;
     this.stop_at = -1;
 
@@ -72,6 +114,7 @@ export class MutationDetectionService {
     const i0 = i;
     while (this.lcs[i][j] === lcs_res) {
       i -= 1;
+      mutate_pos -= 1;
     }
     i += 1;
     if (i !== i0) { // if i is changed >> s1's tail is longer
@@ -82,12 +125,14 @@ export class MutationDetectionService {
     // S2 longer -> ignore
     while (this.lcs[i][j] === lcs_res) {
       j -= 1;
-      mutate_pos -= 1;
     }
     j += 1;
     mutate_pos += 1;
     this.mutation = new Array<string>();
     while (i > 0 && j > 0) {
+      // if (this.s1[i] !== this.s2[j]) {
+      //   console.log(this.s1[i], this.s2[j]);
+      // }
       while (this.lcs_backtrack[i][j] === 'C') {
         i -= 1;
         j -= 1;
@@ -99,13 +144,13 @@ export class MutationDetectionService {
       if (this.lcs_backtrack[i][j] === 'U') {
         // tslint:disable-next-line:max-line-length
         if (this.lcs[i - 1][j - 1] === this.lcs[i][j]) { // Mutation case , try to get back to normal line
-          this.mutation.push((mutate_pos + 1) + this.s1[i - 1] + '>' + this.s2[j - 1]);
+          this.mutation.push((mutate_pos + 1) + s1[i - 1] + '>' + s2[j - 1]);
           i -= 1;
           j -= 1;
           mutate_pos -= 1;
         } else {
           while (this.lcs_backtrack[i][j] === 'U') {
-            this.mutation.push(mutate_pos + 'del' + this.s1[i - 1]);
+            this.mutation.push(mutate_pos + 'del' + s1[i - 1]);
             i -= 1;
             mutate_pos -= 1;
           }
@@ -113,19 +158,19 @@ export class MutationDetectionService {
       } else if (this.lcs_backtrack[i][j] === 'L') {
         // tslint:disable-next-line:max-line-length
         if (this.lcs[i - 1][j - 1] === this.lcs[i][j]) { // Mutation case , try to get back to normal line
-          this.mutation.push((mutate_pos + 1) + this.s1[i - 1] + '>' + this.s2[j - 1]);
+          this.mutation.push((mutate_pos + 1) + s1[i - 1] + '>' + s2[j - 1]);
           i -= 1;
           j -= 1;
           mutate_pos -= 1;
         } else {
           while (this.lcs_backtrack[i][j] === 'L') {
-            this.mutation.push(mutate_pos + '_' + (mutate_pos + 1) + 'ins' + this.s2[j - 1]);
+            this.mutation.push(mutate_pos + '_' + (mutate_pos + 1) + 'ins' + s2[j - 1]);
             j -= 1;
           }
         }
       }
     }
-    console.log(this.mutation[0]);
+    // console.log(this.mutation);
   }
 
   __editDistance(s1, s2) {

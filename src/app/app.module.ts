@@ -4,8 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 
 // firebase
@@ -61,13 +59,18 @@ import { RelativesFormComponent } from './patient/relatives-form/relatives-form.
 // Result
 import { ResultListComponent } from './result/result-list/result-list.component';
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-
 // Service
 import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
 
+// Material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -114,7 +117,10 @@ import { SharingdataService } from './patient/shared/sharingdata.service';
     BrowserAnimationsModule,
     MatIconModule,
     MatCardModule,
-
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatRadioModule,
     // firebase
     AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig),

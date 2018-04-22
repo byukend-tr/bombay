@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenotypeHomeComponent } from './genotype-home.component';
+import {} from 'jasmine';
 
 describe('GenotypeHomeComponent', () => {
   let component: GenotypeHomeComponent;
@@ -8,9 +9,9 @@ describe('GenotypeHomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenotypeHomeComponent ]
+      declarations: [GenotypeHomeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
