@@ -178,7 +178,10 @@ export class PhenotypeAboFormComponent implements OnInit {
     this.resultForm.value.idAbo = newRef.key;
     this.resultForm.value.resultAbo = this.conditionForm.value.groupAbo;
     this.patientService.updateResult(this.resultForm.value, id, 'resultAbo');
-
+    // tslint:disable-next-line:max-line-length
+    if (this.conditionForm.value.groupAbo === 'Group A' ||this.conditionForm.value.groupAbo === 'Group B' ||this.conditionForm.value.groupAbo === 'Group AB' ||this.conditionForm.value.groupAbo === 'Group O') {
+      this.patientService.updateBloodResult(this.conditionForm.value.groupAbo, id);
+    }
     return newRef.key;
   }
 

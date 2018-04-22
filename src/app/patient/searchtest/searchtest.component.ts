@@ -40,7 +40,13 @@ export class SearchtestComponent implements OnInit {
 
   buildForm() {
     this.conditionForm = new FormGroup({
-      id: new FormControl()
+      id: new FormControl('', [
+        Validators.pattern('^(?=.*[0–9])(?=.*[a-zA-Z])([a-zA-Z0–9]+)$'),
+        Validators.minLength(1),
+        Validators.maxLength(13)
+      ]),
+      fName: new FormControl(),
+      lName: new FormControl(),
     });
   }
 
@@ -56,26 +62,37 @@ export class SearchtestComponent implements OnInit {
 
   search() {
     if (this.conditionForm.value.id) {
-      // console.log('idididi');
+      console.log('idididi');
       this.patientService.detailPatient(this.conditionForm.value.id).subscribe(data => {
-        this.isFind = data;
-        console.log(this.isFind);
-        if (this.isFind === []) {
-          this.isFound = false;
-        } else {
-          this.patients = data;
-          this.isFound = true;
-        }
+        this.showPatient(data);
       });
-
-
-
+    } else if (this.conditionForm.value.fName) {
+      this.patientService.namePatient(this.conditionForm.value.fName, 'fName').subscribe(data => {
+        this.showPatient(data);
+      });
+    } else if (this.conditionForm.value.lName) {
+      this.patientService.namePatient(this.conditionForm.value.lName, 'lName').subscribe(data => {
+        this.showPatient(data);
+      });
     } else {
       this.query();
       // this.showAntibody();
     }
 
 
+  }
+  showPatient(data: Array<any>) {
+    this.isFind = data;
+    console.log(this.isFind);
+    if (this.isFind.length === 0) {
+      this.isFound = false;
+      console.log(this.isFound);
+
+    } else {
+      this.patients = data;
+      this.isFound = true;
+      console.log(this.isFound);
+    }
   }
   viewDetail(id: string) {
     this.message = id;
@@ -94,7 +111,10 @@ export class SearchtestComponent implements OnInit {
 
     //  ********************************************************************
   }
-
+  createPatient() {
+    this.message = this.conditionForm.value.id;
+    this.newMessage();
+  }
   newMessage() {
     this.msg.changeMessage(this.message);
     this.msg.testName(this.test);

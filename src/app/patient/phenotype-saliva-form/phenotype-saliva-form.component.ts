@@ -41,6 +41,8 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
   testList: any;
 
+  aboResult: Array<any> = [];
+
   constructor(private patientService: PatientService,
     private decisionService: DecisiontreeService,
     private msg: SharingdataService,
@@ -76,7 +78,15 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       TestAntiH: new FormControl(),
       groupSaliva: new FormControl(),
       Note: new FormControl(),
-      dateTimeNow: new FormControl()
+      dateTimeNow: new FormControl(),
+
+      AntiA: new FormControl(),
+      AntiB: new FormControl(),
+      AntiAB: new FormControl(),
+      Acell: new FormControl(),
+      Bcell: new FormControl(),
+      Ocell: new FormControl(),
+      groupAbo: new FormControl()
     });
     this.resultForm = new FormGroup({
       idSaliva: new FormControl(),
@@ -96,46 +106,69 @@ export class PhenotypeSalivaFormComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.secretor && this.conditionForm.value.nonSecretor && this.conditionForm.value.nss && this.conditionForm.value.TestAntiA && this.conditionForm.value.TestAntiB && this.conditionForm.value.TestAntiH) {
 
-      Swal({
-        title: 'คุณแน่ใจใช่หรือไม่?',
-        text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
-          this.patients[0].fName + ' ' +
-          this.patients[0].lName + ' ใช่หรือไม่',
-        // ' ได้แก่ <br/>' +
-        // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
-        // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
-        // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
-        // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
-        // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
-        // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
-        // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
+      this.patientService.isFoundPatient(this.message).subscribe(data => {
+        // const aboObj = data;
+        const idAbo = data[0].resultAbo.idAbo;
+        // console.log(idAbo);
 
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'ใช่ ต้องการเพิ่ม',
-        cancelButtonText: 'ไม่ ต้องการเพิ่ม'
-      }).then((result) => {
-        if (result.value) {
+        console.log(data[0].abo[idAbo]);
 
-          // this.patientService.createPatient(this.conditionForm.value);
+        this.conditionForm.value.AntiA = data[0].abo[idAbo].AntiA;
+        this.conditionForm.value.AntiB = data[0].abo[idAbo].AntiB;
+        this.conditionForm.value.AntiAB = data[0].abo[idAbo].AntiAB;
+        this.conditionForm.value.Acell = data[0].abo[idAbo].Acell;
+        this.conditionForm.value.Bcell = data[0].abo[idAbo].Bcell;
+        this.conditionForm.value.Ocell = data[0].abo[idAbo].Ocell;
+        this.conditionForm.value.groupAbo = data[0].abo[idAbo].groupAbo;
+        console.log(this.conditionForm.value.secretor);
+        console.log(this.conditionForm.value.nonSecretor);
+        console.log(this.conditionForm.value.nss);
+        console.log(this.conditionForm.value.TestAntiA);
+        console.log(this.conditionForm.value.TestAntiB);
+        console.log(this.conditionForm.value.TestAntiH);
+        this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
 
-          this.validationInput();
+        Swal({
+          title: 'คุณแน่ใจใช่หรือไม่?',
+          text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
+            this.patients[0].fName + ' ' +
+            this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupSaliva,
+          // ' ได้แก่ <br/>' +
+          // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
+          // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
+          // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
+          // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
+          // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
+          // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
+          // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
 
-          this.router.navigate(['/test/detail']);
-          Swal(
-            'สร้างการทดสอบเรียบร้อยแล้ว!',
-            this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
-            'success'
-          );
-          // For more information about handling dismissals please visit
-          // https://sweetalert2.github.io/#handling-dismissals
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal(
-            'ยกเลิก!',
-            'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
-            'error'
-          );
-        }
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+          cancelButtonText: 'ไม่ ต้องการเพิ่ม'
+        }).then((result) => {
+          if (result.value) {
+
+            // this.patientService.createPatient(this.conditionForm.value);
+
+            this.validationInput();
+
+            this.router.navigate(['/test/detail']);
+            Swal(
+              'สร้างการทดสอบเรียบร้อยแล้ว!',
+              this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
+              'success'
+            );
+            // For more information about handling dismissals please visit
+            // https://sweetalert2.github.io/#handling-dismissals
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal(
+              'ยกเลิก!',
+              'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
+              'error'
+            );
+          }
+        });
       });
     } else {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
@@ -158,8 +191,11 @@ export class PhenotypeSalivaFormComponent implements OnInit {
   createTest() { // Input data
     const id = this.patients[0].id;
 
-    this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+
     this.conditionForm.value.dateTimeNow = this.getDateTime().toString();
+    this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+
+    // this.aboResult = this.patientService.detailTest(id, 'resultAbo');
 
     const newRef = this.patientService.createSalivaTest(this.conditionForm.value, id);
 
@@ -167,6 +203,25 @@ export class PhenotypeSalivaFormComponent implements OnInit {
     this.resultForm.value.resultSaliva = this.conditionForm.value.groupSaliva;
     this.patientService.updateResult(this.resultForm.value, id, 'resultSaliva');
 
+
+    // **************************************************************-*/---------------------
+    let blood;
+    // tslint:disable-next-line:max-line-length
+    if (this.conditionForm.value.groupSaliva === 'Secretor gr.A' && this.conditionForm.value.groupAbo === 'Group A with unexpected alloantibody') {
+      blood = 'A para-Bombay';
+      // tslint:disable-next-line:max-line-length
+    } else if (this.conditionForm.value.groupSaliva === 'Secretor gr.B' && this.conditionForm.value.groupAbo === 'Group B with unexpected alloantibody') {
+      blood = 'B para-Bombay';
+      // tslint:disable-next-line:max-line-length
+    } else if (this.conditionForm.value.groupSaliva === 'Secretor gr.AB' && this.conditionForm.value.groupAbo === 'Group AB with unexpected alloantibody') {
+      blood = 'AB para-Bombay';
+      // tslint:disable-next-line:max-line-length
+    } else if (this.conditionForm.value.groupSaliva === 'Secretor gr.O' && this.conditionForm.value.groupAbo === 'Group O with unexpected alloantibody') {
+      blood = 'O para-Bombay';
+    } else {
+      blood = 'ผิดพลาด';
+    }
+    this.patientService.updateBloodResult(blood, id);
     return newRef.key;
   }
 

@@ -73,6 +73,9 @@ export class PatientService {
   updateResult(result: Patient, id: string, resultName: string) {
     firebase.database().ref('patients/' + id + '/' + resultName).set(result);
   }
+  updateBloodResult(blood: string, id: string) {
+    firebase.database().ref('patients/' + id + '/result/result').set(blood);
+  }
   query() {
     // console.log('22222');
     return this.db.list('/patients').snapshotChanges().map(changes => {
@@ -325,6 +328,26 @@ export class PatientService {
   getImage(key: string) {
     return firebase.database().ref('upload/' + key).once('value')
       .then((snap) => snap.val());
+  }
+  namePatient(value: string, childName: string) {
+    return this.db.list('/patients', ref => ref.orderByChild(childName).equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }
+    );
+  }
+  blood(value: string) {
+    return this.db.list('/patients/result', ref => ref.orderByChild('result').equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }
+    );
+  }
+  aboTest(id: string, testName: string) {
+    console.log(id);
+
+    return this.db.list('/patients', ref => ref.orderByChild('').equalTo(id)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }
+    );
   }
 
 }

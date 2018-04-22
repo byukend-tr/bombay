@@ -45,7 +45,11 @@ export class CreatePatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.buildForm();
+
+    this.msg.currentMessage.subscribe(message => {
+      this.message = message;
+      this.buildForm();
+    });
     // $.Thailand({
     //   $district: $('#district'), // input ของตำบล
     //   $amphoe: $('#amphoe'), // input ของอำเภอ
@@ -56,7 +60,7 @@ export class CreatePatientComponent implements OnInit {
 
   buildForm() {
     this.conditionForm = new FormGroup({
-      id: new FormControl(),
+      id: new FormControl(this.message),
       minit: new FormControl(),
       fName: new FormControl(),
       lName: new FormControl(),

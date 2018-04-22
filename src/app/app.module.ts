@@ -69,6 +69,9 @@ import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
 
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,

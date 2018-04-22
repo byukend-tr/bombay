@@ -1,3 +1,152 @@
-<p>
-  user-detail works!
-</p>
+<div class="py-1">
+  <div class="container-fluid">
+    <h3 style="color:#365082">ข้อมูลผู้ใช้งาน</h3>
+
+    <form class="form">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col-3">
+              คำนำหน้าชื่อ
+              <br>
+              <select id="minit" class="form-control form-control-sm" disabled>
+                <option value="volvo">นาย</option>
+                <option value="saab">นาง</option>
+                <option value="mercedes" selected>นางสาว</option>
+              </select>
+            </div>
+            <div class="col">
+              ชื่อ
+              <input type="text" id="fName" class="form-control form-control-sm" placeholder="ชื่อจริง" value="พัชราภา" disabled>
+            </div>
+            <div class="col">
+              นามสกุล
+              <input type="text" id="lName" class="form-control form-control-sm" placeholder="นามสกุล" value="ไชยเชื้อ" disabled>
+            </div>
+          </div>
+          <!-- อีเมล์
+              <input type="text" id="email" class="form-control form-control-sm" placeholder="อีเมล์" value="chaichua.pachrapa@cmu.ac.th"disabled> -->
+          ตำแหน่ง
+          <div class="row">
+            <div class="col">
+              <select id="selectPosition" class="form-control form-control-sm" onchange="addNewPosition()" disabled>
+                <option value="volvo">อาจารย์</option>
+                <option value="saab" selected>หัวหน้า</option>
+                <option value="New">เพิ่มชื่อตำแหน่ง</option>
+              </select>
+            </div>
+            <div class="col">
+              <input id="inputPosition" type="text" class="form-control form-control-sm" placeholder="ชื่อตำแหน่ง" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          สังกัดโรงพยาบาล
+          <div class="row">
+            <div class="col">
+              <select id="selectHospital" class="form-control form-control-sm" onchange="addNewHospital()" disabled>
+                <option value="volvo" selected>มหาราช</option>
+                <option value="saab">ลานนา</option>
+                <option value="mercedes">ช้างเผือก</option>
+                <option value="New">เพิ่มชื่อโรงพยาบาล</option>
+              </select>
+            </div>
+            <div class="col">
+              <input id="inputHospital" type="text" class="form-control form-control-sm" placeholder="ชื่อโรงพยาบาล" disabled>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col">
+              อีเมล์
+              <input type="text" id="email" class="form-control form-control-sm" placeholder="อีเมล์" value="pachrapa_c@cmu.ac.th" disabled>
+              <!-- ชื่อผู้ใช้งาน
+                  <input type="text" id="username" class="form-control form-control-sm" placeholder="Username" value="ไชยเชื้อ" disabled>  -->
+            </div>
+            <!-- <div class="col-3">
+                  รหัสผ่าน   
+                  <input type="text" id="password" class="form-control form-control-sm" placeholder="Password" value="1234" disabled> 
+                </div> -->
+            <!-- <div class="col"><br>
+                  <button type="button" id="resetBtn" href="#" class="btn btn-outline-danger btn-sm" onclick="resetPassword();" disabled>Reset Password</button>
+                </div> -->
+          </div>
+          สิทธิการใช้งานระบบ
+          <select id="privilege" class="form-control form-control-sm" disabled>
+            <option value="volvo">พยาบาล</option>
+            <option value="saab" selected>เจ้าหน้าที่เทคนิคการแพทย์</option>
+            <option value="mercedes">ผู้ดูแลระบบ</option>
+          </select>
+
+        </div>
+      </div>
+    </form>
+    <br>
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm" align="right">
+        <a href="user.php" class="btn btn-sm btn-outline-secondary">ย้อนกลับ</a>
+      </div>
+      <div class="col-sm">
+        <button type="button" href="#" id="editBtn" class="btn btn-sm btn-success" onclick="canEdit();">แก้ไข</button>
+        <button type="button" href="#" id="saveBtn" class="btn btn-sm btn-outline-success" onclick="cannotEdit();" style="display:none">บันทึก</button>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+    <br>
+  </div>
+</div>
+
+<script>
+  function addNewHospital() {
+    if (document.getElementById("selectHospital").value == "New") {
+      document.getElementById("inputHospital").disabled = false;
+    }
+    else {
+      document.getElementById("inputHospital").disabled = true;
+      document.getElementById("inputHospital").value = "";
+    }
+  }
+  function addNewPosition() {
+    if (document.getElementById("selectPosition").value == "New") {
+      document.getElementById("inputPosition").disabled = false;
+    }
+    else {
+      document.getElementById("inputPosition").disabled = true;
+      document.getElementById("inputPosition").value = "";
+    }
+  }
+  function canEdit() {
+
+    document.getElementById("saveBtn").style.display = "block";
+    document.getElementById("editBtn").style.display = "none";
+    element(false);
+
+  }
+  function cannotEdit() {
+
+    document.getElementById("saveBtn").style.display = "none";
+    document.getElementById("editBtn").style.display = "block";
+    element(true);
+  }
+  function element(y) {
+    var x = y;
+    addNewPosition();
+    document.getElementById("minit").disabled = x;
+    document.getElementById("fName").disabled = x;
+    document.getElementById("lName").disabled = x;
+    document.getElementById("selectPosition").disabled = x;
+    document.getElementById("inputPosition").disabled = x;
+    document.getElementById("selectHospital").disabled = x;
+    document.getElementById("inputHospital").disabled = x;
+    document.getElementById("privilege").disabled = x;
+    document.getElementById("username").disabled = x;
+    document.getElementById("password").disabled = x;
+    document.getElementById("resetBtn").disabled = x;
+    document.getElementById("email").disabled = x;
+  }
+  function resetPassword() {
+    document.getElementById("password").value = "5678";
+  }
+</script>
