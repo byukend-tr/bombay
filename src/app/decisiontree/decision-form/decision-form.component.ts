@@ -28,6 +28,7 @@ export class DecisionFormComponent implements OnInit {
 
   buildForm() {
     this.conditionForm = new FormGroup({
+      AntiA: new FormControl(),
       AntiB: new FormControl(),
       AntiAB: new FormControl(),
       Acell: new FormControl(),

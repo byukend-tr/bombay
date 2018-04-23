@@ -1,4 +1,6 @@
 <div class="container-fluid">
+  <!-- <div *ngIf="relative == isloading; else notRelatives"> -->
+  <!-- <div *ngIf="relative; else notRelatives">     -->
   <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
     <div class="py-3 border border-primary">
       <div class="container-fluid">

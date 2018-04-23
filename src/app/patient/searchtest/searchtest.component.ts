@@ -24,6 +24,12 @@ export class SearchtestComponent implements OnInit {
 
   test: string;
 
+  conditionList: any = [];
+  continueList: any = [];
+  aboList: any = [];
+  antibodyList: any = [];
+  salivaList: any = [];
+
   @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
   constructor(private patientService: PatientService,
@@ -59,7 +65,24 @@ export class SearchtestComponent implements OnInit {
 
 
   }
+  condition() {
+    if (this.conditionForm.value.id) {
 
+    } else if (this.conditionForm.value.fName) {
+
+    } else if (this.conditionForm.value.lName) {
+
+    } else if (this.continueList.length !== 0) {
+
+    } else if (this.aboList.length !== 0) {
+
+    } else if (this.antibodyList.length !== 0) {
+
+    } else if (this.salivaList.length !== 0) {
+
+    }
+
+  }
   search() {
     if (this.conditionForm.value.id) {
       // console.log('idididi');
@@ -133,17 +156,13 @@ export class SearchtestComponent implements OnInit {
       antibody[0].disabled = false;
       saliva[0].disabled = false;
     } else {
+
       abo[0].disabled = true;
       antibody[0].disabled = true;
       saliva[0].disabled = true;
       abo[0].checked = false;
       antibody[0].checked = false;
       saliva[0].checked = false;
-      // for (let i = 0; i < this.conditionBloodList.length; i++) {
-      //   if (this.conditionBloodList[i] === value) {
-      //     this.conditionBloodList.splice(i, 1);
-      //   }
-      // }
     }
   }
 

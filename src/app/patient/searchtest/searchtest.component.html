@@ -2,8 +2,8 @@
   <div style="color:#365082">
     <h2>ผลการทดลอง</h2>
   </div>
-
   <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">
+  <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
@@ -75,22 +75,22 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology1" name="serology" type="checkbox" class="custom-control-input">
+                <input id="radio-serology1" name="Awith" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">A with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology2" name="serology" type="checkbox" class="custom-control-input">
+                <input id="radio-serology2" name="Bwith" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">B with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology3" name="serology" type="checkbox" class="custom-control-input">
+                <input id="radio-serology3" name="ABwith" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">AB with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology4" name="serology" type="checkbox" class="custom-control-input">
+                <input id="radio-serology4" name="Owith" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">O with unexpected alloantibody</span>
               </label>
@@ -102,17 +102,17 @@
                     <span class="custom-control-description">A</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood2" name="blood" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood2" name="B" type="checkbox" class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">B</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood3" name="blood" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood3" name="AB" type="checkbox" class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">AB</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood4" name="blood" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood4" name="O" type="checkbox" class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">O</span>
                   </label>
@@ -126,14 +126,19 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-screening1" name="screening" type="checkbox" class="custom-control-input">
+                <input id="radio-screening1" name="alloantibody" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">พบ Alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-screening2" name="screening" type="checkbox" class="custom-control-input">
+                <input id="radio-screening2" name="noalloantibody" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">ไม่พบ Alloantibody</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input id="radio-screening2" name="error" type="checkbox" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">ผิดพลาด</span>
               </label>
             </div>
           </div>
@@ -143,27 +148,27 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination1" name="hemagglutination" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination1" name="secretorA" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.A</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination2" name="hemagglutination" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination2" name="secretorB" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.B</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination3" name="hemagglutination" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination3" name="secretorAB" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.AB</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination4" name="hemagglutination" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination4" name="secretorO" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.O</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination5" name="hemagglutination" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination5" name="nonSecretor" type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Non-Secretor</span>
               </label>
@@ -174,11 +179,11 @@
       <div class="col">
         <div class="row">
           <div class="col">
-            <label class="custom-control custom-checkbox">
+            <!-- <label class="custom-control custom-checkbox">
               <input id="selectAll" name="radio" type="checkbox" class="custom-control-input" onchange="checkSelectAll();">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">เลือกทั้งหมด</span>
-            </label>
+            </label> -->
           </div>
         </div>
         <!-- ผลลัพธ์การทดลองจีโนไทป์ : เอบีโอ

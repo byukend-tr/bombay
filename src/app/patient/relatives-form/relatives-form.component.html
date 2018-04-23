@@ -71,7 +71,9 @@
   <div *ngFor="let patient of patients;">
     <h3>{{patient.id}} {{patient.fName}} {{patient.lName}}</h3>
   </div>
-  <div *ngIf="relative == isloading; else notRelatives">
+  <!-- <div *ngIf="relative; else notRelatives"> -->
+    <div>
+      
     <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
       <thead class="thead-table">
         <tr>

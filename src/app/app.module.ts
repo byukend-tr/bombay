@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -64,7 +63,6 @@ import { PatientService } from './patient/shared/patient.service';
 import { SharingdataService } from './patient/shared/sharingdata.service';
 
 // Material
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -72,7 +70,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 
-
+// Primeface
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ChartModule } from 'primeng/chart';
 
 
 @NgModule({
@@ -108,13 +109,13 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule,
-    BrowserAnimationsModule,
     MatIconModule,
     MatCardModule,
     MatInputModule,
@@ -124,7 +125,8 @@ import { MatRadioModule } from '@angular/material/radio';
     // firebase
     AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    ChartModule,
   ],
   providers: [
     AuthService,

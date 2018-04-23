@@ -17,18 +17,18 @@
     </div>
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col">
       <div id="donutchart" style="width: 800px; height: 400px;"></div>
     </div>
     <div class="col">
       <div id="piechart_3d" style="width: 800px; height: 400px;"></div>
-    </div>
-    <!-- <div id="piechart" style="width: 800px; height: 400px;"></div> -->
-  </div>
-</div>
+    </div> -->
+  <!-- <div id="piechart" style="width: 800px; height: 400px;"></div> -->
+  <!-- </div>
+</div> -->
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
   google.charts.load("current", { packages: ["corechart"] });
@@ -132,10 +132,16 @@
 
 <canvas id="polar-area" class="chart chart-polar-area"
   chart-data="data" chart-labels="labels" chart-options="options">
-</canvas> 
+</canvas>  -->
+
+  <!--  -->
+  <br>
+  <p-chart type="pie" [data]="data" width="200" height="200"></p-chart>
+
+  <!--  -->
 
 
-<canvas id="myChart" width="400" height="400"></canvas>
+  <!-- <canvas id="myChart" width="400" height="400"></canvas>
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
@@ -174,4 +180,4 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-</script>
+</script> -->

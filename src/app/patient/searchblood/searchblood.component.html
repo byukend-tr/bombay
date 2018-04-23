@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <h2 style="color:#365082">ค้นหา</h2>
   <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">
+  <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
@@ -19,7 +20,7 @@
       <div class="col">
         จังหวัด
         <select class="form-control form-control-sm" formControlName="province">
-          <option value="">{{province}}</option>
+          <!-- <option value="">{{province}}</option> -->
           <option value="เชียงใหม่">เชียงใหม่</option>
           <option value="เชียงราย">เชียงราย</option>
           <option value="ลำปาง">ลำปาง</option>

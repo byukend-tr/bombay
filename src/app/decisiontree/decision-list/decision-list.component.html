@@ -4,7 +4,7 @@
   </div>
   <button routerLink="create" class="btn btn-sm btn-outline-primary">สร้างเงื่อนไขใหม่</button>
   <button (click)="trainNewModel($event)" class="btn btn-sm btn-outline-primary">สร้างโมเดลใหม่</button>
-
+  <!-- <form (ngSubmit)="searchCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">   -->
   <form (ngSubmit)="searchCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">
     <div class="row">
       <div class="col-5">
