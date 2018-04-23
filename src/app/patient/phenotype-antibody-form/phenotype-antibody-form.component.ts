@@ -97,7 +97,67 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
       this.upload(keyTest);
     }
   }
+  foundAntibody() {
+    let antibody1 = 'ไม่สามารถระบุชนิด alloantibody ได้';
+    if (this.conditionForm.value.ccc1 === '0') {
+      antibody1 = 'ทำการทดลองใหม่';
+    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' || this.conditionForm.value.ahg1 === '0') {
+      antibody1 = 'ไม่พบ alloantibody';
+    } else {
+      if (this.conditionForm.value.rt1 !== '0') {
+        if (this.conditionForm.value.c1 !== '0') {
+          if (this.conditionForm.value.ahg1 !== '0') {
+            if (this.conditionForm.value.ccc1 === 'ND') {
+              antibody1 = 'IgM, TgG';
+            }
+          } else {
+            if (this.conditionForm.value.ccc1 !== '-1' && this.conditionForm.value.ccc1 !== '0') {  // +
+              antibody1 = 'IgM';
+            }
+          }
+        } else {
+          if (this.conditionForm.value.ahg1 !== '0') {
+            if (this.conditionForm.value.ccc1 === '-1') {
+              antibody1 = 'IgM, TgG';
+            }
+          } else {
+            antibody1 = 'IgM';
+          }
+        }
+      }
+    }
 
+
+    let antibody2 = 'ไม่สามารถระบุชนิด alloantibody ได้';
+    if (this.conditionForm.value.ccc2 === '0') {
+      antibody2 = 'ทำการทดลองใหม่';
+    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' || this.conditionForm.value.ahg2 === '0') {
+      antibody2 = 'ไม่พบ alloantibody';
+    } else {
+      if (this.conditionForm.value.rt2 !== '0') {
+        if (this.conditionForm.value.c2 !== '0') {
+          if (this.conditionForm.value.ahg2 !== '0') {
+            if (this.conditionForm.value.ccc2 === '-1') {
+              antibody2 = 'IgM, TgG';
+            }
+          } else {
+            if (this.conditionForm.value.ccc2 !== '-1' && this.conditionForm.value.ccc2 !== '0') {  // +
+              antibody2 = 'IgM';
+            }
+          }
+        } else {
+          if (this.conditionForm.value.ahg2 !== '0') {
+            if (this.conditionForm.value.ccc2 === '-1') {
+              antibody2 = 'IgM, TgG';
+            }
+          } else {
+            antibody2 = 'IgM';
+          }
+        }
+      }
+    }
+    return antibody1 + ', ' + antibody2;
+  }
   validationForm() {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.rt1 && this.conditionForm.value.c1 && this.conditionForm.value.ahg1 && this.conditionForm.value.ccc1) {
@@ -106,7 +166,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
           title: 'คุณแน่ใจใช่หรือไม่?',
           text: 'ต้องการเพิ่มการทดสอบ"การตรวจกรองแอนติบอดี" ของคนไข้ ' +
             this.patients[0].fName + ' ' +
-            this.patients[0].lName + ' ใช่หรือไม่',
+            this.patients[0].lName + ' ใช่หรือไม่ ' + 'ซึ่งผลการทดสอบคือ ' + this.foundAntibody(),
           // ' ได้แก่ <br/>' +
           // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
           // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
@@ -158,18 +218,77 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
   }
   getDateTime() {
     const today = new Date();
-    return today;
+    const time = today.getHours() + ':' + today.getMinutes();
+    const date = today.toLocaleDateString();
+    return date + ' ' + time;
   }
   createTest() { // Input data
     const id = this.patients[0].id;
-    // ******************************************************************* call contition antibody **********************************
-    // this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
-    this.conditionForm.value.dateTimeNow = this.getDateTime().toString();
+    let antibody1 = 'ไม่สามารถระบุชนิด alloantibody ได้';
+    if (this.conditionForm.value.ccc1 === '0') {
+      antibody1 = 'ทำการทดลองใหม่';
+    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' || this.conditionForm.value.ahg1 === '0') {
+      antibody1 = 'ไม่พบ alloantibody';
+    } else {
+      if (this.conditionForm.value.rt1 !== '0') {
+        if (this.conditionForm.value.c1 !== '0') {
+          if (this.conditionForm.value.ahg1 !== '0') {
+            if (this.conditionForm.value.ccc1 === 'ND') {
+              antibody1 = 'IgM, TgG';
+            }
+          } else {
+            if (this.conditionForm.value.ccc1 !== '-1' && this.conditionForm.value.ccc1 !== '0') {  // +
+              antibody1 = 'IgM';
+            }
+          }
+        } else {
+          if (this.conditionForm.value.ahg1 !== '0') {
+            if (this.conditionForm.value.ccc1 === '-1') {
+              antibody1 = 'IgM, TgG';
+            }
+          } else {
+            antibody1 = 'IgM';
+          }
+        }
+      }
+    }
 
+
+    let antibody2 = 'ไม่สามารถระบุชนิด alloantibody ได้';
+    if (this.conditionForm.value.ccc2 === '0') {
+      antibody2 = 'ทำการทดลองใหม่';
+    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' || this.conditionForm.value.ahg2 === '0') {
+      antibody2 = 'ไม่พบ alloantibody';
+    } else {
+      if (this.conditionForm.value.rt2 !== '0') {
+        if (this.conditionForm.value.c2 !== '0') {
+          if (this.conditionForm.value.ahg2 !== '0') {
+            if (this.conditionForm.value.ccc2 === '-1') {
+              antibody2 = 'IgM, TgG';
+            }
+          } else {
+            if (this.conditionForm.value.ccc2 !== '-1' && this.conditionForm.value.ccc2 !== '0') {  // +
+              antibody2 = 'IgM';
+            }
+          }
+        } else {
+          if (this.conditionForm.value.ahg2 !== '0') {
+            if (this.conditionForm.value.ccc2 === '-1') {
+              antibody2 = 'IgM, TgG';
+            }
+          } else {
+            antibody2 = 'IgM';
+          }
+        }
+      }
+    }
+    // this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
+    this.conditionForm.value.dateTimeNow = this.getDateTime();
+    this.conditionForm.value.antibody = antibody1 + ', ' + antibody2;
     const newRef = this.patientService.createAntibodyTest(this.conditionForm.value, id);
 
     this.resultForm.value.idAntibody = newRef.key;
-    this.resultForm.value.resultAntibody = 'IgG';
+    this.resultForm.value.resultAntibody = antibody1 + ', ' + antibody2;
     this.patientService.updateResult(this.resultForm.value, id, 'resultAntibody');
 
     return newRef.key;

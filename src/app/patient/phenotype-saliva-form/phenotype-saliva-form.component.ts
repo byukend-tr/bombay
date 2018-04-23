@@ -41,7 +41,6 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
   testList: any;
 
-  aboResult: Array<any> = [];
 
   constructor(private patientService: PatientService,
     private decisionService: DecisiontreeService,
@@ -54,7 +53,8 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       this.loadData();
       this.buildForm();
       this.loadPhoto();
-
+      this.conditionForm.value.dateTimeNow = this.getDateTime();
+      console.log(this.conditionForm.value.dateTimeNow);
     });
 
   }
@@ -120,55 +120,55 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         this.conditionForm.value.Bcell = data[0].abo[idAbo].Bcell;
         this.conditionForm.value.Ocell = data[0].abo[idAbo].Ocell;
         this.conditionForm.value.groupAbo = data[0].abo[idAbo].groupAbo;
-        console.log(this.conditionForm.value.secretor);
-        console.log(this.conditionForm.value.nonSecretor);
-        console.log(this.conditionForm.value.nss);
-        console.log(this.conditionForm.value.TestAntiA);
-        console.log(this.conditionForm.value.TestAntiB);
-        console.log(this.conditionForm.value.TestAntiH);
+        // console.log(this.conditionForm.value.secretor);
+        // console.log(this.conditionForm.value.nonSecretor);
+        // console.log(this.conditionForm.value.nss);
+        // console.log(this.conditionForm.value.TestAntiA);
+        // console.log(this.conditionForm.value.TestAntiB);
+        // console.log(this.conditionForm.value.TestAntiH);
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+      });
+      Swal({
+        title: 'คุณแน่ใจใช่หรือไม่?',
+        text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
+          this.patients[0].fName + ' ' +
+          this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupSaliva,
+        // ' ได้แก่ <br/>' +
+        // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
+        // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
+        // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
+        // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
+        // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
+        // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
+        // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
 
-        Swal({
-          title: 'คุณแน่ใจใช่หรือไม่?',
-          text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
-            this.patients[0].fName + ' ' +
-            this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupSaliva,
-          // ' ได้แก่ <br/>' +
-          // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
-          // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
-          // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
-          // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
-          // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
-          // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
-          // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+        cancelButtonText: 'ไม่ ต้องการเพิ่ม'
+      }).then((result) => {
+        if (result.value) {
 
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'ใช่ ต้องการเพิ่ม',
-          cancelButtonText: 'ไม่ ต้องการเพิ่ม'
-        }).then((result) => {
-          if (result.value) {
+          // this.patientService.createPatient(this.conditionForm.value);
 
-            // this.patientService.createPatient(this.conditionForm.value);
+          this.validationInput();
 
-            this.validationInput();
+          this.router.navigate(['/test/detail']);
+          Swal(
+            'สร้างการทดสอบเรียบร้อยแล้ว!',
+            this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
+            'success'
+          );
+          // For more information about handling dismissals please visit
+          // https://sweetalert2.github.io/#handling-dismissals
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal(
+            'ยกเลิก!',
+            'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
+            'error'
+          );
+        }
 
-            this.router.navigate(['/test/detail']);
-            Swal(
-              'สร้างการทดสอบเรียบร้อยแล้ว!',
-              this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
-              'success'
-            );
-            // For more information about handling dismissals please visit
-            // https://sweetalert2.github.io/#handling-dismissals
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal(
-              'ยกเลิก!',
-              'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
-              'error'
-            );
-          }
-        });
       });
     } else {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
@@ -185,16 +185,18 @@ export class PhenotypeSalivaFormComponent implements OnInit {
   }
   getDateTime() {
     const today = new Date();
-    return today;
+    const time = today.getHours() + ':' + today.getMinutes();
+    const date = today.toLocaleDateString();
+    return date + ' ' + time;
   }
 
   createTest() { // Input data
     const id = this.patients[0].id;
 
 
-    this.conditionForm.value.dateTimeNow = this.getDateTime().toString();
+    this.conditionForm.value.dateTimeNow = this.getDateTime();
     this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
-
+          
     // this.aboResult = this.patientService.detailTest(id, 'resultAbo');
 
     const newRef = this.patientService.createSalivaTest(this.conditionForm.value, id);

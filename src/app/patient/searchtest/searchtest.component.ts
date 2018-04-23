@@ -51,7 +51,7 @@ export class SearchtestComponent implements OnInit {
   }
 
   query() {
-    console.log('queryyy');
+    // console.log('queryyy');
     this.patientService.query().subscribe(data => {
       this.patients = data;
       if (data.length !== 0) { this.isFound = true; }
@@ -62,7 +62,7 @@ export class SearchtestComponent implements OnInit {
 
   search() {
     if (this.conditionForm.value.id) {
-      console.log('idididi');
+      // console.log('idididi');
       this.patientService.detailPatient(this.conditionForm.value.id).subscribe(data => {
         this.showPatient(data);
       });
@@ -83,15 +83,15 @@ export class SearchtestComponent implements OnInit {
   }
   showPatient(data: Array<any>) {
     this.isFind = data;
-    console.log(this.isFind);
+    // console.log(this.isFind);
     if (this.isFind.length === 0) {
       this.isFound = false;
-      console.log(this.isFound);
+      // console.log(this.isFound);
 
     } else {
       this.patients = data;
       this.isFound = true;
-      console.log(this.isFound);
+      // console.log(this.isFound);
     }
   }
   viewDetail(id: string) {
@@ -107,7 +107,7 @@ export class SearchtestComponent implements OnInit {
     this.router.navigate(['/test/phenotype']);
   }
   deletePatient(id: string) {
-    console.log('delete' + id);
+    // console.log('delete' + id);
 
     //  ********************************************************************
   }

@@ -27,3 +27,151 @@
     <!-- <div id="piechart" style="width: 800px; height: 400px;"></div> -->
   </div>
 </div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['หมู่เลือด', 'จำนวน (คน)'],
+      ['A para-Bombay', 11],
+      ['B para-Bombay', 2],
+      ['AB para-Bombay', 2],
+      ['O para-Bombay', 2],
+      ['O Bombay', 7],
+      ['A', 3],
+      ['B', 7],
+      ['AB', 7],
+      ['O', 7]
+    ]);
+
+    var options = {
+      title: 'คนไข้ที่ยืนยันหมู่เลือดแล้ว',
+      is3D: true,
+      width: '100%', height: '100%',
+      'chartArea': { 'width': '100%', 'height': '80%' },
+      fontName: 'Calibri',
+      fontSize: '20  '
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+    chart.draw(data, options);
+  }
+</script>
+<script type="text/javascript">
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['หมู่เลือด', 'จำนวน (คน)'],
+      ['ยืนยันหมู่เลือดแล้ว', 11],
+      ['ยังไม่ได้ยืนยันหมู่เลือด', 2]
+
+    ]);
+
+    var options = {
+      title: 'คนไข้ทั้งหมด',
+      pieHole: 0.4,
+      left: 10, top: 0,
+      width: '100%', height: '100%',
+      'chartArea': { 'width': '100%', 'height': '80%' },
+      fontName: 'Calibri',
+      fontSize: '20  '
+    };
+
+
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart.draw(data, options);
+  }
+</script>
+<script type="text/javascript">
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['หมู่เลือด', 'จำนวน (คน)'],
+      ['A para-Bombay', 13],
+      ['B para-Bombay', 2.3],
+      ['AB para-Bombay', 38],
+      ['O para-Bombay', 20],
+      ['O Bombay', 72],
+      ['ABO', 29]
+    ]);
+
+    var options = {
+      title: 'คนไข้ที่ยืนยันหมู่เลือดแล้ว',
+      legend: 'none',
+      pieSliceText: 'label',
+      slices: {
+        4: { offset: 0.2 },
+        12: { offset: 0.3 },
+        14: { offset: 0.4 },
+        15: { offset: 0.5 },
+      },
+      width: '100%', height: '100%',
+      'chartArea': { 'width': '100%', 'height': '80%' },
+      fontName: 'Calibri',
+      fontSize: '20  '
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+  crossorigin="anonymous"></script>
+
+
+                
+
+<canvas id="polar-area" class="chart chart-polar-area"
+  chart-data="data" chart-labels="labels" chart-options="options">
+</canvas> 
+
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>

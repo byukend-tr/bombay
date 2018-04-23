@@ -52,7 +52,7 @@ export class PatientService {
   createPatient(patient: Patient, id: string) {
 
     const isFound = this.isFoundPatient(id);
-    console.log('isFound' + isFound);
+    // console.log('isFound' + isFound);
 
     if (isFound === null) {
       return false;
@@ -83,8 +83,8 @@ export class PatientService {
     });
     // Swal('Good job!', 'You clicked the button!', 'success');
   }
-  queryRelatives(value: string) {
-    return this.db.list('/patients', ref => ref.orderByChild('fName').equalTo(value)).snapshotChanges().map(changes => {
+  queryRelatives(value: string, childName: string) {
+    return this.db.list('/patients', ref => ref.orderByChild(childName).equalTo(value)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }
@@ -160,38 +160,10 @@ export class PatientService {
     // firebase.database().ref('relatives/').set(relative);
   }
   deleteRelative(idPatient: string, id: string) {
-    // if (confirm('คุณต้องการลบ' + ' หรือไม่!')) {
-    //   this.db.object('/decisions/id').remove().then(() => {
-    //     this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
-    //     alert('ลบ ' + 'เรียบร้อย!');
-    //   });
-    // }
 
-    Swal({
-      title: 'คุณแน่ใจใช่หรือไม่?',
-      text: 'คุณต้องการที่จะลบความสัมพันธ์ใช่หรือไม่',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'ใช่ ต้องการลบ',
-      cancelButtonText: 'ไม่ ต้องการลบ'
-    }).then((result) => {
-      if (result.value) {
-        this.db.object('/decisions/id').remove().then(() => {
-          this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
-          Swal('สำเร็จ!', 'ลบความสัมพันธ์เรียบร้อยแล้ว',
-            'success'
-          );
-        });
-
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal(
-          'ยกเลิก!',
-          'ยังไม่ได้ลบความสัมพันธ์ของคนไข้',
-          'error'
-        );
-      }
+    this.db.object('/decisions/id').remove().then(() => {
+      this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
     });
-
   }
 
   pushFileToStorage_abo(fileUpload: FileUpload, progress: { percentage: number }, id: string, key: string, i: number) {
@@ -277,7 +249,7 @@ export class PatientService {
         // success
         fileUpload.url = uploadTask.snapshot.downloadURL;
         fileUpload.name = '1' + fileUpload.file.name;
-        this.saveFileData_antibody(fileUpload, id, key);
+        this.saveFileData_saliva(fileUpload, id, key);
         console.log(fileUpload.name);
       }
     );

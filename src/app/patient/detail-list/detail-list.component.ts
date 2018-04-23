@@ -23,9 +23,11 @@ export class DetailListComponent implements OnInit {
 
   antibodyLists: Array<any>;
   antibodyLists_photo: any;
+  hasAntibody = true;
 
   salivaLists: Array<any>;
   salivaLists_photo: any;
+  hasSaliva = true;
 
 
   constructor(private patientService: PatientService,
@@ -65,7 +67,7 @@ export class DetailListComponent implements OnInit {
         }
       }
     });
-    console.log('dataaa', Lists);
+    // console.log('dataaa', Lists);
   }
   loadData() {
     this.patientService.detailPatient(this.message).subscribe(data => {
@@ -93,6 +95,9 @@ export class DetailListComponent implements OnInit {
       this.patientService.photo(this.message, 'antibody', data, (cb, i) => {
         this.antibodyLists_photo.push(cb);
       });
+      if (data.length === 0) {
+        this.hasAntibody = false;
+      }
       this.showData(this.antibodyLists);
     });
   }
@@ -105,6 +110,9 @@ export class DetailListComponent implements OnInit {
       this.patientService.photo(this.message, 'saliva', data, (cb, i) => {
         this.salivaLists_photo.push(cb);
       });
+      if (data.length === 0) {
+        this.hasSaliva = false;
+      }
       this.showData(this.salivaLists);
     });
   }

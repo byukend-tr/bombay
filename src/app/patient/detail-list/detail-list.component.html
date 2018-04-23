@@ -75,12 +75,11 @@
         </div>
       </div>
     </div>
-
     <br>
 
 
-    <div class="py-3 border border-primary" *ngFor="let antibody of antibodyLists;">
-      <div class="container-fluid" *ngIf="antibody.length !== 0">
+    <div class="py-3 border border-primary"  *ngIf="hasAntibody">
+      <div class="container-fluid" >
         <div class="row">
           <div class="col-md-12">
             <h2 style="color:#365082">ฟีโนไทป์: การตรวจกรองแอนติบอดี</h2>
@@ -161,8 +160,8 @@
 
     <br>
 
-    <div class="py-3 border border-primary" *ngFor="let saliva of salivaLists;">
-      <div class="container-fluid" *ngIf="saliva.length !== 0">
+    <div class="py-3 border border-primary" *ngIf="hasSaliva">
+      <div class="container-fluid" >
         <div class="row">
           <div class="col-md-12">
             <h2 style="color:#365082">ฟีโนไทป์: การตรวจน้ำลาย</h2>
