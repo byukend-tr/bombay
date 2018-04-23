@@ -119,12 +119,33 @@ export class SearchtestComponent implements OnInit {
     this.msg.changeMessage(this.message);
     this.msg.testName(this.test);
   }
-  showAntibody() {
-    this.message = '1509954621331';
-    this.patientService.antibody(this.message);
 
-    // if (data.length !== 0) { this.isFound = true; }
 
+  checkStep(e, value) {
+    const abo = <HTMLInputElement[]><any>document.getElementsByName('abo');
+    const antibody = <HTMLInputElement[]><any>document.getElementsByName('antibody');
+    const saliva = <HTMLInputElement[]><any>document.getElementsByName('saliva');
+    if (e.target.checked === true) {
+      // this.conditionBloodList.push(value);
+
+
+      abo[0].disabled = false;
+      antibody[0].disabled = false;
+      saliva[0].disabled = false;
+    } else {
+      abo[0].disabled = true;
+      antibody[0].disabled = true;
+      saliva[0].disabled = true;
+      abo[0].checked = false;
+      antibody[0].checked = false;
+      saliva[0].checked = false;
+      // for (let i = 0; i < this.conditionBloodList.length; i++) {
+      //   if (this.conditionBloodList[i] === value) {
+      //     this.conditionBloodList.splice(i, 1);
+      //   }
+      // }
+    }
   }
+
 
 }

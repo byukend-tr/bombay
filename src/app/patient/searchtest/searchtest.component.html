@@ -22,7 +22,7 @@
         อยู่ในระหว่างการทำผลการทดลองต่อ
         <div class="checkbox form-control form-control-sm">
           <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="checkStep" onchange="checkboxChange()">
+            <input type="checkbox" class="custom-control-input" name="checkStep" (change)="checkStep($event,$event.target.value)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">เลือกการทดลองที่จะทำ</span>
           </label>
@@ -31,17 +31,17 @@
               <div class="row">
                 <div class="col">
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state1" name="radio" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state1" name="abo" type="checkbox" class="custom-control-input" disabled>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจหมู่เลือดเอบีโอ</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state2" name="radio" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state2" name="antibody" type="checkbox" class="custom-control-input" disabled>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจกรองแอนติบอดี</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state3" name="radio" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state3" name="saliva" type="checkbox" class="custom-control-input" disabled>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจน้ำลาย</span>
                   </label>
