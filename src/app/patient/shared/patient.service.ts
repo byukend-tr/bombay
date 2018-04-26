@@ -307,8 +307,8 @@ export class PatientService {
     }
     );
   }
-  blood(value: string) {
-    return this.db.list('/patients/result', ref => ref.orderByChild('result').equalTo(value)).snapshotChanges().map(changes => {
+  blood() {
+    return this.db.list('/patients').snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
     );
@@ -316,7 +316,7 @@ export class PatientService {
   aboTest(id: string, testName: string) {
     console.log(id);
 
-    return this.db.list('/patients', ref => ref.orderByChild('').equalTo(id)).snapshotChanges().map(changes => {
+    return this.db.list('/patients', ref => ref.orderByChild(testName).equalTo(id)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
     );

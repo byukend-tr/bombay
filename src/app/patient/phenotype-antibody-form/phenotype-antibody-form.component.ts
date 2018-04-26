@@ -108,7 +108,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         if (this.conditionForm.value.c1 !== '0') {
           if (this.conditionForm.value.ahg1 !== '0') {
             if (this.conditionForm.value.ccc1 === 'ND') {
-              antibody1 = 'IgM, TgG';
+              antibody1 = 'IgM, IgG';
             }
           } else {
             if (this.conditionForm.value.ccc1 !== '-1' && this.conditionForm.value.ccc1 !== '0') {  // +
@@ -118,7 +118,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         } else {
           if (this.conditionForm.value.ahg1 !== '0') {
             if (this.conditionForm.value.ccc1 === '-1') {
-              antibody1 = 'IgM, TgG';
+              antibody1 = 'IgM, IgG';
             }
           } else {
             antibody1 = 'IgM';
@@ -138,7 +138,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         if (this.conditionForm.value.c2 !== '0') {
           if (this.conditionForm.value.ahg2 !== '0') {
             if (this.conditionForm.value.ccc2 === '-1') {
-              antibody2 = 'IgM, TgG';
+              antibody2 = 'IgM, IgG';
             }
           } else {
             if (this.conditionForm.value.ccc2 !== '-1' && this.conditionForm.value.ccc2 !== '0') {  // +
@@ -148,7 +148,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         } else {
           if (this.conditionForm.value.ahg2 !== '0') {
             if (this.conditionForm.value.ccc2 === '-1') {
-              antibody2 = 'IgM, TgG';
+              antibody2 = 'IgM, IgG';
             }
           } else {
             antibody2 = 'IgM';

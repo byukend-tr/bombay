@@ -2,7 +2,7 @@
   <div style="color:#365082">
     <h2>ผลการทดลอง</h2>
   </div>
-  <form (ngSubmit)="search(condition)" [formGroup]="conditionForm" #condition="ngForm">
+  <form (ngSubmit)="checkCondition(condition)" [formGroup]="conditionForm" #condition="ngForm">
   <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
     <div class="row">
       <div class="col">
@@ -21,27 +21,27 @@
 
         อยู่ในระหว่างการทำผลการทดลองต่อ
         <div class="checkbox form-control form-control-sm">
-          <label class="custom-control custom-checkbox">
+          <!-- <label class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" name="checkStep" (change)="checkStep($event,$event.target.value)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">เลือกการทดลองที่จะทำ</span>
-          </label>
+          </label> -->
           <div class="row">
             <div class="col">
               <div class="row">
                 <div class="col">
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state1" name="abo" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state1" name="abo" type="checkbox" class="custom-control-input" value="resultAbo" (change)="selectContinue($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจหมู่เลือดเอบีโอ</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state2" name="antibody" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state2" name="antibody" type="checkbox" class="custom-control-input" value="resultAntibody" (change)="selectContinue($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจกรองแอนติบอดี</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-state3" name="saliva" type="checkbox" class="custom-control-input" disabled>
+                    <input id="radio-state3" name="saliva" type="checkbox" class="custom-control-input" value="resultSaliva" (change)="selectContinue($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">การตรวจน้ำลาย</span>
                   </label>
@@ -75,44 +75,44 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology1" name="Awith" type="checkbox" class="custom-control-input">
+                <input id="radio-serology1" name="Awith" type="checkbox" class="custom-control-input" value="Group A with unexpected alloantibody" (change)="selectAbo($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">A with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology2" name="Bwith" type="checkbox" class="custom-control-input">
+                <input id="radio-serology2" name="Bwith" type="checkbox" class="custom-control-input" value="Group B with unexpected alloantibody" (change)="selectAbo($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">B with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology3" name="ABwith" type="checkbox" class="custom-control-input">
+                <input id="radio-serology3" name="ABwith" type="checkbox" class="custom-control-input" value="Group AB with unexpected alloantibody" (change)="selectAbo($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">AB with unexpected alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-serology4" name="Owith" type="checkbox" class="custom-control-input">
+                <input id="radio-serology4" name="Owith" type="checkbox" class="custom-control-input" value="Group O with unexpected alloantibody" (change)="selectAbo($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">O with unexpected alloantibody</span>
               </label>
               <div class="row">
                 <div class="col">
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood1" name="A" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood1" name="A" type="checkbox" class="custom-control-input" value="Group A" (change)="selectAbo($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">A</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood2" name="B" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood2" name="B" type="checkbox" class="custom-control-input" value="Group B" (change)="selectAbo($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">B</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood3" name="AB" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood3" name="AB" type="checkbox" class="custom-control-input" value="Group AB" (change)="selectAbo($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">AB</span>
                   </label>
                   <label class="custom-control custom-checkbox">
-                    <input id="radio-blood4" name="O" type="checkbox" class="custom-control-input">
+                    <input id="radio-blood4" name="O" type="checkbox" class="custom-control-input" value="Group O" (change)="selectAbo($event,$event.target.value)">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">O</span>
                   </label>
@@ -126,17 +126,17 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-screening1" name="alloantibody" type="checkbox" class="custom-control-input">
+                <input id="radio-screening1" name="alloantibody" type="checkbox" class="custom-control-input" value="พบ" (change)="selectAntibody($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">พบ Alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-screening2" name="noalloantibody" type="checkbox" class="custom-control-input">
+                <input id="radio-screening2" name="noalloantibody" type="checkbox" class="custom-control-input" value="ไม่พบ alloantibody" (change)="selectAntibody($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">ไม่พบ Alloantibody</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-screening2" name="error" type="checkbox" class="custom-control-input">
+                <input id="radio-screening2" name="error" type="checkbox" class="custom-control-input" value="ทำการทดลองใหม่" (change)="selectAntibody($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">ผิดพลาด</span>
               </label>
@@ -148,27 +148,27 @@
           <div class="row">
             <div class="col">
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination1" name="secretorA" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination1" name="secretorA" type="checkbox" class="custom-control-input" value="Secretor gr.A" (change)="selectSaliva($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.A</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination2" name="secretorB" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination2" name="secretorB" type="checkbox" class="custom-control-input" value="Secretor gr.B" (change)="selectSaliva($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.B</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination3" name="secretorAB" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination3" name="secretorAB" type="checkbox" class="custom-control-input" value="Secretor gr.AB" (change)="selectSaliva($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.AB</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination4" name="secretorO" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination4" name="secretorO" type="checkbox" class="custom-control-input" value="Secretor gr.O" (change)="selectSaliva($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Secretor,gr.O</span>
               </label>
               <label class="custom-control custom-checkbox">
-                <input id="radio-hemagglutination5" name="nonSecretor" type="checkbox" class="custom-control-input">
+                <input id="radio-hemagglutination5" name="nonSecretor" type="checkbox" class="custom-control-input" value="Non-Secretor" (change)="selectSaliva($event,$event.target.value)">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Non-Secretor</span>
               </label>

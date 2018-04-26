@@ -41,17 +41,17 @@ export class DecisionListComponent implements OnInit {
   trainNewModel(event) {
     Swal({
       title: 'คุณแน่ใจใช่หรือไม่?',
-      text: 'ต้องการสร้างต้นไม้การตัดสินใจใหม่',
+      text: 'ต้องการทำการเรียนรู้',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'ใช่ ต้องการสร้าง',
-      cancelButtonText: 'ไม่ ต้องการสร้าง'
+      confirmButtonText: 'ใช่ ต้องการเรียนรู้',
+      cancelButtonText: 'ไม่ ต้องการเรียนรู้'
     }).then((result) => {
       if (result.value) {
         this.decisiontreeService.trainModel();
 
         Swal(
-          'สร้างต้นไม้การตัดสินใจใหม่เรียบร้อยแล้ว!', '',
+          'ทำการเรียนรู้เรียบร้อยแล้ว!', '',
           'success'
         );
         // For more information about handling dismissals please visit
@@ -59,7 +59,7 @@ export class DecisionListComponent implements OnInit {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal(
           'ยกเลิก!',
-          'ยังไม่ได้สร้างต้นไม้การตัดสินใจใหม่',
+          'ยังไม่ได้ทำการเรียนรู้',
           'error'
         );
       }

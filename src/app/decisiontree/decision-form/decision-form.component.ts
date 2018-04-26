@@ -6,6 +6,9 @@ import { DecisiontreeService } from '../shared/decisiontree.service';
 import { Decisiontree } from './../shared/decisiontree';
 import { log } from '@firebase/database/dist/esm/src/core/util/util';
 
+
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-decision-form',
   templateUrl: './decision-form.component.html',
@@ -15,6 +18,7 @@ export class DecisionFormComponent implements OnInit {
 
   addCondition = false;
   conditionForm: FormGroup;
+  selectSaliva: any;
 
   constructor(private auth: AuthService, private decisiontreeService: DecisiontreeService) {
 
@@ -55,6 +59,7 @@ export class DecisionFormComponent implements OnInit {
   }
   groupAboChange(e) {
     const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+    this.selectSaliva = e.target.checked;
     console.log(e.target.checked);
     if (e.target.checked === false) {
       document.getElementById('saliva').style.display = 'none';
@@ -87,11 +92,13 @@ export class DecisionFormComponent implements OnInit {
     const valueGroupAbo = this.conditionForm.value.groupAbo;
     const valueGroupSaliva = this.conditionForm.value.groupSaliva;
     let canCreate;
+    console.log(this.selectSaliva);
+    console.log(valueGroupAbo, this.conditionForm.value.groupSaliva);
 
     if (!this.groupType()) {
       this.setDatagroupAbo();
       canCreate = true;
-    } else if (this.groupType()) {
+    } else if (this.groupType() && this.selectSaliva === true) {
       this.setDatagroupSaliva();
       canCreate = true;
     } else if (valueGroupAbo === 'Group A with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.A') {
@@ -112,6 +119,8 @@ export class DecisionFormComponent implements OnInit {
     } else {
       canCreate = false;
     }
+    console.log(canCreate);
+
     if (canCreate === true) {
       this.createCondition();
 
@@ -137,14 +146,38 @@ export class DecisionFormComponent implements OnInit {
         validationSuccess = false;
       }
     }
-    console.log(validationSuccess);
-    if (validationSuccess) {
-      this.validationInput();
-    } else {
-      console.log('input error form');
-    }
 
 
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'ต้องการเพิ่มข้อมูลการเรียนรู้',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+      cancelButtonText: 'ไม่ ต้องการเพิ่ม'
+    }).then((result) => {
+      if (result.value) {
+        if (validationSuccess) {
+          this.validationInput();
+          Swal(
+            'เพิ่มข้อมูลลการเรียนรู้เรียบร้อยแล้ว!', '',
+            'success'
+          );
+        } else {
+          Swal(
+            'ผิดพลาด!', 'กรุณากรอกเงื่อนไขให้ครบถ้วน',
+            'error'
+          );
+        }
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้เพิ่มเงื่อนไขการเรียนรู้',
+          'error'
+        );
+      }
+    });
 
   }
 

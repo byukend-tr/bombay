@@ -43,7 +43,6 @@ export class SearchbloodComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     const isFound = false;
-    // this.query();
     this.conditionList = [];
     this.clearValueInCheckedbox();
 
@@ -70,8 +69,7 @@ export class SearchbloodComponent implements OnInit {
 
 
   }
-
-  search() {
+  checkCondition() {
     if (this.conditionForm.value.id) {
       this.conditionList.push('id');
     } if (this.conditionForm.value.fName) {
@@ -86,23 +84,21 @@ export class SearchbloodComponent implements OnInit {
       this.conditionList.push('subDistrict');
     } if (this.conditionBloodList.length !== 0) {
       this.conditionList.push('blood');
-    } if (this.conditionList.length === 0) {
-      Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลการค้นหา', 'error');
     }
 
-    // console.log('conditionList ' + this.conditionList);
-
-    // for (let i = 0; i < this.conditionList.length; i++) {
-    //   if(this.conditionList[i] === 'fName'){
-    //     filterFirstName();
-    //   }
-    // }
+    if (this.conditionList.length === 0) {
+      Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลการค้นหา', 'error');
+      this.conditionList = [];
+    } else {
+      this.search();
+    }
+  }
+  search() {
     let filedName = null;
     let filed = null;
-    // console.log(this.conditionList.length);
 
     if (this.conditionList.length > 0) {
-      if (this.conditionList[0] === 'id') {
+      if (this.conditionList[0] === 'id') { // first query
         filed = this.conditionForm.value.id;
         filedName = 'id';
       } else if (this.conditionList[0] === 'fName') {
@@ -120,29 +116,19 @@ export class SearchbloodComponent implements OnInit {
       } else if (this.conditionList[0] === 'subDistrict') {
         filed = this.conditionForm.value.subDistrict;
         filedName = 'subDistrict';
-      } else if (this.conditionList[0] === 'blood') {
-        this.patientService.blood(this.conditionBloodList[0]).subscribe(data => {
+      } else if (this.conditionList[0] === 'blood') {     // condition have blood only
+        this.patientService.blood().subscribe(data => {
+          data = this.filterBlood(data);
           this.showPatient(data);
-
-          this.buildForm(); // Clear value in search
-          this.conditionList = [];
-          this.clearValueInCheckedbox();
-          this.conditionList.splice(0, 1);
         });
-      }
+      } // end first query
 
       if (this.conditionList[0] !== 'blood') {
-        // filedName = 'blood';
-        // console.log('conditionList!!!!!!!!! ' + this.conditionList);
         this.patientService.namePatient(filed, filedName).subscribe(data => {
-          // console.log(data);
 
-
-          // console.log('conditionBefore ' + this.conditionList);
           // filter
           this.conditionList.splice(0, 1);
           for (let i = 0; i < this.conditionList.length; i++) {
-            console.log('conditionForrrrr ' + this.conditionList[i]);
             if (this.conditionList[i] === 'fName') {
               data = this.filterFirstName(data);
             } else if (this.conditionList[i] === 'lName') {
@@ -158,11 +144,11 @@ export class SearchbloodComponent implements OnInit {
             }
           }
           // end filter
-          this.showPatient(data);
-
-          this.buildForm(); // Clear value in search
-          this.conditionList = [];
-          this.clearValueInCheckedbox();
+          // if (this.conditionList[this.conditionList.length - 1] !== 'blood') {
+            this.showPatient(data);
+          // } else {
+            // this.showPatient(data);
+          // }
         });
       }
     }
@@ -221,43 +207,34 @@ export class SearchbloodComponent implements OnInit {
   }
 
   filterBlood(data: Array<any>) {
-    console.log(this.conditionBloodList);
-
-    for (let j = 0; j < this.conditionBloodList.lenght; j++) {
-      console.log(this.conditionBloodList[j]);
+    const newData = Array<any>();
+    for (let j = 0; j < this.conditionBloodList.length; j++) {
       for (let i = 0; i < data.length; i++) {
-        if (data[i].result !== this.conditionBloodList[j]) {
-          data.splice(i, 1);
-          i -= 1;
+        if (data[i].result.result === this.conditionBloodList[j]) {
+          newData.push(data[i]);
         }
       }
     }
-    return data;
+    return newData;
   }
   showPatient(data: Array<any>) {
     this.isFind = data;
-    console.log(this.isFind);
     if (this.isFind.length === 0) {
       this.isFound = false;
-      // console.log(this.isFound);
 
     } else {
       this.patients = data;
       this.isFound = true;
-      // console.log(this.isFound);
     }
+    this.buildForm(); // Clear value in search
+    this.conditionList = [];
+    this.clearValueInCheckedbox();
   }
   viewDetail(id: string) {
     this.message = id;
     this.newMessage();
     this.router.navigate(['/blood/detail']);
 
-  }
-
-  deletePatient(id: string) {
-    console.log('delete' + id);
-
-    //  ********************************************************************
   }
 
   newMessage() {
@@ -295,8 +272,6 @@ export class SearchbloodComponent implements OnInit {
         }
       }
     }
-    // console.log(this.conditionBloodList);
-
   }
 
 }

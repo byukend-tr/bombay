@@ -9,6 +9,9 @@ import { LoginComponent } from '../../auth/login/login.component';
 import { Relatives } from '../shared/relatives';
 
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs/Subscription';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-relatives-form',
@@ -17,6 +20,9 @@ import Swal from 'sweetalert2';
 })
 export class RelativesFormComponent implements OnInit {
 
+  a$: Subscription;
+  b$: Subscription;
+  c$: Subscription;
   patients: any;
   relatives: any;
   findRelatives: any;
@@ -69,20 +75,32 @@ export class RelativesFormComponent implements OnInit {
   }
   loadRelative() {
 
-    this.patientService.relativesOfPatient(this.message).subscribe(data => {
+    this.c$ = this.patientService.relativesOfPatient(this.message).subscribe(data => {
       console.log('dataaaa' + data);
 
       this.relatives = new Array<Relatives>();
 
       this.patientService.loaddetailPatient(data, (cb, i) => {
-        this.relatives.push({
+
+        const _patient: any = {
           patientId: cb[0].id,
           fName: cb[0].fName,
           lName: cb[0].lName,
           relativeId: data[i].key,
           relativeName: data[i].relativeName
-        });
+        };
+        if (_.indexOf(this.relatives, _patient) === -1) {
+          this.relatives.push({
+            patientId: cb[0].id,
+            fName: cb[0].fName,
+            lName: cb[0].lName,
+            relativeId: data[i].key,
+            relativeName: data[i].relativeName
+          });
+        }
+
       });
+      this.c$.unsubscribe();
     });
   }
   checkInputId() {
@@ -188,6 +206,8 @@ export class RelativesFormComponent implements OnInit {
       // console.log(this.isFound);
     }
   }
+
+
   addRelatives(relativeId: string) {
 
     Swal({
@@ -199,7 +219,8 @@ export class RelativesFormComponent implements OnInit {
       cancelButtonText: 'ไม่ ต้องการเพิ่ม'
     }).then((result) => {
       if (result.value) {
-        this.addRelative1(relativeId, this.addRelative2(relativeId));
+        this.addRelative1(relativeId);
+        this.addRelative2(relativeId);
 
         Swal(
           'เพิ่มรายชื่อญาติรายใหม่เรียบร้อย!',
@@ -275,8 +296,8 @@ export class RelativesFormComponent implements OnInit {
     });
 
   }
-  addRelative1(relativeId: string, callback) {
-    this.patientService.detailPatient(relativeId).subscribe(data => {
+  addRelative1(relativeId: string) {
+    this.a$ = this.patientService.detailPatient(relativeId).subscribe(data => {
       // this.conditionForm.value.fName = data[0].fName;
       // this.conditionForm.value.lName = data[0].lName;
       const sex1 = this.validationRelative(data[0].minit);
@@ -287,12 +308,14 @@ export class RelativesFormComponent implements OnInit {
         console.log('11111111', this.relativeForm.value, this.message, relativeId);
         this.patientService.addRelatives(this.relativeForm.value, this.message, relativeId); // แอดด้านที่ 1
       }
+      this.a$.unsubscribe();
 
     });
-    callback();
+    // callback();
   }
+
   addRelative2(relativeId: string) {
-    this.patientService.detailPatient(this.message).subscribe(patient => {
+    this.b$ = this.patientService.detailPatient(this.message).subscribe(patient => {
       // this.conditionForm.value.fName = data[0].fName;
       // this.conditionForm.value.lName = data[0].lName;
       const sex2 = this.validationRelative(patient[0].minit);
@@ -307,8 +330,16 @@ export class RelativesFormComponent implements OnInit {
 
         this.patientService.addRelatives(this.relativeForm2.value, relativeId, this.message); // แอดด้านที่ 1
       }
+      // this.loadRelative();
+      // this.buildForm();
+      // this.buildForm2();
+      // this.isFound = false;
+      this.ngOnInit();
+      this.b$.unsubscribe();
+      // this.relativeForm.reset();
     });
   }
+
   checkRelativeName(sex: string, relativeName: string) {
     console.log(sex, relativeName);
 
@@ -376,11 +407,13 @@ export class RelativesFormComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'ใช่ ต้องการลบ',
       cancelButtonText: 'ไม่ ต้องการลบ'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.value) {
+        await this.patientService.deleteRelative(this.message, id);
+        await this.patientService.deleteRelative(id, this.message);
+        // this.relatives = new Array<Relatives>();
 
-        this.patientService.deleteRelative(this.message, id);
-        this.patientService.deleteRelative(id, this.message);
+
         Swal('สำเร็จ!', 'ลบความสัมพันธ์เรียบร้อยแล้ว',
           'success'
         );
