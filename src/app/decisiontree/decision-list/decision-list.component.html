@@ -5,7 +5,7 @@
   <button routerLink="create" class="btn btn-sm btn-outline-primary">เพิ่มข้อมูลการเรียนรู้</button>
   <button (click)="trainNewModel($event)" class="btn btn-sm btn-outline-primary">ทำการเรียนรู้</button>
   <!-- <form (ngSubmit)="searchCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">   -->
-  <form (ngSubmit)="searchCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">
+  <form (ngSubmit)="checkCondition(condition)" [formGroup]="searchConditionForm" #condition="ngForm">
     <div class="row">
       <div class="col-5">
 
@@ -13,7 +13,7 @@
         <select class="form-control form-control-sm" formControlName="groupAbo">
 
           <!-- <option value="null"></option> -->
-          <option value="all" selected>ทั้งหมด</option>
+          <option value="all">ทั้งหมด</option>
           <option value="Group A">Group A</option>
           <option value="Group B">Group B</option>
           <option value="Group AB">Group AB</option>
@@ -52,12 +52,12 @@
         <select class="form-control form-control-sm" formControlName="groupSaliva">
 
           <!-- <option value="null"></option> -->
-          <option value="all" selected>ทั้งหมด</option>
+          <option value="all">ทั้งหมด</option>
           <option value="Secretor gr.A">Secretor Group A</option>
           <option value="Secretor gr.B">Secretor Group B</option>
           <option value="Secretor gr.AB">Secretor Group AB</option>
           <option value="Secretor gr.O">Secretor Group O</option>
-          <option value="Non-Secretor">Non-secretor</option>
+          <!-- <option value="Non-Secretor">Non-secretor</option> -->
         </select>
 
 
@@ -80,7 +80,7 @@
             <button type="button" class="btn btn-sm btn-primary" (click)="removeCondition()">ลบ</button>
           </th>
           <th colspan="6" border="1">การตรวจหมู่เลือดเอบีโอ</th>
-          <th colspan="6" border="1">การตรวจน้ำลาย</th>
+          <th colspan="3" border="1">การตรวจน้ำลาย</th>
           <th rowspan="3" style="text-align:center; vertical-align:middle;">การแปลผล</th>
         </tr>
         <tr>
@@ -93,7 +93,7 @@
           </th>
           <th colspan="3" border="1">Cell Grouping</th>
           <th colspan="3" border="1">Serum Grouping</th>
-          <th colspan="3" border="1">Controls</th>
+          <!-- <th colspan="3" border="1">Controls</th> -->
           <th colspan="3" border="1">Tests</th>
 
         </tr>
@@ -109,10 +109,10 @@
           <th>O cells</th>
 
           <!-- <th>การแปลผล</th> -->
-
+<!-- 
           <th>Secretor</th>
           <th>Non-Secretor</th>
-          <th>NSS</th>
+          <th>NSS</th> -->
 
           <th>Anti-A</th>
           <th>Anti-B</th>
@@ -129,7 +129,7 @@
         <tr *ngFor="let condition of rule;">
           <td>
 
-            <label class="custom-control custom-checkbox">
+            <label class="custom-control custom-checkbox" *ngIf="condition.status === 'addition'">
               <input name="checkbox" type="checkbox" class="custom-control-input" (change)="selectedUpdate(condition,$event)">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description"></span>
@@ -146,7 +146,7 @@
           <td>{{condition.Bcell}}</td>
           <td>{{condition.Ocell}}</td>
 
-          <td>
+          <!-- <td>
             <div *ngIf="condition.secretor; else showNull">
               {{condition.secretor}}
             </div>
@@ -164,7 +164,7 @@
 
           <ng-template #showNull>
             -
-          </ng-template>
+          </ng-template> -->
 
 
           <td>{{condition.TestAntiA}}</td>

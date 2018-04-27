@@ -202,10 +202,12 @@ export class DecisiontreeService {
     this.router.navigate(['/conditions']);
   }
 
-  queryAllCondition(): Observable<any[]> { // first edit callback 8/2/18
+  queryAllCondition() { // first edit callback 8/2/18
     // return this.db.list('/decisions').valueChanges().subscribe(data => {
     //   callback(data);
     // });
+    console.log('allllll');
+
     return this.db.list('/decisions').snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
@@ -242,7 +244,7 @@ export class DecisiontreeService {
     );
 
   }
-  queryAboCondition(value): Observable<any[]> {
+  queryAboCondition(value) {
     return this.db.list('/decisions', ref => ref.orderByChild('groupAbo').equalTo(value)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
@@ -250,7 +252,7 @@ export class DecisiontreeService {
     );
 
   }
-  querySalivaCondition(value): Observable<any[]> {
+  querySalivaCondition(value) {
     return this.db.list('/decisions', ref => ref.orderByChild('groupSaliva').equalTo(value)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }
@@ -278,17 +280,12 @@ export class DecisiontreeService {
 
 
   removeCondition(idList: any) {
-
-    // if (confirm('Do you want to remove ' + ' sure!')) {
-    //   this.db.object('/decisions/id').remove().then(() => {
-    //     alert('remove ' + 'success!');
-    //   });
-    // }
-    // this.db.object('/decisions' + id).remove();
-
-    // console.log(idList);
     for (const id of idList) {
-      this.itemsRef.remove(id);
+      // this.itemsRef.remove(id);
+      // this.db.object('/decisions' + id).remove();
+      this.db.object('/decisions/id').remove().then(() => {
+        this.db.object('decisions' + '/' + id).remove();
+      });
     }
   }
 }

@@ -161,7 +161,7 @@ export class PatientService {
   }
   deleteRelative(idPatient: string, id: string) {
 
-    this.db.object('/decisions/id').remove().then(() => {
+    this.db.object('/patients/id').remove().then(() => {
       this.db.object('patients' + '/' + idPatient + '/relatives/' + id).remove();
     });
   }

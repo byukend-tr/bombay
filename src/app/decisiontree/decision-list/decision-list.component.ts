@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 import Swal from 'sweetalert2';
 
+import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-decision-list',
   templateUrl: './decision-list.component.html',
@@ -13,18 +15,24 @@ import Swal from 'sweetalert2';
 })
 export class DecisionListComponent implements OnInit {
   rule: any;
+  ruleList = Array<any>();
   conditionList: any = [];
+  searchList: any = [];
   isFound = false;
 
   selectForm: FormGroup;
   searchConditionForm: FormGroup;
+
+  a$: Subscription;
+  b$: Subscription;
+  c$: Subscription;
 
   constructor(private decisiontreeService: DecisiontreeService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
-    this.loadData();
+    // this.loadData();
 
   }
 
@@ -98,7 +106,9 @@ export class DecisionListComponent implements OnInit {
     const all_or_one = [];
     if (e.target.checked === true) { // select all
       this.rule.forEach(item => { // push all item to new list
-        all_or_one.push(item.key);
+        if (item.status === 'addition') {
+          all_or_one.push(item.key);
+        }
       });
       for (let i = 0; i < checkbox.length; i++) { // loop selected all item
         checkbox[i].checked = true;
@@ -127,85 +137,171 @@ export class DecisionListComponent implements OnInit {
     // console.log(this.conditionList);
   }
   removeCondition() {
-    this.decisiontreeService.removeCondition(this.conditionList);
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'ต้องการลบข้อมูลการเรียนรู้ทั้งหมด ' + this.conditionList.length + ' ข้อมูล',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.decisiontreeService.removeCondition(this.conditionList);
+
+        Swal(
+          'ทำการลบข้อมูลการเรียนรู้เรียบร้อยแล้ว!', '',
+          'success'
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบข้อมูลการเรียนรู้',
+          'error'
+        );
+      }
+    });
   }
+  checkCondition() {
+    if (this.searchConditionForm.value.groupAbo) {
+      this.searchList.push('abo');
+    } if (this.searchConditionForm.value.groupSaliva) {
+      this.searchList.push('saliva');
+    }
+    console.log(this.searchList);
 
-  searchCondition() {
-    let queryCondition;
-    const abo = this.searchConditionForm.value.groupAbo;
-    const saliva = this.searchConditionForm.value.groupSaliva;
-    console.log(abo + saliva);
-    if (abo === 'null' && saliva === 'null') { /*first load*/
-      this.isFound = false;
+    if (this.searchList.length === 0) {
+      Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลการค้นหา', 'error');
+      this.searchList = [];
     } else {
-      if (abo === 'all' && saliva === 'all') {
-        queryCondition = this.decisiontreeService.queryAllCondition();
-      } else if (abo === 'all' && saliva === 'null') {
-        queryCondition = this.decisiontreeService.queryAllCondition();
-      } else if (abo === 'null' && saliva === 'all') {
-        queryCondition = this.decisiontreeService.queryAllCondition();
-      } else if (abo === 'all' || abo === 'null') {
-        queryCondition = this.decisiontreeService.querySalivaCondition(saliva);
-      } else if (saliva === 'all' || saliva === 'null') {
-        queryCondition = this.decisiontreeService.queryAboCondition(abo);
-      } else {
-        queryCondition = this.decisiontreeService.queryTwoCondition(abo); /* not finished*/
-        // this.filterData(queryCondition, saliva);
+      this.searchCondition();
+    }
+  }
+  searchCondition() {
+
+    // let queryCondition;
+    // const abo = this.searchConditionForm.value.groupAbo;
+    // const saliva = this.searchConditionForm.value.groupSaliva;
+    // console.log(abo, saliva);
+    // if (abo === null && saliva === null) { /*first load*/
+    //   Swal(
+    //     'ผิดพลาด!',
+    //     'กรุณาเลือกการแปลผลให้ถูกต้อง',
+    //     'error'
+    //   );
+    // } else {
+    //   if (abo === 'all' && saliva === 'all') {
+    //     queryCondition = this.decisiontreeService.queryAllCondition();
+    //   } else if (abo === 'all' && saliva === 'null') {
+    //     queryCondition = this.decisiontreeService.queryAllCondition();
+    //   } else if (abo === 'null' && saliva === 'all') {
+    //     queryCondition = this.decisiontreeService.queryAllCondition();
+    //   } else if (abo === 'all' || abo === 'null') {
+    //     queryCondition = this.decisiontreeService.querySalivaCondition(saliva);
+    //   } else if (saliva === 'all' || saliva === 'null') {
+    //     queryCondition = this.decisiontreeService.queryAboCondition(abo);
+    //   } else {
+    //     queryCondition = this.decisiontreeService.queryTwoCondition(abo); /* not finished*/
+    //   }
+    //   if (queryCondition !== []) {
+    //     this.loadData2(queryCondition, saliva);
+    //   }
+
+
+
+    // }
+
+    console.log(this.searchList);
+    if (this.searchList.length > 0) {       // first query
+      console.log(this.searchList[0]);
+      if (this.searchList[0] === 'abo') {
+        if (this.searchConditionForm.value.groupAbo === 'all') {
+          this.decisiontreeService.queryAllCondition().subscribe(data => {
+            this.ruleList = data;
+            console.log(this.ruleList);
+
+          });
+        } else {
+          this.decisiontreeService.queryAboCondition(this.searchConditionForm.value.groupAbo).subscribe(data => {
+            this.ruleList = data;
+
+          });
+        }
+      } else if (this.searchList[0] === 'saliva') {
+        if (this.searchConditionForm.value.groupSaliva === 'all') {
+          this.decisiontreeService.queryAllCondition().subscribe(data => {
+            this.ruleList = data;
+          });
+        } else {
+          this.decisiontreeService.querySalivaCondition(this.searchConditionForm.value.groupSaliva).subscribe(data => {
+            this.ruleList = data;
+          });
+        }
       }
-      if (queryCondition !== []) {
-        this.loadData2(queryCondition, saliva);
+      console.log(this.ruleList.length);
+      this.searchList.splice(0, 1);
+    }    // end first query
+    console.log(this.searchList);
+    console.log(this.ruleList.length);
+    console.log(this.searchConditionForm.value.groupSaliva);
+    if (this.searchList.length > 0 &&  this.ruleList.length > 0) {
+      // if (this.searchCondition[0] === 'saliva') {
+      console.log(this.searchConditionForm.value.groupSaliva);
+
+      if (this.searchConditionForm.value.groupSaliva !== 'all') {
+        this.filterSaliva();
       }
-
-
-
+      this.showData();
+      // }
+    } else {
+      this.showData();
     }
 
   }
-  // filterData(queryCondition, saliva) {
-  //   queryCondition.subscribe(data => {
-  //     this.rule = data;
-  //     // console.log(this.rule);
-  //     if (this.rule != null) {
-  //       // filter
-  //       for (let i = 0; i < this.rule.length; i++) {
-  //         if (this.rule[i].groupSaliva !== saliva) {
-  //           this.rule.splice(i, 1);
-  //           i -= 1;
-  //         }
-  //       } // end filter
-  //     }
-  //   });
-  //   this.loadData2();
-  // }
+  filterSaliva() {
+    // filter
+    console.log(this.searchConditionForm.value.groupSaliva);
 
-  // loadData2() {
+    for (let i = 0; i < this.ruleList.length; i++) {
+      if (this.ruleList[i].groupSaliva !== this.searchConditionForm.value.groupSaliva) {
+        this.ruleList.splice(i, 1);
+        i -= 1;
+      }
+    } // end filter
+  }
+  showData() {
+    if (this.ruleList.length > 0) {
+      console.log(this.ruleList.length);
+      this.rule = this.ruleList;
+      this.rule.forEach(item => {
+        for (const property in item) {
+          // console.log(item[property]);
+          if (item[property] > 0) {
+            item[property] = item[property] + '+';
+          } else if (item[property] === '0') {
+            item[property] = 'Neg';
+          } else if (item[property] < 0) {
+            item[property] = '-';
+          }
+        }
+        this.isFound = true;
+      });
+    } else {
+      this.isFound = false;
+    }
+    console.log(this.isFound);
 
-  //   this.rule.forEach(item => {
-  //     for (const property in item) {
-  //       // console.log(item[property])
-  //       if (item[property] > 0) {
-  //         item[property] = item[property] + '+';
-  //       } else if (item[property] === '0') {
-  //         item[property] = 'Neg';
-  //       } else if (item[property] < 0) {
-  //         item[property] = '-';
-  //       }
-  //     }
-  //   });
-  //   if (this.rule != null) {
-  //     this.isFound = true;
-  //   } else {
-  //     this.isFound = false;
-  //   }
 
-  // }
+    this.buildForm();
+    this.searchList = [];
+  }
+
 
   loadData2(queryCondition, saliva) {
     console.log('okko');
 
     queryCondition.subscribe(data => {
       this.rule = data;
-      console.log(this.rule);
+      // console.log(this.rule);
 
       // if (this.rule !== null && (saliva !== 'null' && saliva !== 'all') && this.rule !== [] && this.rule !== undefined) {
       if (this.rule !== null) {

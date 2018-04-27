@@ -9,6 +9,15 @@ import { log } from '@firebase/database/dist/esm/src/core/util/util';
 
 import Swal from 'sweetalert2';
 
+// JSON File
+// import { Injectable } from '@angular/core';
+// import { Http, Response } from '@angular/http';
+// import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+// @Injectable()
+
 @Component({
   selector: 'app-decision-form',
   templateUrl: './decision-form.component.html',
@@ -20,7 +29,16 @@ export class DecisionFormComponent implements OnInit {
   conditionForm: FormGroup;
   selectSaliva: any;
 
-  constructor(private auth: AuthService, private decisiontreeService: DecisiontreeService) {
+  // private _url = 'assets/trainingdata.json';
+  // herbs = [];
+  trainingImport: string[];
+  training$: Subscription;
+
+  constructor(private auth: AuthService,
+    private decisiontreeService: DecisiontreeService,
+    // private _http: Http,
+    private httpService: HttpClient
+  ) {
 
   }
 
@@ -46,7 +64,8 @@ export class DecisionFormComponent implements OnInit {
       TestAntiB: new FormControl(),
       TestAntiH: new FormControl(),
       groupSaliva: new FormControl(),
-      checkBoxAdd: new FormControl()
+      checkBoxAdd: new FormControl(),
+      status: new FormControl()
     });
   }
   groupType() {
@@ -77,6 +96,7 @@ export class DecisionFormComponent implements OnInit {
     this.conditionForm.value.TestAntiH = '-2';
     this.conditionForm.value.groupSaliva = null;
     this.conditionForm.value.result = this.conditionForm.value.groupAbo;
+    this.conditionForm.value.status = 'addition';
   }
   setDatagroupSaliva() {
     this.conditionForm.value.secretor = null;
@@ -87,6 +107,7 @@ export class DecisionFormComponent implements OnInit {
     this.conditionForm.value.TestAntiH = '-1';
     this.conditionForm.value.groupSaliva = null;
     this.conditionForm.value.result = this.conditionForm.value.groupAbo;
+    this.conditionForm.value.status = 'addition';
   }
   validationInput() {
     const valueGroupAbo = this.conditionForm.value.groupAbo;
@@ -186,6 +207,42 @@ export class DecisionFormComponent implements OnInit {
     this.decisiontreeService.createDecisionTree(this.conditionForm.value);
 
   }
+  importJson(event) {
+
+    this.training$ = this.httpService.get('./../assets/trainingdata.json').subscribe(
+      data => {
+        this.trainingImport = data as string[];	 // FILL THE ARRAY WITH DATA.
+        // console.log(this.trainingImport);
+        this.setJsonToFirebase(this.trainingImport);
+        this.training$.unsubscribe();
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err.message);
+      }
+    );
+  }
+  setJsonToFirebase(data: Array<any>) {
+    for (let i = 0; i < data.length; i++) {
+
+      this.conditionForm.value.AntiA = data[i].AntiA;
+      this.conditionForm.value.AntiB = data[i].AntiB;
+      this.conditionForm.value.AntiAB = data[i].AntiAB;
+      this.conditionForm.value.Acell = data[i].Acell;
+      this.conditionForm.value.Bcell = data[i].Bcell;
+      this.conditionForm.value.Ocell = data[i].Ocell;
+      this.conditionForm.value.groupAbo = data[i].groupAbo;
 
 
+      this.conditionForm.value.TestAntiA = data[i].TestAntiA;
+      this.conditionForm.value.TestAntiB = data[i].TestAntiB;
+      this.conditionForm.value.TestAntiH = data[i].TestAntiH;
+      this.conditionForm.value.groupSaliva = data[i].groupSaliva;
+      this.conditionForm.value.result = data[i].result;
+
+      this.conditionForm.value.status = data[i].status;
+
+      this.decisiontreeService.createDecisionTree(this.conditionForm.value);
+    }
+  }
 }
+
