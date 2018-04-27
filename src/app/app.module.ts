@@ -30,6 +30,7 @@ import { UserHomeComponent } from './auth/user-home/user-home.component';
 import { UserDetailComponent } from './auth/user-detail/user-detail.component';
 // Home
 import { HomeComponent } from './home/home.component';
+import { HomeService } from './home/shared/home.service';
 // Decisiontree
 import { DecisionFormComponent } from './decisiontree/decision-form/decision-form.component';
 import { DecisionListComponent } from './decisiontree/decision-list/decision-list.component';
@@ -136,7 +137,8 @@ import { ChartModule } from 'primeng/chart';
     DecisiontreeService,
     MutationDetectionService,
     PatientService,
-    SharingdataService
+    SharingdataService,
+    HomeService
   ],
   bootstrap: [AppComponent]
 })

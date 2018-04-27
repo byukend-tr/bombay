@@ -217,33 +217,37 @@ export class DecisionListComponent implements OnInit {
         if (this.searchConditionForm.value.groupAbo === 'all') {
           this.decisiontreeService.queryAllCondition().subscribe(data => {
             this.ruleList = data;
-            console.log(this.ruleList);
+            this.displaySearch();
 
           });
         } else {
           this.decisiontreeService.queryAboCondition(this.searchConditionForm.value.groupAbo).subscribe(data => {
             this.ruleList = data;
-
+            this.displaySearch();
           });
         }
       } else if (this.searchList[0] === 'saliva') {
         if (this.searchConditionForm.value.groupSaliva === 'all') {
           this.decisiontreeService.queryAllCondition().subscribe(data => {
             this.ruleList = data;
+            this.displaySearch();
           });
         } else {
           this.decisiontreeService.querySalivaCondition(this.searchConditionForm.value.groupSaliva).subscribe(data => {
             this.ruleList = data;
+            this.displaySearch();
           });
         }
       }
-      console.log(this.ruleList.length);
+      // console.log(this.ruleList.length);
       this.searchList.splice(0, 1);
     }    // end first query
-    console.log(this.searchList);
-    console.log(this.ruleList.length);
-    console.log(this.searchConditionForm.value.groupSaliva);
-    if (this.searchList.length > 0 &&  this.ruleList.length > 0) {
+    // console.log(this.searchList);
+    // console.log(this.ruleList.length);
+    // console.log(this.searchConditionForm.value.groupSaliva);
+  }
+  displaySearch() {
+    if (this.searchList.length > 0 && this.ruleList.length > 0) {
       // if (this.searchCondition[0] === 'saliva') {
       console.log(this.searchConditionForm.value.groupSaliva);
 
@@ -255,8 +259,8 @@ export class DecisionListComponent implements OnInit {
     } else {
       this.showData();
     }
-
   }
+
   filterSaliva() {
     // filter
     console.log(this.searchConditionForm.value.groupSaliva);

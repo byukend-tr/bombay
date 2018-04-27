@@ -1,4 +1,4 @@
-<h2>1.โหมดปกติ</h2>
+<!-- <h2>1.โหมดปกติ</h2>
 <label>ตำบล: </label>
 <input type="text" id="district">
 <label>อำเภอ: </label>
@@ -11,8 +11,11 @@
 
 <h2>2.การใช้งานโหมดค้นหา</h2>
 <label>ค้นหา ตำบล อำเภอ จังหวัด หรือ รหัสไปรษณีย</label>
-    <input type="search" id="search">
+    <input type="search" id="search"> -->
 
     <!-- <select type="text" class="form-control form-control-sm" id="province">
         <option>{{province}}</option>
     </select> -->
+
+  <button (click)="importJson($event)" class="btn btn-sm btn-outline-primary">เพิ่มข้อมูลสถานที่</button>
+  <input type="text" onchange="selectDistrict()">
