@@ -19,19 +19,15 @@
       </div>
       <div class="col">
         จังหวัด
-        <select class="form-control form-control-sm" formControlName="province" name="province" (change)="selectDistrict($event,$event.target.value)">
-          <!-- <option value="">{{province}}</option> -->
-          <option value="เชียงใหม่">เชียงใหม่</option>
-          <option value="เชียงราย">เชียงราย</option>
-          <option value="ลำปาง">ลำปาง</option>
-          <option value="ลำพูน">ลำพูน</option>
-          <option value="พะเยา">พะเยา</option>
+        <select class="form-control form-control-sm" formControlName="province" [(ngModel)]="selectedProvince" (change)="selectDistrict($event,$event.target.value)">
+          <option *ngFor='let province of provinces' [value]="province">{{province}}</option>
         </select>
         <div class="row">
           <div class="col">
             อำเภอ
-            <select class="form-control form-control-sm" formControlName="district" name="district" (change)="selectSubDistrict($event,$event.target.value)" disabled>
-              <option *ngFor="let district of districts" value="{{district}}">{{district}}</option>
+            <select class="form-control form-control-sm" formControlName="district" name="district" [(ngModel)]="district" (change)="selectSubDistrict($event,$event.target.value)"
+              disabled>
+              <option *ngFor="let district of provinceJSON" value="{{district.district}}">{{district.district}}</option>
               <!-- <option value="district.district">{{district}}</option> -->
               <!-- <option value="เมือง เชียงใหม่">เมือง เชียงใหม่</option>
               <option value="สันทราย">สันทราย</option>

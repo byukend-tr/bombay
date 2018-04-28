@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
@@ -34,9 +34,13 @@ export class SearchbloodComponent implements OnInit {
   conditionList: any = [];
 
   districts = Array<any>();
-  provinces = Array<any>();
+  district: string;
+  // tslint:disable-next-line:max-line-length
+  provinces = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'อ่างทอง', 'ลพบุรี', 'สิงห์บุรี', 'ชัยนาท', 'สระบุรี', 'ชลบุรี', 'ระยอง', 'จันทบุรี', 'ตราด', 'ฉะเชิงเทรา', 'ปราจีนบุรี', 'นครนายก', 'สระแก้ว', 'นครราชสีมา', 'บุรีรัมย์', 'สุรินทร์', 'ศรีสะเกษ', 'อุบลราชธานี', 'ยโสธร', 'ชัยภูมิ', 'อำนาจเจริญ', 'บึงกาฬ', 'หนองบัวลำภู', 'ขอนแก่น', 'อุดรธานี', 'เลย', 'หนองคาย', 'มหาสารคาม', 'ร้อยเอ็ด', 'กาฬสินธุ์', 'สกลนคร', 'นครพนม', 'มุกดาหาร', 'เชียงใหม่', 'ลำพูน', 'ลำปาง', 'อุตรดิตถ์', 'แพร่', 'น่าน', 'พะเยา', 'เชียงราย', 'แม่ฮ่องสอน', 'นครสวรรค์', 'อุทัยธานี', 'กำแพงเพชร', 'ตาก', 'สุโขทัย', 'พิษณุโลก', 'พิจิตร', 'เพชรบูรณ์', 'ราชบุรี', 'กาญจนบุรี', 'สุพรรณบุรี', 'นครปฐม', 'สมุทรสาคร', 'สมุทรสงคราม', 'เพชรบุรี', 'ประจวบคีรีขันธ์', 'นครศรีธรรมราช', 'กระบี่', 'พังงา', 'ภูเก็ต', 'สุราษฎร์ธานี', 'ระนอง', 'ชุมพร', 'สงขลา', 'สตูล', 'ตรัง', 'พัทลุง', 'ปัตตานี', 'ยะลา', 'นราธิวาส'];
   subDistricts = Array<any>();
   location = Array<any>();
+  selectedProvince: string;
+  provinceJSON: any;
   // districts = [];
   // provinces = [];
   // subDistricts = [];
@@ -306,30 +310,40 @@ export class SearchbloodComponent implements OnInit {
   }
   selectDistrict(e, value) {
     this.districts = [];
-    console.log(value);
-    // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
-    const district = <HTMLInputElement[]><any>document.getElementsByName('district');
-
-    district[0].disabled = false;
-    this.homeService.district(value).subscribe(data => {
-      // this.districts = data;
-      for (let i = 0; i < data.length; i++) {
-
-        if (i !== 0 && this.districts[i - 1].value !== data[i].district) {
-          console.log(this.districts[i - 1].value);
-          this.districts.push(data[i].district);
-        } else if (i === 0) {
-          this.districts.push(data[i].district);
-        }
-        // this.districts[i] = data[i].district;
-        // console.log(data[i].district);
-
-      }
-      console.log(this.districts);
+    // console.log(this.selectedProvince);
+    const query = this.homeService.district(value).subscribe(data => {
+      this.provinceJSON = data;
+      console.log(this.provinceJSON);
+      const district = <HTMLInputElement[]><any>document.getElementsByName('district');
+      district[0].disabled = false;
     });
-
-
   }
+  // selectDistrict(e, value) {
+  //   this.districts = [];
+  //   console.log(value);
+  //   // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
+  //   const district = <HTMLInputElement[]><any>document.getElementsByName('district');
+
+  //   district[0].disabled = false;
+  //   const query = this.homeService.district(value).subscribe(data => {
+  //     // this.districts = data;
+  //     for (let i = 0; i < data.length; i++) {
+
+  //       if (i !== 0 && this.districts[i - 1].value !== data[i].district) {
+  //         console.log(this.districts[i - 1].value);
+  //         this.districts.push(data[i].district);
+  //       } else if (i === 0) {
+  //         this.districts.push(data[i].district);
+  //       }
+  //       // this.districts[i] = data[i].district;
+  //       // console.log(data[i].district);
+
+  //     }
+  //     console.log(this.districts);
+  //   });
+  // }
+
+
   selectSubDistrict(e, value) {
     this.subDistricts = [];
     console.log(value);
