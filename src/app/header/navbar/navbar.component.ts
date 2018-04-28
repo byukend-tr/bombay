@@ -12,14 +12,23 @@ export class NavbarComponent implements OnInit {
 
   profile: any = {};
   test: any;
-
+  userInfomation: any;
+  name: string;
+  privileage: string;
   constructor(private router: Router, public auth: AuthService) {
-    auth.getCurrentLoggedInOnInit(auth => {
-      this.profile = auth;
+    this.auth.getCurrentLoggedInOnInit(data => {
+      this.profile = data;
+      this.getPersonalnformation(this.profile);
     });
   }
 
   ngOnInit() {
   }
+  getPersonalnformation(email: any) {
+    this.auth.getUserProfile(email.email).subscribe(data => {
+      this.name = 'สวัสดี ' + data[0].fName + ' ' + data[0].lName + ' (' + data[0].privilege + ')';
+      this.privileage = data[0].privilege;
+    });
 
+  }
 }

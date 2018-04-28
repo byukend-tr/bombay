@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { AuthService } from './auth/shared/auth.service';
 
 // Home
 import { HomeComponent } from './home/home.component';
@@ -44,10 +45,13 @@ import { ResultListComponent } from './result/result-list/result-list.component'
 import { Profile } from 'selenium-webdriver/firefox';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  // { path: '', component: HomeComponent },
 
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  {
+    path: 'signup', component: SignupComponent,
+    canActivate: [AuthGuard],
+  },
 
   {
     path: 'profile',
@@ -133,4 +137,33 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  privileage: string;
+  profile: any = {};
+  constructor(private router: Router,
+    public auth: AuthService) {
+    if (!AuthGuard) {
+      this.router.navigate(['/login']);
+    } else {
+      this.auth.getCurrentLoggedInOnInit(data => {
+        this.profile = data;
+        this.getPersonalnformation(this.profile);
+      });
+    }
+  }
+
+  getPersonalnformation(email: any) {
+    this.auth.getUserProfile(email.email).subscribe(data => {
+      // this.name = 'สวัสดี ' + data[0].fName + ' ' + data[0].lName + ' (' + data[0].privilege + ')';
+      this.privileage = data[0].privilege;
+      if (this.privileage === 'ผู้ดูแลระบบ') {
+        this.router.navigate(['/test']);
+      } else if (this.privileage === 'เจ้าหน้าที่เทคนิคการแพทย์') {
+        this.router.navigate(['/test']);
+      } else if (this.privileage === 'พยาบาล') {
+        this.router.navigate(['/blood']);
+      }
+    });
+
+  }
+}

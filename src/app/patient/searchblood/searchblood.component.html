@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <h2 style="color:#365082">ค้นหา</h2>
-  <form (ngSubmit)="checkCondition(condition)" [formGroup]="conditionForm" #condition="ngForm">
-  <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
+  <form (ngSubmit)="validateForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
+    <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
     <div class="row">
       <div class="col">
         รหัสบัตรประชาชน
@@ -19,7 +19,7 @@
       </div>
       <div class="col">
         จังหวัด
-        <select class="form-control form-control-sm" formControlName="province">
+        <select class="form-control form-control-sm" formControlName="province" name="province" (change)="selectDistrict($event,$event.target.value)">
           <!-- <option value="">{{province}}</option> -->
           <option value="เชียงใหม่">เชียงใหม่</option>
           <option value="เชียงราย">เชียงราย</option>
@@ -30,24 +30,26 @@
         <div class="row">
           <div class="col">
             อำเภอ
-            <select class="form-control form-control-sm" formControlName="district">
-              <option value=""></option>
-              <option value="เมือง เชียงใหม่">เมือง เชียงใหม่</option>
+            <select class="form-control form-control-sm" formControlName="district" name="district" (change)="selectSubDistrict($event,$event.target.value)" disabled>
+              <option *ngFor="let district of districts" value="{{district}}">{{district}}</option>
+              <!-- <option value="district.district">{{district}}</option> -->
+              <!-- <option value="เมือง เชียงใหม่">เมือง เชียงใหม่</option>
               <option value="สันทราย">สันทราย</option>
               <option value="สันกำแพง">สันกำแพง</option>
               <option value="เชียงดาว">เชียงดาว</option>
-              <option value="หางดง">หางดง</option>
+              <option value="หางดง">หางดง</option> -->
             </select>
+            <!-- {{districts}} -->
           </div>
           <div class="col">
             ตำบล
-            <select class="form-control form-control-sm" formControlName="subDistrict">
-              <option value=""></option>
-              <option value="สุเทพ">สุเทพ</option>
+            <select class="form-control form-control-sm" formControlName="subDistrict" name="subDistrict" disabled>
+              <option *ngFor="let subDistrict of subDistricts" value="{{subDistrict}}">{{subDistrict}}</option>
+              <!-- <option value="สุเทพ">สุเทพ</option>
               <option value="วัดเกตุ">วัดเกตุ</option>
               <option value="ช้างเผือก">ช้างเผือก</option>
               <option value="ศรีภูมิ">ศรีภูมิ</option>
-              <option value="แม่เหียะ">แม่เหียะ</option>
+              <option value="แม่เหียะ">แม่เหียะ</option> -->
             </select>
           </div>
         </div>

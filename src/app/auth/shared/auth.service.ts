@@ -131,9 +131,24 @@ export class AuthService {
       .then((user) => {
         this.authState = user;
         // this.updateUserData();
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
+        this.getRoot(email);
       })
       .catch(error => console.log(error));
+  }
+  getRoot(email: string) {
+    let privileage = '';
+    this.getUserProfile(email).subscribe(data => {
+      // this.name = 'สวัสดี ' + data[0].fName + ' ' + data[0].lName + ' (' + data[0].privilege + ')';
+      privileage = data[0].privilege;
+      if (privileage === 'ผู้ดูแลระบบ') {
+        this.router.navigate(['/test']);
+      } else if (privileage === 'เจ้าหน้าที่เทคนิคการแพทย์') {
+        this.router.navigate(['/test']);
+      } else if (privileage === 'พยาบาล') {
+        this.router.navigate(['/blood']);
+      }
+    });
   }
   resetPassword(email: string) {
     const fbAuth = firebase.auth();
@@ -151,6 +166,7 @@ export class AuthService {
   signOut(): void {
     this.afAuth.auth.signOut();
     this.router.navigate(['/login']);
+    location.reload();
   }
   private updateUserData(): void {
     const path = `users/${this.currentUserId}`; // Endpoint on firebase
@@ -224,6 +240,11 @@ export class AuthService {
       }
     });
 
+  }
+  getUserProfile(email: string) {
+    return this.db.list('/users', ref => ref.orderByChild('email').equalTo(email)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
   }
 
 }

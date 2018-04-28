@@ -24,8 +24,17 @@ export class HomeService {
     //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     // });
   }
-  district() {
-    return this.db.list('locations', ref => ref.orderByChild('province').equalTo('เชียงใหม่')).snapshotChanges().map(changes => {
+  district(value: string) {
+    // console.log(value);
+
+    return this.db.list('/locations', ref => ref.orderByChild('province').equalTo(value)).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+  subDistrict(value: string) {
+    console.log(value);
+
+    return this.db.list('/locations', ref => ref.orderByChild('district').equalTo(value)).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }

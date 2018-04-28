@@ -15,6 +15,7 @@ import { firebaseConfig } from './../environments/firebase.config';
 import { AppRoutingModule } from './app-routing.module';
 // Header
 import { NavbarComponent } from './header/navbar/navbar.component';
+import { UsersService } from './header/shared/users.service';
 // Auth
 import { AuthService } from './auth/shared/auth.service';
 import { AuthGuard } from './auth/shared/auth.guard';
@@ -138,7 +139,8 @@ import { ChartModule } from 'primeng/chart';
     MutationDetectionService,
     PatientService,
     SharingdataService,
-    HomeService
+    HomeService,
+    UsersService
   ],
   bootstrap: [AppComponent]
 })

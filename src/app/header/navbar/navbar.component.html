@@ -7,28 +7,28 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="nav nav-pills mr-auto mt-2 mt-lg-0 btn-purple" id="pills-tab" role="tablist">
-      <li class="nav-item" *ngIf="auth.authenticated">
+      <li class="nav-item" *ngIf="auth.authenticated && (privileage == 'พยาบาล' || privileage == 'เจ้าหน้าที่เทคนิคการแพทย์')">
         <a class="nav-link active" id="pills-blood-tab" data-toggle="pill" routerLink="/blood" role="tab" aria-controls="pills-blood"
           aria-selected="true">ค้นหาหมู่เลือด</a>
       </li>
-      <li class="nav-item" *ngIf="auth.authenticated">
+      <li class="nav-item" *ngIf="auth.authenticated && (privileage == 'ผู้ดูแลระบบ' || privileage == 'เจ้าหน้าที่เทคนิคการแพทย์')">
         <a class="nav-link" id="pills-test-tab" data-toggle="pill" routerLink="/test" role="tab" aria-controls="pills-test" aria-selected="false">ค้นหาการทดสอบ</a>
       </li>
-      <li class="nav-item" *ngIf="auth.authenticated">
+      <!-- <li class="nav-item" *ngIf="auth.authenticated && privileage == 'ผู้ดูแลระบบ'">
         <a class="nav-link" id="pills-result-tab" data-toggle="pill" routerLink="/results" role="tab" aria-controls="pills-result"
           aria-selected="false">สรุปผล</a>
-      </li>
-      <li class="nav-item" *ngIf="auth.authenticated">
+      </li> -->
+      <!-- <li class="nav-item" *ngIf="auth.authenticated && privileage == 'ผู้ดูแลระบบ'">
         <a class="nav-link" id="pills-users-tab" data-toggle="pill" routerLink="/users" role="tab" aria-controls="pills-users" aria-selected="false">ผู้ใช้งาน</a>
-      </li>
-      <li class="nav-item" *ngIf="auth.authenticated">
+      </li> -->
+      <li class="nav-item" *ngIf="auth.authenticated && privileage == 'ผู้ดูแลระบบ'">
         <a class="nav-link" id="pills-condition-tab" data-toggle="pill" routerLink="/conditions" role="tab" aria-controls="pills-condition"
-          aria-selected="false">เงื่อนไขการวิเคราะห์</a>
+          aria-selected="false">ข้อมูลการเรียนรู้</a>
       </li>
-      <li class="nav-item" *ngIf="auth.authenticated">
+      <!-- <li class="nav-item" *ngIf="auth.authenticated  && (privileage == 'ผู้ดูแลระบบ' || privileage == 'เจ้าหน้าที่เทคนิคการแพทย์')">
         <a class="nav-link" id="pills-condition-tab" data-toggle="pill" routerLink="/genotypes" role="tab" aria-controls="pills-condition"
           aria-selected="false">ทดสอบจีโนไทป์</a>
-      </li>
+      </li> -->
     </ul>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
@@ -60,7 +60,8 @@
             {{user.email}}
           </div> -->
           <!-- profile -->
-          {{profile.email}}
+          {{this.name}}
+          <!-- {{userInformation.fName}} -->
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="profile">ข้อมูลส่วนตัว</a>

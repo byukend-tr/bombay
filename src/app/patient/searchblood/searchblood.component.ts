@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 
 import { NgForm } from '@angular/forms';
 
+import { HomeService } from '../../home/shared/home.service';
 
 @Component({
   selector: 'app-searchblood',
@@ -32,13 +33,21 @@ export class SearchbloodComponent implements OnInit {
   conditionBloodList: any = [];
   conditionList: any = [];
 
+  districts = Array<any>();
+  provinces = Array<any>();
+  subDistricts = Array<any>();
+  location = Array<any>();
+  // districts = [];
+  // provinces = [];
+  // subDistricts = [];
+
   @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
   constructor(private patientService: PatientService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private msg: SharingdataService
-  ) { }
+    private msg: SharingdataService,
+    private homeService: HomeService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -68,6 +77,15 @@ export class SearchbloodComponent implements OnInit {
     });
 
 
+  }
+  validateForm() {
+    if (this.conditionForm.value.id) {
+      if (this.conditionForm.value.id.length !== 13) {
+        Swal('เกิดความผิดพลาด!', 'กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก', 'error');
+      }
+    } else {
+      this.checkCondition();
+    }
   }
   checkCondition() {
     if (this.conditionForm.value.id) {
@@ -125,7 +143,11 @@ export class SearchbloodComponent implements OnInit {
 
       if (this.conditionList[0] !== 'blood') {
         this.patientService.namePatient(filed, filedName).subscribe(data => {
+          // console.log(data);
 
+          for (let i = 0; i < data.length; i++) {
+            data = this.filterNotConfirmBlood(data);
+          }
           // filter
           this.conditionList.splice(0, 1);
           for (let i = 0; i < this.conditionList.length; i++) {
@@ -145,15 +167,24 @@ export class SearchbloodComponent implements OnInit {
           }
           // end filter
           // if (this.conditionList[this.conditionList.length - 1] !== 'blood') {
-            this.showPatient(data);
+          this.showPatient(data);
           // } else {
-            // this.showPatient(data);
+          // this.showPatient(data);
           // }
         });
       }
     }
 
 
+  }
+  filterNotConfirmBlood(data: Array<any>) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].result.result === '-') {
+        data.splice(i, 1);
+        i -= 1;
+      }
+    }
+    return data;
   }
   filterFirstName(data: Array<any>) {
 
@@ -273,5 +304,56 @@ export class SearchbloodComponent implements OnInit {
       }
     }
   }
+  selectDistrict(e, value) {
+    this.districts = [];
+    console.log(value);
+    // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
+    const district = <HTMLInputElement[]><any>document.getElementsByName('district');
 
+    district[0].disabled = false;
+    this.homeService.district(value).subscribe(data => {
+      // this.districts = data;
+      for (let i = 0; i < data.length; i++) {
+
+        if (i !== 0 && this.districts[i - 1].value !== data[i].district) {
+          console.log(this.districts[i - 1].value);
+          this.districts.push(data[i].district);
+        } else if (i === 0) {
+          this.districts.push(data[i].district);
+        }
+        // this.districts[i] = data[i].district;
+        // console.log(data[i].district);
+
+      }
+      console.log(this.districts);
+    });
+
+
+  }
+  selectSubDistrict(e, value) {
+    this.subDistricts = [];
+    console.log(value);
+    // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
+    const subDistrict = <HTMLInputElement[]><any>document.getElementsByName('subDistrict');
+
+    subDistrict[0].disabled = false;
+    this.homeService.subDistrict(value).subscribe(data => {
+      // this.districts = data;
+      for (let i = 0; i < data.length; i++) {
+
+        // if (i !== 0 && this.subDistricts[i - 1].value !== data[i].subDistrict) {
+        // console.log(this.subDistricts[i - 1].value);
+        this.subDistricts.push(data[i].subDistrict);
+        // } else if (i === 0) {
+        // this.subDistricts.push(data[i].subDistrict);
+        // }
+        // this.districts[i] = data[i].district;
+        // console.log(data[i].district);
+
+      }
+      console.log(this.subDistricts);
+    });
+
+
+  }
 }
