@@ -148,6 +148,7 @@ export class AuthService {
       } else if (privileage === 'พยาบาล') {
         this.router.navigate(['/blood']);
       }
+      window.location.reload();
     });
   }
   resetPassword(email: string) {

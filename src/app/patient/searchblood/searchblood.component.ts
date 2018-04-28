@@ -9,7 +9,6 @@ import { SharingdataService } from '../shared/sharingdata.service';
 import Swal from 'sweetalert2';
 
 import { NgForm } from '@angular/forms';
-
 import { HomeService } from '../../home/shared/home.service';
 
 @Component({
@@ -33,17 +32,16 @@ export class SearchbloodComponent implements OnInit {
   conditionBloodList: any = [];
   conditionList: any = [];
 
-  districts = Array<any>();
-  district: string;
+  provinceJSON: any;
   // tslint:disable-next-line:max-line-length
   provinces = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'อ่างทอง', 'ลพบุรี', 'สิงห์บุรี', 'ชัยนาท', 'สระบุรี', 'ชลบุรี', 'ระยอง', 'จันทบุรี', 'ตราด', 'ฉะเชิงเทรา', 'ปราจีนบุรี', 'นครนายก', 'สระแก้ว', 'นครราชสีมา', 'บุรีรัมย์', 'สุรินทร์', 'ศรีสะเกษ', 'อุบลราชธานี', 'ยโสธร', 'ชัยภูมิ', 'อำนาจเจริญ', 'บึงกาฬ', 'หนองบัวลำภู', 'ขอนแก่น', 'อุดรธานี', 'เลย', 'หนองคาย', 'มหาสารคาม', 'ร้อยเอ็ด', 'กาฬสินธุ์', 'สกลนคร', 'นครพนม', 'มุกดาหาร', 'เชียงใหม่', 'ลำพูน', 'ลำปาง', 'อุตรดิตถ์', 'แพร่', 'น่าน', 'พะเยา', 'เชียงราย', 'แม่ฮ่องสอน', 'นครสวรรค์', 'อุทัยธานี', 'กำแพงเพชร', 'ตาก', 'สุโขทัย', 'พิษณุโลก', 'พิจิตร', 'เพชรบูรณ์', 'ราชบุรี', 'กาญจนบุรี', 'สุพรรณบุรี', 'นครปฐม', 'สมุทรสาคร', 'สมุทรสงคราม', 'เพชรบุรี', 'ประจวบคีรีขันธ์', 'นครศรีธรรมราช', 'กระบี่', 'พังงา', 'ภูเก็ต', 'สุราษฎร์ธานี', 'ระนอง', 'ชุมพร', 'สงขลา', 'สตูล', 'ตรัง', 'พัทลุง', 'ปัตตานี', 'ยะลา', 'นราธิวาส'];
-  subDistricts = Array<any>();
+  selectedProvince: '---';
+  subDistricts = new Set();
+  subDistrict: '---';
+  districts = new Set();
+  district: '---';
   location = Array<any>();
-  selectedProvince: string;
-  provinceJSON: any;
-  // districts = [];
-  // provinces = [];
-  // subDistricts = [];
+  panelDistrict: any;
 
   @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
@@ -58,7 +56,6 @@ export class SearchbloodComponent implements OnInit {
     const isFound = false;
     this.conditionList = [];
     this.clearValueInCheckedbox();
-
   }
 
 
@@ -69,7 +66,8 @@ export class SearchbloodComponent implements OnInit {
       lName: new FormControl(),
       province: new FormControl(),
       district: new FormControl(),
-      subDistrict: new FormControl()
+      subDistrict: new FormControl(),
+
     });
   }
   query() {
@@ -86,6 +84,8 @@ export class SearchbloodComponent implements OnInit {
     if (this.conditionForm.value.id) {
       if (this.conditionForm.value.id.length !== 13) {
         Swal('เกิดความผิดพลาด!', 'กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก', 'error');
+      } else {
+        this.checkCondition();
       }
     } else {
       this.checkCondition();
@@ -100,11 +100,14 @@ export class SearchbloodComponent implements OnInit {
       this.conditionList.push('lName');
     } if (this.conditionForm.value.province) {
       this.conditionList.push('province');
-    } if (this.conditionForm.value.district) {
+    }
+    if (this.conditionForm.value.district) {
       this.conditionList.push('district');
-    } if (this.conditionForm.value.subDistrict) {
+    }
+    if (this.conditionForm.value.subDistrict) {
       this.conditionList.push('subDistrict');
-    } if (this.conditionBloodList.length !== 0) {
+    }
+    if (this.conditionBloodList.length !== 0) {
       this.conditionList.push('blood');
     }
 
@@ -308,66 +311,36 @@ export class SearchbloodComponent implements OnInit {
       }
     }
   }
+
   selectDistrict(e, value) {
-    this.districts = [];
     // console.log(this.selectedProvince);
+    if (value === '---') { return; }
+    this.districts = new Set();
+    this.panelDistrict = new FormControl('---');
+    this.subDistricts = new Set();
+    this.panelDistrict = new FormControl('---');
     const query = this.homeService.district(value).subscribe(data => {
       this.provinceJSON = data;
-      console.log(this.provinceJSON);
-      const district = <HTMLInputElement[]><any>document.getElementsByName('district');
-      district[0].disabled = false;
+      const result = new Set();
+      data.forEach(elem => {
+        result.add(elem.district);
+      });
+      this.districts = result;
     });
+    // const district = <HTMLInputElement[]><any>document.getElementsByName('district');
+    // district[0].disabled = false;
   }
-  // selectDistrict(e, value) {
-  //   this.districts = [];
-  //   console.log(value);
-  //   // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
-  //   const district = <HTMLInputElement[]><any>document.getElementsByName('district');
-
-  //   district[0].disabled = false;
-  //   const query = this.homeService.district(value).subscribe(data => {
-  //     // this.districts = data;
-  //     for (let i = 0; i < data.length; i++) {
-
-  //       if (i !== 0 && this.districts[i - 1].value !== data[i].district) {
-  //         console.log(this.districts[i - 1].value);
-  //         this.districts.push(data[i].district);
-  //       } else if (i === 0) {
-  //         this.districts.push(data[i].district);
-  //       }
-  //       // this.districts[i] = data[i].district;
-  //       // console.log(data[i].district);
-
-  //     }
-  //     console.log(this.districts);
-  //   });
-  // }
-
 
   selectSubDistrict(e, value) {
-    this.subDistricts = [];
-    console.log(value);
-    // const province = <HTMLInputElement[]><any>document.getElementsByName('province');
-    const subDistrict = <HTMLInputElement[]><any>document.getElementsByName('subDistrict');
-
-    subDistrict[0].disabled = false;
-    this.homeService.subDistrict(value).subscribe(data => {
-      // this.districts = data;
-      for (let i = 0; i < data.length; i++) {
-
-        // if (i !== 0 && this.subDistricts[i - 1].value !== data[i].subDistrict) {
-        // console.log(this.subDistricts[i - 1].value);
-        this.subDistricts.push(data[i].subDistrict);
-        // } else if (i === 0) {
-        // this.subDistricts.push(data[i].subDistrict);
-        // }
-        // this.districts[i] = data[i].district;
-        // console.log(data[i].district);
-
+    if (value === '---') { return; }
+    const result = new Set();
+    this.provinceJSON.forEach(elem => {
+      if (elem.district === value) {
+        result.add(elem.subDistrict);
       }
-      console.log(this.subDistricts);
     });
-
-
+    this.subDistricts = result;
+    // const subDistrict = <HTMLInputElement[]><any>document.getElementsByName('subDistrict');
+    // subDistrict[0].disabled = false;
   }
 }

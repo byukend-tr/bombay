@@ -73,6 +73,9 @@ export class PatientService {
   updateResult(result: Patient, id: string, resultName: string) {
     firebase.database().ref('patients/' + id + '/' + resultName).set(result);
   }
+  updateStatus(result: Patient, id: string, resultName: string) {
+    firebase.database().ref('patients/' + id + '/' + resultName).set(result);
+  }
   updateBloodResult(blood: string, id: string) {
     firebase.database().ref('patients/' + id + '/result/result').set(blood);
   }
@@ -166,14 +169,21 @@ export class PatientService {
     });
   }
 
+
   pushFileToStorage_abo(fileUpload: FileUpload, progress: { percentage: number }, id: string, key: string, i: number) {
+
+    const today = new Date();
+    const time = today.getHours() + ':' + today.getMinutes();
+    const date = today.toLocaleDateString();
+    // date + ' ' + time;
 
     const storageRef = firebase.storage().ref();
 
     fileUpload.name = i + fileUpload.file.name;
     console.log(id, key);
 
-    const uploadTask = storageRef.child(`${this.basePath}/${id}/abo/${key}/photo/${'1' + fileUpload.file.name}`).put(fileUpload.file);
+    // tslint:disable-next-line:max-line-length
+    const uploadTask = storageRef.child(`${this.basePath}/${id}/abo/${key}/photo/${key}${'_' + fileUpload.file.name}`).put(fileUpload.file);
     // const uploadTask = storageRef.child(`${this.basePath}/${'1' + fileUpload.file.name}`).put(fileUpload.file);
 
 
@@ -190,7 +200,7 @@ export class PatientService {
       () => {
         // success
         fileUpload.url = uploadTask.snapshot.downloadURL;
-        fileUpload.name = '1' + fileUpload.file.name;
+        fileUpload.name = key + '_' + fileUpload.file.name;
         this.saveFileData_abo(fileUpload, id, key);
         console.log(fileUpload.name);
       }
@@ -202,7 +212,8 @@ export class PatientService {
 
     fileUpload.name = i + fileUpload.file.name;
 
-    const uploadTask = storageRef.child(`${this.basePath}/${id}/antibody/${key}/photo/${'1' + fileUpload.file.name}`).put(fileUpload.file);
+    // tslint:disable-next-line:max-line-length
+    const uploadTask = storageRef.child(`${this.basePath}/${id}/antibody/${key}/photo/${key}${'_' + fileUpload.file.name}`).put(fileUpload.file);
 
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -218,7 +229,7 @@ export class PatientService {
       () => {
         // success
         fileUpload.url = uploadTask.snapshot.downloadURL;
-        fileUpload.name = '1' + fileUpload.file.name;
+        fileUpload.name = key + '_' + fileUpload.file.name;
         this.saveFileData_antibody(fileUpload, id, key);
         console.log(fileUpload.name);
       }
@@ -231,7 +242,8 @@ export class PatientService {
     fileUpload.name = i + fileUpload.file.name;
     console.log(id, key);
 
-    const uploadTask = storageRef.child(`${this.basePath}/${id}/saliva/${key}/photo/${'1' + fileUpload.file.name}`).put(fileUpload.file);
+    // tslint:disable-next-line:max-line-length
+    const uploadTask = storageRef.child(`${this.basePath}/${id}/saliva/${key}/photo/${key}${'_' + fileUpload.file.name}`).put(fileUpload.file);
     // const uploadTask = storageRef.child(`${this.basePath}/${'1' + fileUpload.file.name}`).put(fileUpload.file);
 
 
@@ -248,22 +260,23 @@ export class PatientService {
       () => {
         // success
         fileUpload.url = uploadTask.snapshot.downloadURL;
-        fileUpload.name = '1' + fileUpload.file.name;
+        fileUpload.name = key + '_' + fileUpload.file.name;
         this.saveFileData_saliva(fileUpload, id, key);
         console.log(fileUpload.name);
       }
     );
   }
   private saveFileData_abo(fileUpload: FileUpload, id: string, key: string) {
-    // this.db.list(`${this.basePath}/`).push(fileUpload);
+    const today = new Date();
+    const time = today.getHours() + ':' + today.getMinutes();
+    const date = today.toLocaleDateString();
+    // date + ' ' + time;
     this.db.list(`${this.basePath}/${id}/abo/${key}/photo`).push(fileUpload);
   }
   private saveFileData_antibody(fileUpload: FileUpload, id: string, key: string) {
-    // this.db.list(`${this.basePath}/`).push(fileUpload);
     this.db.list(`${this.basePath}/${id}/antibody/${key}/photo`).push(fileUpload);
   }
   private saveFileData_saliva(fileUpload: FileUpload, id: string, key: string) {
-    // this.db.list(`${this.basePath}/`).push(fileUpload);
     this.db.list(`${this.basePath}/${id}/saliva/${key}/photo`).push(fileUpload);
   }
 

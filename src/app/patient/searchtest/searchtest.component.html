@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div style="color:#365082">
-    <h2>ผลการทดลอง</h2>
+    <h2>ผลการทดสอบ</h2>
   </div>
-  <form (ngSubmit)="checkCondition(condition)" [formGroup]="conditionForm" #condition="ngForm">
+  <form (ngSubmit)="validateForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
   <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
     <div class="row">
       <div class="col">
@@ -294,7 +294,7 @@
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">สรุปหมู่เลือด</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">ทำการทดลองต่อ</th>
           <th rowspan="2" style="text-align:center; vertical-align:middle; ">รายละเอียด</th>
-          <th rowspan="2" style="text-align:center; vertical-align:middle; ">ลบ</th>
+          <th rowspan="2" style="text-align:center; vertical-align:middle; " *ngIf="privileage === 'ผู้ดูแลระบบ'">ลบ</th>
         </tr>
         <tr>
           <th>รหัสบัตรประชาชน</th>
@@ -343,7 +343,7 @@
             <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
           </td>
           <td>
-            <button (click)="deletePatient(patient.id)" class="btn btn-sm btn-outline-danger">ลบ</button>
+            <button (click)="deletePatient(patient.id)" class="btn btn-sm btn-outline-danger"  *ngIf="privileage === 'ผู้ดูแลระบบ'">ลบ</button>
           </td>
         </tr>
       </tbody>
@@ -354,9 +354,11 @@
   <ng-template #notFound>
     <div class="alert alert-warning container" role="alert" style="text-align:center;">
       <h4 class="alert-heading">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
-      <hr>
-      <p>สร้างรายชื่อคนไข้ใหม่</p>
-      <button type="submit" routerLink="create" (click)="createPatient()" class="btn btn-sm btn-info">เพิ่มคนไข้ใหม่</button>
+      <div *ngIf="canAddNew === true">
+        <hr>
+        <p>สร้างรายชื่อคนไข้ใหม่</p>
+        <button type="submit" routerLink="create" (click)="createPatient()" class="btn btn-sm btn-info">เพิ่มคนไข้ใหม่</button>
+      </div>
     </div>
   </ng-template>
 

@@ -29,11 +29,15 @@ export class CreatePatientComponent implements OnInit {
   resultAntibodyForm: FormGroup;
   resultSalivaForm: FormGroup;
   resultForm: FormGroup;
+  statusForm: FormGroup;
+
 
   message: string;
 
   public birthdate: Date;
   public age: any;
+
+  currentURL = '';
 
   constructor(
     private auth: AuthService,
@@ -49,6 +53,7 @@ export class CreatePatientComponent implements OnInit {
     this.msg.currentMessage.subscribe(message => {
       this.message = message;
       this.buildForm();
+      this.goToRoot(this.message);
     });
     // $.Thailand({
     //   $district: $('#district'), // input ของตำบล
@@ -78,6 +83,9 @@ export class CreatePatientComponent implements OnInit {
     this.resultForm = new FormGroup({
       result: new FormControl()
     });
+    this.statusForm = new FormGroup({
+      status: new FormControl()
+    });
     this.resultAboForm = new FormGroup({
       idAbo: new FormControl(),
       resultAbo: new FormControl()
@@ -90,6 +98,18 @@ export class CreatePatientComponent implements OnInit {
       idSaliva: new FormControl(),
       resultSaliva: new FormControl()
     });
+  }
+  goToRoot(message: string) {
+    if (message === 'default message') {
+      if (this.getPath() === '/test/detail') {
+        this.router.navigate(['/test']);
+      } else if (this.getPath() === '/blood/detail') {
+        this.router.navigate(['/blood']);
+      }
+    }
+  }
+  getPath() {
+    return this.router.url;
   }
   validationInput() {
 
@@ -110,8 +130,8 @@ export class CreatePatientComponent implements OnInit {
 
         if (isFound) {
           Swal(
-            'สร้างรายไข้คนไข้รายใหม่!',
-            this.conditionForm.value.fName + ' ' + this.conditionForm.value.lName + ' เรียบร้อย',
+            'เพิ่มคนไข้รายใหม่เรียบร้อย!',
+            '',
             'success'
           );
           this.router.navigate(['/test/detail']);
@@ -168,6 +188,9 @@ export class CreatePatientComponent implements OnInit {
   setResult(id: string) {
     this.resultForm.value.result = '-';
     this.patientService.updateResult(this.resultForm.value, id, 'result');
+
+    this.statusForm.value.result = 'ok';
+    this.patientService.updateStatus(this.statusForm.value, id, 'status');
 
     this.resultAboForm.value.idAbo = '-';
     this.resultAboForm.value.resultAbo = '-';

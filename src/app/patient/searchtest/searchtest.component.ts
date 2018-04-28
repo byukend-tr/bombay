@@ -9,6 +9,8 @@ import { SharingdataService } from '../shared/sharingdata.service';
 
 import Swal from 'sweetalert2';
 
+import { AuthService } from '../../auth/shared/auth.service';
+
 @Component({
   selector: 'app-searchtest',
   templateUrl: './searchtest.component.html',
@@ -17,10 +19,11 @@ import Swal from 'sweetalert2';
 export class SearchtestComponent implements OnInit {
 
   conditionForm: FormGroup;
-
+  id: any;
   isFound = false;
   isFind = Array<any>();
   patients: any;
+  canAddNew = false;
 
   message: string;
 
@@ -32,13 +35,21 @@ export class SearchtestComponent implements OnInit {
   antibodyList: any = [];
   salivaList: any = [];
 
+  privileage: string;
+  profile: any = {};
+
   @Output() messageEvent = new EventEmitter<string>(); // use for sharing msg service
 
   constructor(private patientService: PatientService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private msg: SharingdataService
-  ) { }
+    private msg: SharingdataService,
+    public auth: AuthService) {
+    this.auth.getCurrentLoggedInOnInit(data => {
+      this.profile = data;
+      this.getPersonalnformation(this.profile);
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -48,14 +59,16 @@ export class SearchtestComponent implements OnInit {
 
   buildForm() {
     this.conditionForm = new FormGroup({
-      id: new FormControl('', [
-        Validators.pattern('^(?=.*[0–9])(?=.*[a-zA-Z])([a-zA-Z0–9]+)$'),
-        Validators.minLength(1),
-        Validators.maxLength(13)
-      ]),
+      id: new FormControl(),
       fName: new FormControl(),
       lName: new FormControl(),
     });
+  }
+  getPersonalnformation(email: any) {
+    this.auth.getUserProfile(email.email).subscribe(data => {
+      this.privileage = data[0].privilege;
+    });
+
   }
 
   query() {
@@ -64,8 +77,19 @@ export class SearchtestComponent implements OnInit {
       this.patients = data;
       if (data.length !== 0) { this.isFound = true; }
     });
-
-
+  }
+  validateForm() {
+    if (this.conditionForm.value.id) {
+      if (this.conditionForm.value.id.length !== 13) {
+        Swal('เกิดความผิดพลาด!', 'กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก', 'error');
+      } else {
+        this.checkCondition();
+        this.canAddNew = true;
+        this.id = this.conditionForm.value.id;
+      }
+    } else {
+      this.checkCondition();
+    }
   }
   checkCondition() {
     if (this.conditionForm.value.id) {
@@ -83,6 +107,8 @@ export class SearchtestComponent implements OnInit {
     } if (this.salivaList.length !== 0) {
       this.conditionList.push('saliva');
     }
+    console.log(this.conditionList);
+
 
     if (this.conditionList.length === 0) {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลการค้นหา', 'error');
@@ -92,7 +118,6 @@ export class SearchtestComponent implements OnInit {
     }
   }
   search() {
-    console.log(this.conditionList);
 
     let filedName = null;
     let filed = null;
@@ -372,7 +397,7 @@ export class SearchtestComponent implements OnInit {
     //  ********************************************************************
   }
   createPatient() {
-    this.message = this.conditionForm.value.id;
+    this.message = this.id;
     this.newMessage();
   }
   newMessage() {

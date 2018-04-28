@@ -177,39 +177,6 @@ export class DecisionListComponent implements OnInit {
     }
   }
   searchCondition() {
-
-    // let queryCondition;
-    // const abo = this.searchConditionForm.value.groupAbo;
-    // const saliva = this.searchConditionForm.value.groupSaliva;
-    // console.log(abo, saliva);
-    // if (abo === null && saliva === null) { /*first load*/
-    //   Swal(
-    //     'ผิดพลาด!',
-    //     'กรุณาเลือกการแปลผลให้ถูกต้อง',
-    //     'error'
-    //   );
-    // } else {
-    //   if (abo === 'all' && saliva === 'all') {
-    //     queryCondition = this.decisiontreeService.queryAllCondition();
-    //   } else if (abo === 'all' && saliva === 'null') {
-    //     queryCondition = this.decisiontreeService.queryAllCondition();
-    //   } else if (abo === 'null' && saliva === 'all') {
-    //     queryCondition = this.decisiontreeService.queryAllCondition();
-    //   } else if (abo === 'all' || abo === 'null') {
-    //     queryCondition = this.decisiontreeService.querySalivaCondition(saliva);
-    //   } else if (saliva === 'all' || saliva === 'null') {
-    //     queryCondition = this.decisiontreeService.queryAboCondition(abo);
-    //   } else {
-    //     queryCondition = this.decisiontreeService.queryTwoCondition(abo); /* not finished*/
-    //   }
-    //   if (queryCondition !== []) {
-    //     this.loadData2(queryCondition, saliva);
-    //   }
-
-
-
-    // }
-
     console.log(this.searchList);
     if (this.searchList.length > 0) {       // first query
       console.log(this.searchList[0]);
@@ -239,12 +206,9 @@ export class DecisionListComponent implements OnInit {
           });
         }
       }
-      // console.log(this.ruleList.length);
       this.searchList.splice(0, 1);
     }    // end first query
-    // console.log(this.searchList);
-    // console.log(this.ruleList.length);
-    // console.log(this.searchConditionForm.value.groupSaliva);
+
   }
   displaySearch() {
     if (this.searchList.length > 0 && this.ruleList.length > 0) {

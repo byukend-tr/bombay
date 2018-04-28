@@ -17,12 +17,16 @@ import { FileUpload } from '../shared/file-upload';
 import { Observable } from 'rxjs/Observable';
 import Swal from 'sweetalert2';
 
+import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-phenotype-saliva-form',
   templateUrl: './phenotype-saliva-form.component.html',
   styleUrls: ['./phenotype-saliva-form.component.css']
 })
 export class PhenotypeSalivaFormComponent implements OnInit {
+
+  a$: Subscription;
 
   conditionForm: FormGroup;
   resultForm: FormGroup;
@@ -106,7 +110,7 @@ export class PhenotypeSalivaFormComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.secretor && this.conditionForm.value.nonSecretor && this.conditionForm.value.nss && this.conditionForm.value.TestAntiA && this.conditionForm.value.TestAntiB && this.conditionForm.value.TestAntiH) {
 
-      this.patientService.isFoundPatient(this.message).subscribe(data => {
+      this.a$ = this.patientService.isFoundPatient(this.message).subscribe(data => {
         // const aboObj = data;
         const idAbo = data[0].resultAbo.idAbo;
         // console.log(idAbo);
@@ -127,8 +131,9 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         // console.log(this.conditionForm.value.TestAntiB);
         // console.log(this.conditionForm.value.TestAntiH);
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+        this.a$.unsubscribe();
       });
-      Swal({
+       Swal({
         title: 'คุณแน่ใจใช่หรือไม่?',
         text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
           this.patients[0].fName + ' ' +

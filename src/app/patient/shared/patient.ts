@@ -13,6 +13,7 @@ export class Patient {
     subDistrict: string;
     zip: string;
 
+    status: string;
     dateTimeNow: string;
 
     idAbo: string;

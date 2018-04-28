@@ -54,6 +54,7 @@ export class PhenotypeAboFormComponent implements OnInit {
       this.buildForm();
       this.loadPhoto();
       this.conditionForm.value.dateTimeNow = this.getDateTime();
+
       console.log(this.conditionForm.value.dateTimeNow);
     });
 
@@ -165,9 +166,9 @@ export class PhenotypeAboFormComponent implements OnInit {
     return date + ' ' + time;
   }
   setValueInDecision() {
-    this.conditionForm.value.TestAntiA = '-2';
-    this.conditionForm.value.TestAntiB = '-2';
-    this.conditionForm.value.TestAntiH = '-2';
+    this.conditionForm.value.TestAntiA = '-1';
+    this.conditionForm.value.TestAntiB = '-1';
+    this.conditionForm.value.TestAntiH = '-1';
   }
   createTest() { // Input data
     const id = this.patients[0].id;

@@ -60,7 +60,7 @@ export class DecisiontreeService {
 
     console.log(test);
 
-    const predicted_class = dt.predict({
+    let predicted_class = dt.predict({
       AntiA: test.AntiA,
       AntiB: test.AntiB,
       AntiAB: test.AntiAB,
@@ -78,12 +78,20 @@ export class DecisiontreeService {
     // });
     // var accuracy = dt.evaluate(this.test_data);
     // const treeModel = dt.toJSON();
-
+    if (predicted_class === 'Group A' && test.testAntiH !== '0') {
+      predicted_class = 'Group A with unexpected alloantibody';
+    } else if (predicted_class === 'Group B' && test.testAntiH !== '0') {
+      predicted_class = 'Group B with unexpected alloantibody';
+    } else if (predicted_class === 'Group AB' && test.testAntiH !== '0') {
+      predicted_class = 'Group AB with unexpected alloantibody';
+    } else if (predicted_class === 'Group O' && test.testAntiH !== '0') {
+      predicted_class = 'Group O with unexpected alloantibody';
+    }
     return predicted_class;
   }
   testData_Saliva(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+    this.features = ['TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
 
     const predicted_class = dt.predict({
@@ -91,6 +99,8 @@ export class DecisiontreeService {
       TestAntiB: test.testAntiB,
       TestAntiH: test.testAntiH
     });
+    console.log(predicted_class);
+
     return predicted_class;
   }
   analyzeAboTest(test: Decisiontree) {
