@@ -4,16 +4,18 @@
 
   <form (ngSubmit)="validationForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
 
-    <div class="row" *ngFor="let patient of patients;">
+    <div class="row">
+
       <div class="col">
         รหัสบัตรประชาชน
-        <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก" formControlName="id" readonly value={{patient.id}}>
+        <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก" formControlName="id" value={{this.patientId}}
+          readonly>
         <!-- <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 13 หลัก"> -->
 
         <div class="row">
           <div class="col">
             คำนำหน้าชื่อ&nbsp;
-            <select id="minit" class="form-control form-control-sm" formControlName="minit" value={{patient.minit}}>
+            <select id="minit" class="form-control form-control-sm" formControlName="minit" value={{this.patientminit}}>
               <!-- <select id="minit" class="form-control form-control-sm"> -->
 
               <option value="นาย">นาย</option>
@@ -25,13 +27,13 @@
           </div>
           <div class="col">
             ชื่อ
-            <input type="text" class="form-control form-control-sm" value={{patient.fName}} formControlName="fName">
+            <input type="text" class="form-control form-control-sm" value={this.patientfName}} formControlName="fName">
             <!-- <input type="text" class="form-control form-control-sm" value="พัชราภา"> -->
 
           </div>
           <div class="col">
             นามสกุล
-            <input type="text" class="form-control form-control-sm" value={{patient.lName}} formControlName="lName">
+            <input type="text" class="form-control form-control-sm" value={this.patientlName}} formControlName="lName">
             <!-- <input type="text" class="form-control form-control-sm" value="ไชยเชื้อ"> -->
 
           </div>
@@ -39,13 +41,13 @@
         <div class="row">
           <div class="col">
             วันเดือนปีเกิด
-            <input type="date" class="form-control form-control-sm" value={{patient.birthDay}} formControlName="birthDay">
+            <input type="date" class="form-control form-control-sm" value={this.patientbirthDay}} formControlName="birthDay" (change)="setAge($event)">
             <!-- <input type="date" class="form-control form-control-sm" value="1995-10-11"> -->
 
           </div>
           <div class="col">
             อายุ (ปี)
-            <input type="text" class="form-control form-control-sm" value="22" formControlName="age">
+            <input type="text" class="form-control form-control-sm" formControlName="age" value={{age}} readonly>
             <!-- <input type="text" class="form-control form-control-sm" value="22"> -->
 
           </div>
@@ -53,13 +55,13 @@
         <div class="row">
           <div class="col">
             เบอร์ติดต่อ1
-            <input type="number" class="form-control form-control-sm" value={{patient.tel1}} formControlName="tel1">
+            <input type="text" class="form-control form-control-sm" value={{this.patienttel1}} formControlName="tel1">
             <!-- <input type="number" class="form-control form-control-sm" value="0895564203" > -->
 
           </div>
           <div class="col">
             เบอร์ติดต่อ2
-            <input type="number" class="form-control form-control-sm" value={{patient.tel2}} formControlName="tel2">
+            <input type="text" class="form-control form-control-sm" value={{this.patienttel2}} formControlName="tel2">
             <!-- <input type="number" class="form-control form-control-sm" value="0994264286"> -->
 
           </div>
@@ -68,53 +70,46 @@
       <div class="col">
 
         ที่อยู่
-        <input type="text" class="form-control form-control-sm" value={{patient.address}} formControlName="address">
+        <input type="text" class="form-control form-control-sm" value={{this.patientaddress}} formControlName="address">
         <!-- <input type="text" class="form-control form-control-sm" value="239 ถ. ห้วยแก้ว"> -->
 
         <div class="row">
           <div class="col">
-            จังหวัด
-            <select id="city" class="form-control form-control-sm" formControlName="province" value={{patient.province}}>
-              <!-- <select id="city" class="form-control form-control-sm"> -->
-
-              <option value="volvo" selected>เชียงใหม่</option>
-              <option value="saab">กรุงเทพมหานคร</option>
-              <option value="mercedes">เชียงราย</option>
-              <option value="audi">ลำพูน</option>
-              <option value="volvo">ลำปาง</option>
+            จังหวัด {{this.province}}
+            <select class="form-control form-control-sm" formControlName="province" [(ngModel)]="province" (change)="selectDistrict($event,$event.target.value)">
+              <option *ngFor='let province of provinces' [value]="province">{{province}}
+              </option>
             </select>
           </div>
           <div class="col">
-            อำเภอ
-            <select id="amphoe" class="form-control form-control-sm" formControlName="district" value={{patient.district}}>
-              <!-- <select id="amphoe" class="form-control form-control-sm"> -->
-
-              <option value="volvo" selected>เมือง เชียงใหม่</option>
-              <option value="saab">สันทราย</option>
-              <option value="mercedes">ดอยสะเก็ด</option>
-              <option value="audi">เชียงดาว</option>
+            อำเภอ {{this.district}}
+            <!-- <select class="form-control form-control-sm" formControlName="district" value={{patient.district}}>
+              <option selected="selected" value="{{patient.district}}">{{patient.district}}</option>
+            </select> -->
+            <select class="form-control form-control-sm" formControlName="district" [(value)]="district" name="district" [(ngModel)]="district"
+              (change)="selectSubDistrict($event,$event.target.value)">
+              <option *ngFor="let district of districts" value="{{district}}">{{district}}</option>
             </select>
           </div>
         </div>
         <div class="row">
 
           <div class="col">
-            ตำบล
+            ตำบล {{this.subDistrict}}
             <br>
-            <select id="tbon" class="form-control form-control-sm" formControlName="subDistrict" value={{patient.subDistrict}}>
-              <!-- <select id="tbon" class="form-control form-control-sm" > -->
-
-              <option value="volvo" selected>สุเทพ</option>
-              <option value="saab">วัดเกตุ</option>
-              <option value="mercedes">ช้างเผือก</option>
+            <select class="form-control form-control-sm" formControlName="subDistrict" name="subDistrict" [(ngModel)]="subDistrict" (change)="selectZipcode($event,$event.target.value)">
+              <option *ngFor="let subDistrict of subDistricts" value="{{subDistrict}}">{{subDistrict}}</option>
             </select>
+            <!-- <select class="form-control form-control-sm" formControlName="subDistrict" value={{patient.subDistrict}}>
+                <option selected="selected" value="{{patient.subDistrict}}">{{patient.subDistrict}}</option>
+            </select> -->
           </div>
           <div class="col">
             รหัสไปรษณีย์
             <div class="row">
               <div class="col">
-                <input id="post" type="number" class="form-control form-control-sm" value={{patient.zip}} formControlName="zip">
-                <!-- <input id="post" type="number" class="form-control form-control-sm" value="50200" > -->
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="zipcode" [value]="zipcode" formControlName="zipcode">
+                <!-- <input type="text" class="form-control form-control-sm" value={{patient.zip}} formControlName="zip"> -->
 
               </div>
             </div>
@@ -125,10 +120,17 @@
       </div>
     </div>
     <br>
-    <div class="text-center">
-        <button routerLink="/test/detail" id="anaBtn" class="btn btn-sm btn-outline-primary" style="text-align:center">ย้อนกลับ</button>
-      <button type="submit" id="anaBtn" class="btn btn-sm btn-warning" style="text-align:center">แก้ไข</button>
+    <div class="row">
+      <div class="col-4 text-center">
+        <a class="text-muted" [routerLink]="['/test/detail']">ย้อนกลับ</a>
+      </div>
+      <!-- <div class="col-sm-4"></div> -->
+      <div class="col-12 col-md-4 text-center">
+        <button type="submit" id="anaBtn" class="btn btn-sm btn-outline-primary" style="text-align:center">บันทึก</button>
+
+      </div>
     </div>
+
   </form>
 
 

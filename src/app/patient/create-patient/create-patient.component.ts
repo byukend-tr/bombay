@@ -11,6 +11,8 @@ import { Patient } from './../shared/patient';
 
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { HomeService } from '../../home/shared/home.service';
+
 // import * as $ from 'jquery';
 
 // declare var jquery: any;
@@ -35,15 +37,28 @@ export class CreatePatientComponent implements OnInit {
   message: string;
 
   public birthdate: Date;
-  public age: any;
+  public age = 0;
 
   currentURL = '';
+
+  provinceJSON: any;
+  // tslint:disable-next-line:max-line-length
+  provinces = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร', 'ขอนแก่น', 'จันทบุรี', 'ฉะเชิงเทรา', 'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'ตรัง', 'ตราด', 'ตาก', 'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน', 'บึงกาฬ', 'บุรีรัมย์', 'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี', 'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'ภูเก็ต', 'มหาสารคาม', 'มุกดาหาร', 'ยโสธร', 'ยะลา', 'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี', 'ลพบุรี', 'ลำปาง', 'ลำพูน', 'ศรีสะเกษ', 'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์', 'หนองคาย', 'หนองบัวลำภู', 'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี', 'เชียงใหม่', 'เชียงราย', 'เพชรบุรี', 'เพชรบูรณ์', 'เลย', 'แพร่', 'แม่ฮ่องสอน'];
+  province = '---';
+  subDistricts = new Set();
+  subDistrict = '---';
+  districts = new Set();
+  district = '---';
+  zipcode = '---';
+  location = Array<any>();
+  panelDistrict: any;
 
   constructor(
     private auth: AuthService,
     private patientService: PatientService,
     private router: Router,
-    private msg: SharingdataService
+    private msg: SharingdataService,
+    private homeService: HomeService
   ) {
 
   }
@@ -70,15 +85,15 @@ export class CreatePatientComponent implements OnInit {
       fName: new FormControl(),
       lName: new FormControl(),
       birthDay: new FormControl(),
-      age: new FormControl(),
+      // age: new FormControl(),
       tel1: new FormControl(),
       tel2: new FormControl(),
       address: new FormControl(),
       province: new FormControl(),
       district: new FormControl(),
       subDistrict: new FormControl(),
-      zip: new FormControl(),
-
+      zipcode: new FormControl(),
+      status: new FormControl()
     });
     this.resultForm = new FormGroup({
       result: new FormControl()
@@ -123,6 +138,7 @@ export class CreatePatientComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         const id = this.conditionForm.value.id;
+        this.conditionForm.value.status = 'ok';
         const isFound = this.patientService.createPatient(this.conditionForm.value, id);
         this.message = this.conditionForm.value.id;
         this.newMessage();
@@ -152,17 +168,17 @@ export class CreatePatientComponent implements OnInit {
   }
   validationForm() {
 
-
+    console.log(this.conditionForm.value);
 
     let isSuccess = false;
     if (this.conditionForm.value.id) {
-      if (this.conditionForm.value.fName && this.conditionForm.value && this.conditionForm.value.minit) {
+      if (this.conditionForm.value.fName && this.conditionForm.value.lName && this.conditionForm.value.minit) {
         if (this.conditionForm.value.birthDay) {
           if (this.conditionForm.value.tel1) {
             // if (this.conditionForm.value.tel2) {
             // tslint:disable-next-line:max-line-length
             if (this.conditionForm.value.address && this.conditionForm.value.province && this.conditionForm.value.district && this.conditionForm.value.subDistrict) {
-              if (this.conditionForm.value.zip) {
+              if (this.conditionForm.value.zipcode) {
                 isSuccess = true;
               }
             }
@@ -172,7 +188,6 @@ export class CreatePatientComponent implements OnInit {
       }
 
     }
-
 
     if (isSuccess) {
       this.validationInput();
@@ -205,6 +220,7 @@ export class CreatePatientComponent implements OnInit {
     this.patientService.updateResult(this.resultSalivaForm.value, id, 'resultSaliva');
   }
   setAge() {
+    let canSetAge = true;
     const yy = new Date().getFullYear();
     const mm = new Date().getMonth();
     const dd = new Date().getDate();
@@ -212,13 +228,80 @@ export class CreatePatientComponent implements OnInit {
     const birthday = this.conditionForm.value.birthDay.split();
 
     const yearBirth = new Date(birthday[0]).getFullYear();
-    this.age = yy - yearBirth;
-    this.conditionForm.value.age = this.age;
+    const monthBirth = new Date(birthday[0]).getMonth();
+    const dayBirth = new Date(birthday[0]).getDate();
+    if (yearBirth > yy) {
+      canSetAge = false;
+    } else if (yearBirth === yy) {
+      if (monthBirth > mm) {
+        canSetAge = false;
+      } else if (monthBirth === mm) {
+        if (dayBirth > dd) {
+          canSetAge = false;
+        }
+      }
+    }
+
+    if (canSetAge) {
+      this.age = yy - yearBirth;
+      if (mm < monthBirth) {
+        this.age -= 1;
+      } else if (dd < dayBirth) {
+        this.age -= 1;
+      }
+      // this.conditionForm.value.age = this.age;
+    } else {
+      Swal('เกิดความผิดพลาด!', 'กรุณาเลือกปีเกิดให้ถูกต้อง', 'error');
+      this.conditionForm.value.birthDay = 'dd------yyyy';
+    }
   }
 
   newMessage() {
     this.msg.changeMessage(this.message);
   }
 
+  selectDistrict(e, value) {
+    // console.log(this.selectedProvince);
+    if (value === '---') { return; }
+    this.districts = new Set();
+    this.panelDistrict = new FormControl('---');
+    this.subDistricts = new Set();
+    this.panelDistrict = new FormControl('---');
+    const query = this.homeService.district(value).subscribe(data => {
+      this.provinceJSON = data;
+      const result = new Set();
+      data.forEach(elem => {
+        result.add(elem.district);
+      });
+      this.districts = result;
+    });
+    // const district = <HTMLInputElement[]><any>document.getElementsByName('district');
+    // district[0].disabled = false;
+  }
 
+  selectSubDistrict(e, value) {
+    if (value === '---') { return; }
+    const result = new Set();
+    const resultZipcode = new Set();
+    this.provinceJSON.forEach(elem => {
+      if (elem.district === value) {
+        result.add(elem.subDistrict);
+      }
+    });
+    this.subDistricts = result;
+    // const subDistrict = <HTMLInputElement[]><any>document.getElementsByName('subDistrict');
+    // subDistrict[0].disabled = false;
+  }
+  selectZipcode(e, value) {
+    console.log(this.subDistrict)
+    if (value === '---') { return; }
+    // const result = new Set();
+    this.provinceJSON.forEach(elem => {
+      if (elem.subDistrict === value) {
+        // result.add(elem.zipcode);
+        this.zipcode = elem.zipcode;
+        console.log(this.zipcode);
+      }
+    });
+  }
 }

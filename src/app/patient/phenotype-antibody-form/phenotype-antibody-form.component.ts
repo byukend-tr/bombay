@@ -78,7 +78,9 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
       ccc2: new FormControl(),
       antibody: new FormControl(),
       Note: new FormControl(),
-      dateTimeNow: new FormControl()
+      dateTimeNow: new FormControl(),
+      status: new FormControl()
+
     });
     this.resultForm = new FormGroup({
       idAntibody: new FormControl(),
@@ -283,6 +285,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
       }
     }
     // this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
+    this.conditionForm.value.status = 'ok';
     this.conditionForm.value.dateTimeNow = this.getDateTime();
     this.conditionForm.value.antibody = antibody1 + ', ' + antibody2;
     const newRef = this.patientService.createAntibodyTest(this.conditionForm.value, id);

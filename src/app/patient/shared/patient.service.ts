@@ -61,6 +61,10 @@ export class PatientService {
       return true;
     }
   }
+  updatePatient(patient: Patient, id: string) {
+    // firebase.database().ref('patients/' + id + '/abo/' + key).update(patient);
+    firebase.database().ref('patients/' + id).update(patient);
+  }
   createAboTest(patient: Patient, id: string) {
     return firebase.database().ref('patients/' + id + '/abo').push(patient);
   }
@@ -78,6 +82,33 @@ export class PatientService {
   }
   updateBloodResult(blood: string, id: string) {
     firebase.database().ref('patients/' + id + '/result/result').set(blood);
+  }
+  updateAboTest(patient: Patient, id: string, key: string) {
+
+    firebase.database().ref('patients/' + id + '/abo/' + key).update(patient);
+  }
+  searchResult(testName: string, id: string) {
+    return this.db.list(`/patients/${id}/${testName}`).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+  deleteAboTest(patient: Patient, id: string, key: string) {
+
+    firebase.database().ref('patients/' + id + '/abo/' + key).update(patient);
+
+  }
+  deleteAntibodyTest(patient: Patient, id: string, key: string) {
+
+    firebase.database().ref('patients/' + id + '/antibody/' + key).update(patient);
+  }
+  deleteSalivaTest(patient: Patient, id: string, key: string) {
+
+    firebase.database().ref('patients/' + id + '/saliva/' + key).update(patient);
+  }
+  deletePatient(patient: Patient, id: string) {
+    console.log(patient);
+
+    firebase.database().ref('patients/' + id).update(patient);
   }
   query() {
     // console.log('22222');

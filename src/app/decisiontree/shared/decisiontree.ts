@@ -2,9 +2,9 @@ export class Decisiontree {
     AntiA: string;
     AntiB: string;
     AntiAB: string;
-    ACell: string;
+    Acell: string;
     Bcell: string;
-    OCell: string;
+    Ocell: string;
 
     secretor: string;
     nonSecretor: string;

@@ -7,6 +7,8 @@ import { PatientService } from '../shared/patient.service';
 import { SharingdataService } from '../shared/sharingdata.service';
 import { Relatives } from '../shared/relatives';
 
+import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -19,6 +21,9 @@ export class DetailComponent implements OnInit {
   message: string;
   currentURL = '';
   test: string;
+  public age: any;
+
+  a$: Subscription;
 
   constructor(private patientService: PatientService,
     private msg: SharingdataService,
@@ -47,8 +52,12 @@ export class DetailComponent implements OnInit {
     return this.router.url;
   }
   loadData() {
-    this.patientService.detailPatient(this.message).subscribe(data => {
+    this.a$ = this.patientService.detailPatient(this.message).subscribe(data => {
       this.patients = data;
+      // console.log(this.patients);
+
+      this.setAge(this.patients[0].birthDay);
+      this.a$.unsubscribe();
     });
   }
   phenotype(id: string, test: string) {
@@ -97,5 +106,42 @@ export class DetailComponent implements OnInit {
   newMessage() {
     this.msg.changeMessage(this.message);
     this.msg.testName(this.test);
+  }
+  setAge(birthDay: Date) {
+    console.log(birthDay);
+
+    const yy = new Date().getFullYear();
+    const mm = new Date().getMonth();
+    const dd = new Date().getDate();
+    let birthday;
+    // console.log(typeof(birthday));
+
+    // if (e === null) {
+    birthday = this.patients[0].birthDay.split('-');
+    // } else {
+    // birthday = e.target.value.split('-');
+    // }
+
+    // const yearBirth = new Date(birthday[0]).getFullYear();
+    // const monthBirth = new Date(birthday[1]).getMonth();
+    // const dayBirth = new Date(birthday[2]).getDate();
+    const yearBirth = birthday[0];
+    const monthBirth = birthday[1];
+    const dayBirth = birthday[2];
+    this.age = yy - yearBirth;
+    // console.log(this.age);
+    // console.log(yy, yearBirth);
+    // console.log(mm, monthBirth);
+    // console.log(dd, dayBirth);
+
+    if (mm < monthBirth) {
+      this.age -= 1;
+    } else if (mm === monthBirth) {
+      if (dd < dayBirth) {
+        this.age -= 1;
+      }
+    }
+
+    // this.conditionForm.value.age = this.age;
   }
 }

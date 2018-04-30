@@ -55,7 +55,7 @@ export class DecisiontreeService {
 
   testData_Abo(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'Acell', 'Bcell', 'Ocell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
 
     console.log(test);
@@ -64,9 +64,9 @@ export class DecisiontreeService {
       AntiA: test.AntiA,
       AntiB: test.AntiB,
       AntiAB: test.AntiAB,
-      ACell: test.ACell,
-      BCell: test.Bcell,
-      OCell: test.OCell,
+      Acell: test.Acell,
+      Bcell: test.Bcell,
+      Ocell: test.Ocell,
       TestAntiA: test.testAntiA,
       TestAntiB: test.testAntiB,
       TestAntiH: test.testAntiH
@@ -78,29 +78,48 @@ export class DecisiontreeService {
     // });
     // var accuracy = dt.evaluate(this.test_data);
     // const treeModel = dt.toJSON();
-    if (predicted_class === 'Group A' && test.testAntiH !== '0') {
+
+
+    if (predicted_class === 'Group A' && test.Ocell !== '0') {
       predicted_class = 'Group A with unexpected alloantibody';
-    } else if (predicted_class === 'Group B' && test.testAntiH !== '0') {
+    } else if (predicted_class === 'Group B' && test.Ocell !== '0') {
       predicted_class = 'Group B with unexpected alloantibody';
-    } else if (predicted_class === 'Group AB' && test.testAntiH !== '0') {
+    } else if (predicted_class === 'Group AB' && test.Ocell !== '0') {
       predicted_class = 'Group AB with unexpected alloantibody';
-    } else if (predicted_class === 'Group O' && test.testAntiH !== '0') {
+    } else if (predicted_class === 'Group O' && test.Ocell !== '0') {
       predicted_class = 'Group O with unexpected alloantibody';
     }
     return predicted_class;
   }
   testData_Saliva(test: Decisiontree) {
     this.class_name = 'result';
-    this.features = ['TestAntiA', 'TestAntiB', 'TestAntiH'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'Acell', 'Bcell', 'Ocell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
+    console.log(test);
 
-    const predicted_class = dt.predict({
+    let predicted_class = dt.predict({
+      AntiA: test.AntiA,
+      AntiB: test.AntiB,
+      AntiAB: test.AntiAB,
+      Acell: test.Acell,
+      Bcell: test.Bcell,
+      Ocell: test.Ocell,
       TestAntiA: test.testAntiA,
       TestAntiB: test.testAntiB,
       TestAntiH: test.testAntiH
     });
     console.log(predicted_class);
 
+    if (predicted_class === 'Group A with unexpected alloantibody' || predicted_class === 'Group A') {
+      predicted_class = 'Secretor gr.A';
+    } else if (predicted_class === 'Group B with unexpected alloantibody' || predicted_class === 'Group B') {
+      predicted_class = 'Secretor gr.B';
+    } else if (predicted_class === 'Group AB with unexpected alloantibody' || predicted_class === 'Group AB') {
+      predicted_class = 'Secretor gr.AB';
+    } else if (predicted_class === 'Group O with unexpected alloantibody' || predicted_class === 'Group O') {
+      predicted_class = 'Secretor gr.O';
+    }
+    console.log(predicted_class);
     return predicted_class;
   }
   analyzeAboTest(test: Decisiontree) {
@@ -136,7 +155,7 @@ export class DecisiontreeService {
     // console.log(this.test_data);
 
     this.class_name = 'result';
-    this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+    this.features = ['AntiA', 'AntiB', 'AntiAB', 'Acell', 'Bcell', 'Ocell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
     const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
     const predicted_class = dt.predict(this.test_data);
 
@@ -194,7 +213,7 @@ export class DecisiontreeService {
 
       // console.log('Accuracy = ' + accuracy);
       this.class_name = 'result';
-      this.features = ['AntiA', 'AntiB', 'AntiAB', 'ACell', 'BCell', 'OCell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
+      this.features = ['AntiA', 'AntiB', 'AntiAB', 'Acell', 'Bcell', 'Ocell', 'TestAntiA', 'TestAntiB', 'TestAntiH'];
       const dt = new this.DecisionTree(this.training_data, this.class_name, this.features);
       const predicted_class = dt.predict(this.test_data);
       // console.log(predicted_class);

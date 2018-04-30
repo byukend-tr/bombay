@@ -81,6 +81,8 @@ export class PhenotypeAboFormComponent implements OnInit {
       groupAbo: new FormControl(),
       dateTimeNow: new FormControl(),
 
+      status: new FormControl(),
+
       TestAntiA: new FormControl(),
       TestAntiB: new FormControl(),
       TestAntiH: new FormControl(),
@@ -169,6 +171,7 @@ export class PhenotypeAboFormComponent implements OnInit {
     this.conditionForm.value.TestAntiA = '-1';
     this.conditionForm.value.TestAntiB = '-1';
     this.conditionForm.value.TestAntiH = '-1';
+    this.conditionForm.value.status = 'ok';
   }
   createTest() { // Input data
     const id = this.patients[0].id;
@@ -184,6 +187,11 @@ export class PhenotypeAboFormComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.groupAbo === 'Group A' || this.conditionForm.value.groupAbo === 'Group B' || this.conditionForm.value.groupAbo === 'Group AB' || this.conditionForm.value.groupAbo === 'Group O') {
       this.patientService.updateBloodResult(this.conditionForm.value.groupAbo, id);
+      this.conditionForm.value.TestAntiA = '-2';
+      this.conditionForm.value.TestAntiB = '-2';
+      this.conditionForm.value.TestAntiH = '-2';
+      this.patientService.updateAboTest(this.conditionForm.value, id, newRef.key);
+
     }
     return newRef.key;
   }

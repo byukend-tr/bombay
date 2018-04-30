@@ -84,6 +84,8 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       Note: new FormControl(),
       dateTimeNow: new FormControl(),
 
+      status: new FormControl(),
+
       AntiA: new FormControl(),
       AntiB: new FormControl(),
       AntiAB: new FormControl(),
@@ -133,7 +135,7 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
         this.a$.unsubscribe();
       });
-       Swal({
+      Swal({
         title: 'คุณแน่ใจใช่หรือไม่?',
         text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
           this.patients[0].fName + ' ' +
@@ -201,9 +203,9 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
     this.conditionForm.value.dateTimeNow = this.getDateTime();
     this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
-          
-    // this.aboResult = this.patientService.detailTest(id, 'resultAbo');
 
+    // this.aboResult = this.patientService.detailTest(id, 'resultAbo');
+    this.conditionForm.value.status = 'ok';
     const newRef = this.patientService.createSalivaTest(this.conditionForm.value, id);
 
     this.resultForm.value.idSaliva = newRef.key;

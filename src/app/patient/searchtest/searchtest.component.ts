@@ -19,6 +19,8 @@ import { AuthService } from '../../auth/shared/auth.service';
 export class SearchtestComponent implements OnInit {
 
   conditionForm: FormGroup;
+  statusForm: FormGroup;
+
   id: any;
   isFound = false;
   isFind = Array<any>();
@@ -62,6 +64,9 @@ export class SearchtestComponent implements OnInit {
       id: new FormControl(),
       fName: new FormControl(),
       lName: new FormControl(),
+    });
+    this.statusForm = new FormGroup({
+      status: new FormControl()
     });
   }
   getPersonalnformation(email: any) {
@@ -173,8 +178,9 @@ export class SearchtestComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       if (this.conditionList[0] !== 'continue' && this.conditionList[0] !== 'abo' && this.conditionList[0] !== 'antibody' && this.conditionList[0] !== 'saliva') {    // loop query
         this.patientService.namePatient(filed, filedName).subscribe(data => {
+          
+          data = this.filterDelete(data);
           console.log(data);
-
           // filter
           this.conditionList.splice(0, 1);
           for (let i = 0; i < this.conditionList.length; i++) {
@@ -219,6 +225,16 @@ export class SearchtestComponent implements OnInit {
     }
 
 
+  }
+  filterDelete(data: Array<any>) {
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].status === 'delete') {
+        data.splice(i, 1);
+        i -= 1;
+      }
+    }
+    return data;
   }
   filterFirstName(data: Array<any>) {
 
@@ -392,9 +408,30 @@ export class SearchtestComponent implements OnInit {
     this.router.navigate(['/test/phenotype']);
   }
   deletePatient(id: string) {
-    // console.log('delete' + id);
-
-    //  ********************************************************************
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการลบคนไข้รายนี้ใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.statusForm.value.status = 'delete';
+        this.patientService.deletePatient(this.statusForm.value, id);
+        Swal(
+          'ลบรายชื่อคนไข้เรียบร้อย!',
+          '',
+          'success'
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้รายชื่อลบคนไข้',
+          'error'
+        );
+      }
+    });
   }
   createPatient() {
     this.message = this.id;

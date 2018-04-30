@@ -1,130 +1,130 @@
 <div class="container-fluid">
-    <h2 style="color:#365082">ค้นหา</h2>
-    <form (ngSubmit)="validateForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
-      <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
-      <div class="row">
-        <div class="col">
-          รหัสบัตรประชาชน
-          <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 1-13 หลัก" formControlName="id">
-          <div class="row">
-            <div class="col">
-              ชื่อจริง
-              <input type="text" class="form-control form-control-sm" placeholder="ชื่อจริง" formControlName="fName">
-            </div>
-            <div class="col">
-              นามสกุล
-              <input type="text" class="form-control form-control-sm" placeholder="นามสกุล" formControlName="lName">
-            </div>
+  <h2 style="color:#365082">ค้นหา</h2>
+  <form (ngSubmit)="validateForm(condition)" [formGroup]="conditionForm" #condition="ngForm">
+    <!-- <form ng-submit="search(condition)" [formGroup]="conditionForm" #condition="ngForm"> -->
+    <div class="row">
+      <div class="col">
+        รหัสบัตรประชาชน
+        <input type="text" class="form-control form-control-sm" placeholder="รหัสบัตรประชาชน 1-13 หลัก" formControlName="id">
+        <div class="row">
+          <div class="col">
+            ชื่อจริง
+            <input type="text" class="form-control form-control-sm" placeholder="ชื่อจริง" formControlName="fName">
+          </div>
+          <div class="col">
+            นามสกุล
+            <input type="text" class="form-control form-control-sm" placeholder="นามสกุล" formControlName="lName">
           </div>
         </div>
-        <div class="col">
-          จังหวัด
-          <select class="form-control form-control-sm" formControlName="province" [(ngModel)]="selectedProvince" (change)="selectDistrict($event,$event.target.value)">
-            <option value="none">---</option>
-            <option *ngFor='let province of provinces' [value]="province">{{province}}
-            </option>
-  
-          </select>
-          <div class="row">
-            <div class="col">
-              อำเภอ
-              <select class="form-control form-control-sm" formControlName="district" [(value)]="district"
-                name="district" [(ngModel)]="district" (change)="selectSubDistrict($event,$event.target.value)">
-                <option value="none">---</option>
-                <option *ngFor="let district of districts" value="{{district}}">{{district}}</option>
-                <!-- <option value="district.district">{{district}}</option> -->
-                <!-- <option value="เมือง เชียงใหม่">เมือง เชียงใหม่</option>
+      </div>
+      <div class="col">
+        จังหวัด
+        <select class="form-control form-control-sm" formControlName="province" [(ngModel)]="selectedProvince" (change)="selectDistrict($event,$event.target.value)">
+          <option value="none">---</option>
+          <option *ngFor='let province of provinces' [value]="province">{{province}}
+          </option>
+
+        </select>
+        <div class="row">
+          <div class="col">
+            อำเภอ
+            <select class="form-control form-control-sm" formControlName="district" [(value)]="district" name="district" [(ngModel)]="district"
+              (change)="selectSubDistrict($event,$event.target.value)">
+              <option value="none">---</option>
+              <option *ngFor="let district of districts" value="{{district}}">{{district}}</option>
+              <!-- <option value="district.district">{{district}}</option> -->
+              <!-- <option value="เมือง เชียงใหม่">เมือง เชียงใหม่</option>
                 <option value="สันทราย">สันทราย</option>
                 <option value="สันกำแพง">สันกำแพง</option>
                 <option value="เชียงดาว">เชียงดาว</option>
                 <option value="หางดง">หางดง</option> -->
-              </select>
-              <!-- {{districts}} -->
-            </div>
-            <div class="col">
-              ตำบล
-              <select class="form-control form-control-sm" formControlName="subDistrict" name="subDistrict">
-                <option value="none">---</option>
-                <option *ngFor="let subDistrict of subDistricts" value="{{subDistrict}}">{{subDistrict}}</option>
-                <!-- <option value="สุเทพ">สุเทพ</option>
+            </select>
+            <!-- {{districts}} -->
+          </div>
+          <div class="col">
+            ตำบล
+            <select class="form-control form-control-sm" formControlName="subDistrict" name="subDistrict">
+              <option value="none">---</option>
+              <option *ngFor="let subDistrict of subDistricts" value="{{subDistrict}}">{{subDistrict}}</option>
+              <!-- <option value="สุเทพ">สุเทพ</option>
                 <option value="วัดเกตุ">วัดเกตุ</option>
                 <option value="ช้างเผือก">ช้างเผือก</option>
                 <option value="ศรีภูมิ">ศรีภูมิ</option>
                 <option value="แม่เหียะ">แม่เหียะ</option> -->
-              </select>
-            </div>
+            </select>
           </div>
-  
         </div>
-        <div class="col">
-          หมู่เลือด
-          <div class="checkbox form-control form-control-sm">
-            <div class="row">
-              <div class="col">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="Apara" value="A para-Bombay" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">A para-Bombay</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="Bpara" value="B para-Bombay" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">B para-Bombay</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="ABpara" value="AB para-Bombay" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">AB para-Bombay</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="Opara" value="O para-Bombay" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">O para-Bombay</span>
-                </label>
-                <!-- <label class="custom-control custom-checkbox">
+
+      </div>
+      <div class="col">
+        หมู่เลือด
+        <div class="checkbox form-control form-control-sm">
+          <div class="row">
+            <div class="col">
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="Apara" value="A para-Bombay" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">A para-Bombay</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="Bpara" value="B para-Bombay" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">B para-Bombay</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="ABpara" value="AB para-Bombay" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">AB para-Bombay</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="Opara" value="O para-Bombay" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">O para-Bombay</span>
+              </label>
+              <!-- <label class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="checkStep" value="O Bombay" onchange="checkboxChange()">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">O Bombay</span>
                 </label> -->
-              </div>
-              <div class="col-4">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="A" value="Group A" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">A</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="B" value="Group B" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">B</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="AB" value="Group AB" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">AB</span>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="O" value="Group O" (change)="selectBlood($event,$event.target.value)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">O</span>
-                </label>
-              </div>
+            </div>
+            <div class="col-4">
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="A" value="Group A" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">A</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="B" value="Group B" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">B</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="AB" value="Group AB" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">AB</span>
+              </label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="O" value="Group O" (change)="selectBlood($event,$event.target.value)">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">O</span>
+              </label>
             </div>
           </div>
         </div>
-  
-  
       </div>
-      <br>
-      <div class="row">
-        <div class="col text-center">
-          <button type="submit" class="btn btn-sm btn-outline-primary">ค้นหา</button>
-        </div>
-      </div>
-  
-    </form>
+
+
+    </div>
     <br>
-    <!-- <center>
+    <div class="row">
+      <div class="col text-center">
+        <button type="submit" class="btn btn-sm btn-outline-primary">ค้นหา</button>
+      </div>
+    </div>
+
+  </form>
+  <br>
+  <!-- <center>
       <div class="alert alert-warning alert-dismissible fade show" role="alert" id="tempNotFound" style="display:none">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -133,53 +133,53 @@
         <h4>ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
       </div>
     </center> -->
-  
-    <!-- <table id="tempTable" style="display: none" class="table table-sm table-striped table-bordered table-hover table-responsive thead-inverse"> -->
-    <div *ngIf="isFound; else notFound">
-      <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
-        <thead class="thead-table">
-          <tr>
-            <th>รหัสบัตรประชาชน</th>
-            <th>ชื่อจริง</th>
-            <th>นามสกุล</th>
-            <th>จังหวัด</th>
-            <th>อำเภอ</th>
-            <th>ตำบล</th>
-            <th>หมู่เลือด</th>
-            <th>รายละเอียด</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let patient of patients;">
-            <td>{{patient.id}}</td>
-            <td>{{patient.fName}}</td>
-            <td>{{patient.lName}}</td>
-            <td>{{patient.province}}</td>
-            <td>{{patient.district}}</td>
-            <td>{{patient.subDistrict}}</td>
-            <td>{{patient.result.result}}</td>
-            <td class="text-green">
-              <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <ng-template #notFound>
-      <div class="alert alert-warning container" role="alert" style="text-align:center;">
-        <h4 class="alert-heading">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
-      </div>
-    </ng-template>
+
+  <!-- <table id="tempTable" style="display: none" class="table table-sm table-striped table-bordered table-hover table-responsive thead-inverse"> -->
+  <div *ngIf="isFound; else notFound">
+    <table id="tempTable" class="table table-sm table-striped table-bordered table-hover">
+      <thead class="thead-table">
+        <tr>
+          <th>รหัสบัตรประชาชน</th>
+          <th>ชื่อจริง</th>
+          <th>นามสกุล</th>
+          <th>จังหวัด</th>
+          <th>อำเภอ</th>
+          <th>ตำบล</th>
+          <th>หมู่เลือด</th>
+          <th>รายละเอียด</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of patients;">
+          <td>{{patient.id}}</td>
+          <td>{{patient.fName}}</td>
+          <td>{{patient.lName}}</td>
+          <td>{{patient.province}}</td>
+          <td>{{patient.district}}</td>
+          <td>{{patient.subDistrict}}</td>
+          <td>{{patient.result.result}}</td>
+          <td class="text-green">
+            <button (click)="viewDetail(patient.id)" class="btn btn-sm btn-outline-primary">รายละเอียด</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <script type="text/javascript">
-    $(function () {
-      $('body').AutoProvince({
-        PROVINCE: '#province', // select div สำหรับรายชื่อจังหวัด
-        AMPHUR: '#amphur', // select div สำหรับรายชื่ออำเภอ
-        DISTRICT: '#district', // select div สำหรับรายชื่อตำบล
-        POSTCODE: '#postcode', // input field สำหรับรายชื่อรหัสไปรษณีย์
-        arrangeByName: false // กำหนดให้เรียงตามตัวอักษร
-      });
+  <ng-template #notFound>
+    <div class="alert alert-warning container" role="alert" style="text-align:center;">
+      <h4 class="alert-heading">ไม่พบข้อมูลคนไข้ดังกล่าว</h4>
+    </div>
+  </ng-template>
+</div>
+<script type="text/javascript">
+  $(function () {
+    $('body').AutoProvince({
+      PROVINCE: '#province', // select div สำหรับรายชื่อจังหวัด
+      AMPHUR: '#amphur', // select div สำหรับรายชื่ออำเภอ
+      DISTRICT: '#district', // select div สำหรับรายชื่อตำบล
+      POSTCODE: '#postcode', // input field สำหรับรายชื่อรหัสไปรษณีย์
+      arrangeByName: false // กำหนดให้เรียงตามตัวอักษร
     });
-  </script>
-  <router-outlet></router-outlet>
+  });
+</script>
+<router-outlet></router-outlet>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { PatientService } from '../shared/patient.service';
 import { SharingdataService } from '../shared/sharingdata.service';
@@ -7,13 +8,20 @@ import { SharingdataService } from '../shared/sharingdata.service';
 import { Patient } from '../shared/patient';
 import { FileUpload } from '../shared/file-upload';
 
+import Swal from 'sweetalert2';
 
+import { AuthService } from '../../auth/shared/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-detail-list',
   templateUrl: './detail-list.component.html',
   styleUrls: ['./detail-list.component.css']
 })
 export class DetailListComponent implements OnInit {
+
+  resultAboForm: FormGroup;
+  resultSalivaForm: FormGroup;
+
 
   patients: any;
   message: string;
@@ -29,14 +37,42 @@ export class DetailListComponent implements OnInit {
   salivaLists_photo: any;
   hasSaliva = true;
 
+  privileage: string;
+  profile: any = {};
+
+  statusForm: FormGroup;
+
+
+  a$: Subscription;
 
   constructor(private patientService: PatientService,
     private msg: SharingdataService,
-    private router: Router) { }
+    private router: Router,
+    public auth: AuthService) {
+    this.auth.getCurrentLoggedInOnInit(data => {
+      this.profile = data;
+      this.getPersonalnformation(this.profile);
+    });
+  }
+  buildForm() {
+
+    this.statusForm = new FormGroup({
+      status: new FormControl()
+    });
+    this.resultAboForm = new FormGroup({
+      idAbo: new FormControl(),
+      resultAbo: new FormControl()
+    });
+    this.resultSalivaForm = new FormGroup({
+      idSaliva: new FormControl(),
+      resultSaliva: new FormControl()
+    });
+  }
 
   ngOnInit() {
     this.msg.currentMessage.subscribe(message => {
       this.message = message;
+      this.buildForm();
       this.goToRoot(this.message);
       this.loadData();
       this.loadAbo();
@@ -44,6 +80,12 @@ export class DetailListComponent implements OnInit {
       this.loadSaliva();
     }
     );
+  }
+  getPersonalnformation(email: any) {
+    this.auth.getUserProfile(email.email).subscribe(data => {
+      this.privileage = data[0].privilege;
+    });
+
   }
   goToRoot(message: string) {
     if (message === 'default message') {
@@ -76,7 +118,7 @@ export class DetailListComponent implements OnInit {
     });
   }
   loadAbo() {
-    this.patientService.detailTest(this.message, 'abo').subscribe(data => {
+    this.a$ = this.patientService.detailTest(this.message, 'abo').subscribe(data => {
 
       this.aboLists = data;
       this.aboLists_photo = new Array<Patient>();
@@ -85,6 +127,7 @@ export class DetailListComponent implements OnInit {
         this.aboLists_photo.push(cb);
       });
       this.showData(this.aboLists);
+      this.a$.unsubscribe();
     });
   }
   loadAntibody() {
@@ -114,6 +157,101 @@ export class DetailListComponent implements OnInit {
         this.hasSaliva = false;
       }
       this.showData(this.salivaLists);
+    });
+  }
+  deleteAbo(id: string) {
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการลบการทดสอบนี้ใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        console.log('deleteAbo' + id);
+        this.statusForm.value.status = 'delete';
+        this.patientService.deleteAboTest(this.statusForm.value, this.message, id);
+
+        // const idAbo = this.patientService.searchResult('resultAbo', this.message);
+        // if (idAbo[0].idAbo === id) {
+        //   // update result of abo
+        //   const abo = this.patientService.detailTest(this.message, 'abo');
+        //   this.resultAboForm.value.idAbo = abo[length - 1].key;
+        //   this.resultAboForm.value.resultAbo = abo[length - 1].groupAbo;
+        //   this.patientService.updateResult(this.resultAboForm.value, this.message, 'resultAbo');
+        //   // update result of saliva
+        //   const idSaliva = this.patientService.searchResult('resultSaliva', this.message);
+        //   this.resultSalivaForm.value.idSaliva = idSaliva[0].key;
+        //   this.resultSalivaForm.value.resultSaliva = idSaliva[0].groupSaliva;
+        //   this.patientService.updateResult(this.resultSalivaForm.value, this.message, 'resultSaliva');
+        // // update result
+        // }
+        Swal(
+          'ลบการทดสอบเรียบร้อย!',
+          '',
+          'success'
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบการทดสอบ',
+          'error'
+        );
+      }
+    });
+  }
+  deleteSaliva(id: string) {
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการลบการทดสอบนี้ใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.statusForm.value.status = 'delete';
+        this.patientService.deleteSalivaTest(this.statusForm.value, this.message, id);
+        Swal(
+          'ลบการทดสอบเรียบร้อย!',
+          '',
+          'success'
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบการทดสอบ',
+          'error'
+        );
+      }
+    });
+  }
+  deleteAntibody(id: string) {
+
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'คุณต้องการลบการทดสอบนี้ใช่หรือไม่',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการลบ',
+      cancelButtonText: 'ไม่ ต้องการลบ'
+    }).then((result) => {
+      if (result.value) {
+        this.statusForm.value.status = 'delete';
+        this.patientService.deleteAntibodyTest(this.statusForm.value, this.message, id);
+        Swal(
+          'ลบการทดสอบเรียบร้อย!',
+          '',
+          'success'
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้ลบการทดสอบ',
+          'error'
+        );
+      }
     });
   }
 }
