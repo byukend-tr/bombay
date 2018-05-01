@@ -56,7 +56,9 @@ export class EditPatientComponent implements OnInit {
   patientdistrict: any;
   patientsubDistrict: any;
   patientzipCode: any;
-  
+
+  panelFname: any;
+
 
   constructor(
     private auth: AuthService,
@@ -108,10 +110,10 @@ export class EditPatientComponent implements OnInit {
 
 
   loadData() {
-    this.a$ = this.patientService.detailPatient(this.message).subscribe(data => {
+    this.a$ = this.patientService.detailPatient(this.message).subscribe(data => { // load patient, this.mesage = ?
       this.patients = data;
-      this.setValue(data);
       this.setAge();
+      this.setValue(data);
       this.province = this.patients[0].province;
       this.subDistrict = this.patients[0].subDistrict;
       this.district = this.patients[0].district;
@@ -120,25 +122,33 @@ export class EditPatientComponent implements OnInit {
     });
   }
   setValue(data: any) {
-    console.log('gggggggggggggggggg');
-    console.log(data);
-
-    // console.log(data[0].minit);
-
-    this.patientId = this.patients[0].id;
-    
-
-    this.patientminit = this.patients[0].minit;
-    this.patientfName = this.patients[0].fName;
-    this.patientlName = this.patients[0].lName;
-    this.patientbirthDay = this.patients[0].birthDay;
-    this.patienttel1 = this.patients[0].tel1;
-    this.patienttel2 = this.patients[0].tel2;
-    this.patientaddress = this.patients[0].address;
-    this.patientprovince = this.patients[0].province;
-    this.patientdistrict = this.patients[0].district;
-    this.patientsubDistrict = this.patients[0].subDistrict;
-    this.patientzipCode = this.patients[0].zipcode;
+    // this.patientId = this.patients[0].id;
+    // this.patientminit = this.patients[0].minit;
+    // this.patientfName = this.patients[0].fName;
+    // this.patientlName = this.patients[0].lName;
+    // this.patientbirthDay = this.patients[0].birthDay;
+    // this.patienttel1 = this.patients[0].tel1;
+    // this.patienttel2 = this.patients[0].tel2;
+    // this.patientaddress = this.patients[0].address;
+    // this.patientprovince = this.patients[0].province;
+    // this.patientdistrict = this.patients[0].district;
+    // this.patientsubDistrict = this.patients[0].subDistrict;
+    // this.patientzipCode = this.patients[0].zipcode;
+    this.conditionForm.setValue({
+      id: this.patients[0].id,
+      minit: this.patients[0].minit,
+      fName: this.patients[0].fName,
+      lName: this.patients[0].lName,
+      birthDay: this.patients[0].birthDay,
+      age: this.age,
+      tel1: this.patients[0].tel1,
+      tel2: this.patients[0].tel2,
+      address: this.patients[0].address,
+      province: this.patients[0].province,
+      district: this.patients[0].district,
+      subDistrict: this.patients[0].subDistrict,
+      zipcode: this.patients[0].zipcode
+    });
     console.log(this.conditionForm.value);
   }
   setAge(e = null) {
@@ -187,10 +197,9 @@ export class EditPatientComponent implements OnInit {
     }
 
   }
-  validationInput() {
-    console.log(this.conditionForm.value);
-    console.log(this.patients);
-    // this.setValue(this.patients);
+  validationInput(input) {
+    console.log(input);
+
     Swal({
       title: 'คุณแน่ใจใช่หรือไม่?',
       text: 'คุณต้องการแก้ไขข้อมูลของ ' + this.conditionForm.value.fName + ' ' + this.conditionForm.value.lName,
@@ -201,10 +210,11 @@ export class EditPatientComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         const id = this.patients[0].id;
-        this.patientService.updatePatient(this.conditionForm.value, id);
-        this.message = this.conditionForm.value.id;
-        this.newMessage();
-        console.log(this.patients);
+
+        // this.patientService.updatePatient(this.conditionForm.value, id);
+        // this.message = this.conditionForm.value.id;
+        // this.newMessage();
+        // console.log(this.patients);
 
 
         Swal(
@@ -224,8 +234,8 @@ export class EditPatientComponent implements OnInit {
     });
   }
   validationForm() {
-
-    this.validationInput();
+    const input = this.conditionForm.value;
+    this.validationInput(input);
 
   }
 
