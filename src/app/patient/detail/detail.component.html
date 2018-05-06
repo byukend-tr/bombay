@@ -75,12 +75,12 @@
           </td>
         </div>
         <div class="col-md" >
-          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-' && patient.resultAbo.resultAbo != 'Group A' && patient.resultAbo.resultAbo != 'Group B' && patient.resultAbo.resultAbo != 'Group AB' && patient.resultAbo.resultAbo != 'Group O'">
             <button (click)="phenotype(patient.id,'Antibody')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:แอนติบอดี</button>
           </td>
         </div>
         <div class="col-md" >
-          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-'">
+          <td class="text-green" *ngIf="patient.resultAbo.resultAbo != '-' && patient.resultAbo.resultAbo != 'Group A' && patient.resultAbo.resultAbo != 'Group B' && patient.resultAbo.resultAbo != 'Group AB' && patient.resultAbo.resultAbo != 'Group O'">
             <button (click)="phenotype(patient.id,'Saliva')" class="btn btn-sm btn-outline-warning" *ngIf="currentURL == '/test/detail'">ฟีโนไทป์:น้ำลาย</button>
           </td>
         </div>
@@ -130,7 +130,7 @@
       </table> -->
       <br>
       <div *ngIf="patient.resultAbo.resultAbo != '-'" class="text-center">
-        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm" *ngIf="currentURL == '/test/detail'">รายละเอียดการทดลอง</button>
+        <button type="button" routerLink="/test/detaillist" class="btn btn-outline-success btn-sm" *ngIf="currentURL == '/test/detail'">รายละเอียดการทดสอบ</button>
       </div>
     </div>
   </div>

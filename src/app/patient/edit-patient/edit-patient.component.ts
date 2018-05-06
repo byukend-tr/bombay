@@ -116,7 +116,10 @@ export class EditPatientComponent implements OnInit {
       this.setValue(data);
       this.province = this.patients[0].province;
       this.subDistrict = this.patients[0].subDistrict;
+      this.subDistricts =   this.subDistricts.add(this.subDistrict);
       this.district = this.patients[0].district;
+      this.districts =   this.districts.add(this.district);
+      console.log(this.districts);
       this.zipcode = this.patients[0].zipcode;
       this.a$.unsubscribe();
     });
@@ -211,7 +214,7 @@ export class EditPatientComponent implements OnInit {
       if (result.value) {
         const id = this.patients[0].id;
 
-        // this.patientService.updatePatient(this.conditionForm.value, id);
+        this.patientService.updatePatient(this.conditionForm.value, id);
         // this.message = this.conditionForm.value.id;
         // this.newMessage();
         // console.log(this.patients);

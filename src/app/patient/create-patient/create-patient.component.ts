@@ -139,6 +139,9 @@ export class CreatePatientComponent implements OnInit {
       if (result.value) {
         const id = this.conditionForm.value.id;
         this.conditionForm.value.status = 'ok';
+        if (!this.conditionForm.value.tel2) {
+          this.conditionForm.value.tel2 = '-';
+        }
         const isFound = this.patientService.createPatient(this.conditionForm.value, id);
         this.message = this.conditionForm.value.id;
         this.newMessage();

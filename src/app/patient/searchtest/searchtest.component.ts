@@ -127,21 +127,6 @@ export class SearchtestComponent implements OnInit {
     let filedName = null;
     let filed = null;
 
-    // if (this.conditionForm.value.id) {
-    //   this.patientService.detailPatient(this.conditionForm.value.id).subscribe(data => {
-    //     this.showPatient(data);
-    //   });
-    // } else if (this.conditionForm.value.fName) {
-    //   this.patientService.namePatient(this.conditionForm.value.fName, 'fName').subscribe(data => {
-    //     this.showPatient(data);
-    //   });
-    // } else if (this.conditionForm.value.lName) {
-    //   this.patientService.namePatient(this.conditionForm.value.lName, 'lName').subscribe(data => {
-    //     this.showPatient(data);
-    //   });
-    // } else {
-    //   this.query();
-    // }
     if (this.conditionList.length > 0) {
       if (this.conditionList[0] === 'id') {  // first query
         filed = this.conditionForm.value.id;
@@ -178,7 +163,7 @@ export class SearchtestComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       if (this.conditionList[0] !== 'continue' && this.conditionList[0] !== 'abo' && this.conditionList[0] !== 'antibody' && this.conditionList[0] !== 'saliva') {    // loop query
         this.patientService.namePatient(filed, filedName).subscribe(data => {
-          
+
           data = this.filterDelete(data);
           console.log(data);
           // filter
@@ -257,50 +242,71 @@ export class SearchtestComponent implements OnInit {
     return data;
   }
   filterContinue(data: Array<any>) {
-    console.log(data);
-    console.log(this.continueList);
-
+    // console.log(data);
+    // console.log(this.continueList);
+    this.continueList = this.continueList.sort();
     const newData = Array<any>();
     for (let i = 0; i < data.length; i++) {
-      console.log(this.continueList);
+      // console.log('i ' + this.continueList);
       for (let j = 0; j < this.continueList.length; j++) {
-        console.log(this.continueList.length);
-        console.log(i, j);
+        // console.log(this.continueList.length);
+        // console.log(i, j);
         const name = this.continueList[j];
-        console.log(name);
+        // console.log('j ' + name);
 
         if (name === 'resultAbo') {
-          console.log(data[i].resultAbo.resultAbo);
+          // console.log(data[i].resultAbo.resultAbo);
           if (data[i].resultAbo.resultAbo === '-') {
             newData.push(data[i]);
-            i++;
+            break;
           }
         } if (name === 'resultAntibody') {
-          console.log(data[i].resultAntibody.resultAntibody);
+          // console.log(data[i].resultAntibody.resultAntibody);
           if (data[i].resultAntibody.resultAntibody === '-') {
             newData.push(data[i]);
-            i++;
+            break;
           }
         } if (name === 'resultSaliva') {
-          console.log(data[i].resultSaliva.resultSaliva);
+          // console.log(data[i].resultSaliva.resultSaliva);
           if (data[i].resultSaliva.resultSaliva === '-') {
             newData.push(data[i]);
-            i++;
+            break;
           }
         }
-        console.log(i, j);
+        // console.log(i, j);
       }
     }
     // this.conditionList.splice(0, 1);
     return newData;
   }
   filterAbo(data: Array<any>) {
+    this.aboList = this.continueList.sort();
     const newData = Array<any>();
-    for (let j = 0; j < this.aboList.length; j++) {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].this.aboList[j].this.aboList[j] === this.aboList[j]) {
-          newData.push(data[i]);
+    for (let i = 0; i < data.length; i++) {
+      // console.log('i ' + this.continueList);
+      for (let j = 0; j < this.aboList.length; j++) {
+        // console.log(this.continueList.length);
+        // console.log(i, j);
+        const name = this.aboList[j];
+        // console.log('j ' + name);
+
+        if (name === 'Group A with unexpected alloantibody') {
+          if (data[i].resultAbo.resultAbo === '-') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group B with unexpected alloantibody') {
+          if (data[i].resultAntibody.resultAntibody === '-') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group AB with unexpected alloantibody') {
+          if (data[i].resultSaliva.resultSaliva === '-') {
+            newData.push(data[i]);
+            break;
+          }
         }
+        // console.log(i, j);
       }
     }
     return newData;

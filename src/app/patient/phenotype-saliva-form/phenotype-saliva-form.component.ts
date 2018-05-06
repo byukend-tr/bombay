@@ -27,6 +27,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class PhenotypeSalivaFormComponent implements OnInit {
 
   a$: Subscription;
+  b$: Subscription;
 
   conditionForm: FormGroup;
   resultForm: FormGroup;
@@ -56,16 +57,18 @@ export class PhenotypeSalivaFormComponent implements OnInit {
       this.message = message;
       this.loadData();
       this.buildForm();
-      this.loadPhoto();
+      // this.loadPhoto();
       this.conditionForm.value.dateTimeNow = this.getDateTime();
       console.log(this.conditionForm.value.dateTimeNow);
+
     });
 
   }
   loadData() {
-    this.patientService.detailPatient(this.message).subscribe(data => {
+    this.b$ = this.patientService.detailPatient(this.message).subscribe(data => {
       this.patients = data;
       this.setResultBlood();
+      this.b$.unsubscribe();
     });
   }
   newMessage() {
@@ -107,11 +110,44 @@ export class PhenotypeSalivaFormComponent implements OnInit {
     }
     this.setResultBlood();
   }
+  setValue() {
+    Swal({
+      title: 'คุณแน่ใจใช่หรือไม่?',
+      text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
+        this.patients[0].fName + ' ' +
+        this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupSaliva,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+      cancelButtonText: 'ไม่ ต้องการเพิ่ม'
 
+    }).then((result) => {
+      if (result.value) {
+        this.validationInput();
+        this.router.navigate(['/test/detail']);
+        Swal(
+          'สร้างการทดสอบเรียบร้อยแล้ว!',
+          this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
+          'success'
+        );
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal(
+          'ยกเลิก!',
+          'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
+          'error'
+        );
+      }
+
+    });
+  }
   validationForm() {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.secretor && this.conditionForm.value.nonSecretor && this.conditionForm.value.nss && this.conditionForm.value.TestAntiA && this.conditionForm.value.TestAntiB && this.conditionForm.value.TestAntiH) {
 
+
+      console.log(this.conditionForm.value.groupSaliva);
       this.a$ = this.patientService.isFoundPatient(this.message).subscribe(data => {
         // const aboObj = data;
         const idAbo = data[0].resultAbo.idAbo;
@@ -133,50 +169,11 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         // console.log(this.conditionForm.value.TestAntiB);
         // console.log(this.conditionForm.value.TestAntiH);
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
+        console.log(this.conditionForm.value.groupSaliva);
+        this.setValue();
         this.a$.unsubscribe();
       });
-      Swal({
-        title: 'คุณแน่ใจใช่หรือไม่?',
-        text: 'ต้องการเพิ่มการทดสอบ"การตรวจน้ำลาย" ของคนไข้ ' +
-          this.patients[0].fName + ' ' +
-          this.patients[0].lName + ' ใช่หรือไม่   ' + 'ผลการวิเคราะห์หมู่เลือด คือ ' + this.conditionForm.value.groupSaliva,
-        // ' ได้แก่ <br/>' +
-        // '<span class="text">Anti-A: ' + this.conditionForm.value.AntiA + '+</span>' +
-        // 'Anti-B: ' + this.conditionForm.value.AntiB + '+' + ' <br/>' +
-        // 'Anti-AB: ' + this.conditionForm.value.AntiAB + '+' + ' <br/>' +
-        // 'A Cell: ' + this.conditionForm.value.Acell + '+' + ' <br/>' +
-        // 'B Cell: ' + this.conditionForm.value.Bcell + '+' + ' <br/>' +
-        // 'O Cell: ' + this.conditionForm.value.Ocell + '+' + '<br/>' +
-        // 'หมายเหตุ: ' + this.conditionForm.value.Note + '+' + ' <br/>',
 
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'ใช่ ต้องการเพิ่ม',
-        cancelButtonText: 'ไม่ ต้องการเพิ่ม'
-      }).then((result) => {
-        if (result.value) {
-
-          // this.patientService.createPatient(this.conditionForm.value);
-
-          this.validationInput();
-
-          this.router.navigate(['/test/detail']);
-          Swal(
-            'สร้างการทดสอบเรียบร้อยแล้ว!',
-            this.patients[0].fName + ' ' + this.patients[0].lName + ' เรียบร้อย',
-            'success'
-          );
-          // For more information about handling dismissals please visit
-          // https://sweetalert2.github.io/#handling-dismissals
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal(
-            'ยกเลิก!',
-            'ยังไม่ได้สร้างการทดสอบของ ' + this.patients[0].fName + ' ' + this.patients[0].lName,
-            'error'
-          );
-        }
-
-      });
     } else {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
     }
