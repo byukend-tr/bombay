@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
@@ -6,7 +6,6 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 import { AuthService } from '../../auth/shared/auth.service';
 
 import { PatientService } from '../shared/patient.service';
-
 
 import { Router } from '@angular/router';
 import { DecisiontreeService } from '../../decisiontree/shared/decisiontree.service';
@@ -28,6 +27,7 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
   a$: Subscription;
   b$: Subscription;
+  private _subscription: Subscription;
 
   conditionForm: FormGroup;
   resultForm: FormGroup;
@@ -142,13 +142,17 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
     });
   }
- async validationForm() {
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+  validationForm() {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.secretor && this.conditionForm.value.nonSecretor && this.conditionForm.value.nss && this.conditionForm.value.TestAntiA && this.conditionForm.value.TestAntiB && this.conditionForm.value.TestAntiH) {
 
 
       console.log(this.conditionForm.value.groupSaliva);
-      this.a$ = await this.patientService.isFoundPatient(this.message).subscribe(data => {
+      this._subscription = this.patientService.isFoundPatient(this.message).subscribe(data => {
         // const aboObj = data;
         const idAbo = data[0].resultAbo.idAbo;
         // console.log(idAbo);
@@ -169,10 +173,8 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         // console.log(this.conditionForm.value.TestAntiB);
         // console.log(this.conditionForm.value.TestAntiH);
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
-        console.log(this.conditionForm.value.groupSaliva);
-        this.a$.unsubscribe();
+        this.setValue();
       });
-      await this.setValue();
 
     } else {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');

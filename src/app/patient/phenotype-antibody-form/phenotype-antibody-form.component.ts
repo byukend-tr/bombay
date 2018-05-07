@@ -102,10 +102,13 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     }
   }
   foundAntibody() {
+
     let antibody1 = 'ไม่สามารถระบุชนิด alloantibody ได้';
     if (this.conditionForm.value.ccc1 === '0') {
       antibody1 = 'ทำการทดลองใหม่';
-    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' || this.conditionForm.value.ahg1 === '0') {
+    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' && this.conditionForm.value.ahg1 === '0') {
+      console.log('bad');
+      
       antibody1 = 'ไม่พบ alloantibody';
     } else {
       if (this.conditionForm.value.rt1 !== '0') {
@@ -115,7 +118,11 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
               antibody1 = 'IgM, IgG';
             }
           } else {
+            console.log('neggg');
+
             if (this.conditionForm.value.ccc1 !== '-1' && this.conditionForm.value.ccc1 !== '0') {  // +
+              console.log('Tgmmmm');
+
               antibody1 = 'IgM';
             }
           }
@@ -132,10 +139,11 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     }
 
 
+
     let antibody2 = 'ไม่สามารถระบุชนิด alloantibody ได้';
     if (this.conditionForm.value.ccc2 === '0') {
       antibody2 = 'ทำการทดลองใหม่';
-    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' || this.conditionForm.value.ahg2 === '0') {
+    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' && this.conditionForm.value.ahg2 === '0') {
       antibody2 = 'ไม่พบ alloantibody';
     } else {
       if (this.conditionForm.value.rt2 !== '0') {
@@ -231,24 +239,30 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     let antibody1 = 'ไม่สามารถระบุชนิด alloantibody ได้';
     if (this.conditionForm.value.ccc1 === '0') {
       antibody1 = 'ทำการทดลองใหม่';
-    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' || this.conditionForm.value.ahg1 === '0') {
+    } else if (this.conditionForm.value.rt1 === '0' && this.conditionForm.value.c1 === '0' && this.conditionForm.value.ahg1 === '0') {
+      console.log('bad');
+      
       antibody1 = 'ไม่พบ alloantibody';
     } else {
       if (this.conditionForm.value.rt1 !== '0') {
         if (this.conditionForm.value.c1 !== '0') {
           if (this.conditionForm.value.ahg1 !== '0') {
             if (this.conditionForm.value.ccc1 === 'ND') {
-              antibody1 = 'IgM, TgG';
+              antibody1 = 'IgM, IgG';
             }
           } else {
+            console.log('neggg');
+
             if (this.conditionForm.value.ccc1 !== '-1' && this.conditionForm.value.ccc1 !== '0') {  // +
+              console.log('Tgmmmm');
+
               antibody1 = 'IgM';
             }
           }
         } else {
           if (this.conditionForm.value.ahg1 !== '0') {
             if (this.conditionForm.value.ccc1 === '-1') {
-              antibody1 = 'IgM, TgG';
+              antibody1 = 'IgM, IgG';
             }
           } else {
             antibody1 = 'IgM';
@@ -261,14 +275,14 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     let antibody2 = 'ไม่สามารถระบุชนิด alloantibody ได้';
     if (this.conditionForm.value.ccc2 === '0') {
       antibody2 = 'ทำการทดลองใหม่';
-    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' || this.conditionForm.value.ahg2 === '0') {
+    } else if (this.conditionForm.value.rt2 === '0' && this.conditionForm.value.c2 === '0' && this.conditionForm.value.ahg2 === '0') {
       antibody2 = 'ไม่พบ alloantibody';
     } else {
       if (this.conditionForm.value.rt2 !== '0') {
         if (this.conditionForm.value.c2 !== '0') {
           if (this.conditionForm.value.ahg2 !== '0') {
             if (this.conditionForm.value.ccc2 === '-1') {
-              antibody2 = 'IgM, TgG';
+              antibody2 = 'IgM, IgG';
             }
           } else {
             if (this.conditionForm.value.ccc2 !== '-1' && this.conditionForm.value.ccc2 !== '0') {  // +
@@ -278,7 +292,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         } else {
           if (this.conditionForm.value.ahg2 !== '0') {
             if (this.conditionForm.value.ccc2 === '-1') {
-              antibody2 = 'IgM, TgG';
+              antibody2 = 'IgM, IgG';
             }
           } else {
             antibody2 = 'IgM';
@@ -289,7 +303,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     // this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
     this.conditionForm.value.status = 'ok';
     this.conditionForm.value.dateTimeNow = this.getDateTime();
-    this.conditionForm.value.antibody1 = antibody1 ;
+    this.conditionForm.value.antibody1 = antibody1;
     this.conditionForm.value.antibody2 = antibody2;
     const newRef = this.patientService.createAntibodyTest(this.conditionForm.value, id);
 
