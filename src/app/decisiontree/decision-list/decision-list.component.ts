@@ -137,29 +137,40 @@ export class DecisionListComponent implements OnInit {
     // console.log(this.conditionList);
   }
   removeCondition() {
-    Swal({
-      title: 'คุณแน่ใจใช่หรือไม่?',
-      text: 'ต้องการลบข้อมูลการเรียนรู้ทั้งหมด ' + this.conditionList.length + ' ข้อมูล',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'ใช่ ต้องการลบ',
-      cancelButtonText: 'ไม่ ต้องการลบ'
-    }).then((result) => {
-      if (result.value) {
-        this.decisiontreeService.removeCondition(this.conditionList);
+    if (this.conditionList.length > 0) {
+      const selectedAll = <HTMLInputElement[]><any>document.getElementsByName('selectAll');
+      Swal({
+        title: 'คุณแน่ใจใช่หรือไม่?',
+        text: 'ต้องการลบข้อมูลการเรียนรู้ทั้งหมด ' + this.conditionList.length + ' ข้อมูล',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่ ต้องการลบ',
+        cancelButtonText: 'ไม่ ต้องการลบ'
+      }).then((result) => {
+        if (result.value) {
+          this.decisiontreeService.removeCondition(this.conditionList);
 
-        Swal(
-          'ทำการลบข้อมูลการเรียนรู้เรียบร้อยแล้ว!', '',
-          'success'
-        );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal(
-          'ยกเลิก!',
-          'ยังไม่ได้ลบข้อมูลการเรียนรู้',
-          'error'
-        );
-      }
-    });
+          Swal(
+            'ทำการลบข้อมูลการเรียนรู้เรียบร้อยแล้ว!', '',
+            'success'
+          );
+          selectedAll[0].checked = false;
+          this.conditionList = [];
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal(
+            'ยกเลิก!',
+            'ยังไม่ได้ลบข้อมูลการเรียนรู้',
+            'error'
+          );
+        }
+      });
+    } else if (this.conditionList.length === 0) {
+      Swal(
+        'ผิดพลาด!',
+        'ลบข้อมูลไม่ได้ เนื่องจากไม่มีข้อมูลที่เลือก',
+        'error'
+      );
+    }
   }
   checkCondition() {
     if (this.searchConditionForm.value.groupAbo) {

@@ -107,7 +107,8 @@ export class CreatePatientComponent implements OnInit {
     });
     this.resultAntibodyForm = new FormGroup({
       idAntibody: new FormControl(),
-      resultAntibody: new FormControl()
+      resultAntibody1: new FormControl(),
+      resultAntibody2: new FormControl()
     });
     this.resultSalivaForm = new FormGroup({
       idSaliva: new FormControl(),
@@ -215,7 +216,8 @@ export class CreatePatientComponent implements OnInit {
     this.patientService.updateResult(this.resultAboForm.value, id, 'resultAbo');
 
     this.resultAntibodyForm.value.idAntibody = '-';
-    this.resultAntibodyForm.value.resultAntibody = '-';
+    this.resultAntibodyForm.value.resultAntibody1 = '-';
+    this.resultAntibodyForm.value.resultAntibody2 = '-';
     this.patientService.updateResult(this.resultAntibodyForm.value, id, 'resultAntibody');
 
     this.resultSalivaForm.value.idSaliva = '-';

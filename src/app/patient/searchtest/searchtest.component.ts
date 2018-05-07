@@ -197,11 +197,11 @@ export class SearchtestComponent implements OnInit {
 
           // tslint:disable-next-line:max-line-length
           if (this.conditionList[this.conditionList.length - 1] !== 'continue' && this.conditionList[this.conditionList.length - 1] !== 'abo' && this.conditionList[this.conditionList.length - 1] !== 'antibody' && this.conditionList[this.conditionList.length - 1] !== 'saliva') {
-            console.log(172);
+            // console.log(172);
 
             this.showPatient(data);
           } else {
-            console.log(188);
+            // console.log(188);
             this.showPatient(data);
           }
         });
@@ -262,13 +262,15 @@ export class SearchtestComponent implements OnInit {
           }
         } if (name === 'resultAntibody') {
           // console.log(data[i].resultAntibody.resultAntibody);
-          if (data[i].resultAntibody.resultAntibody === '-') {
+          // tslint:disable-next-line:max-line-length
+          if (data[i].resultAntibody.resultAntibody1 === '-' && (data[i].resultAbo.resultAbo !== 'Group A' && data[i].resultAbo.resultAbo !== 'Group B' && data[i].resultAbo.resultAbo !== 'Group AB' && data[i].resultAbo.resultAbo !== 'Group O')) {
             newData.push(data[i]);
             break;
           }
         } if (name === 'resultSaliva') {
           // console.log(data[i].resultSaliva.resultSaliva);
-          if (data[i].resultSaliva.resultSaliva === '-') {
+          // tslint:disable-next-line:max-line-length
+          if (data[i].resultSaliva.resultSaliva === '-' && (data[i].resultAbo.resultAbo !== 'Group A' && data[i].resultAbo.resultAbo !== 'Group B' && data[i].resultAbo.resultAbo !== 'Group AB' && data[i].resultAbo.resultAbo !== 'Group O')) {
             newData.push(data[i]);
             break;
           }
@@ -280,54 +282,127 @@ export class SearchtestComponent implements OnInit {
     return newData;
   }
   filterAbo(data: Array<any>) {
-    this.aboList = this.continueList.sort();
+    this.aboList = this.aboList.sort();
     const newData = Array<any>();
     for (let i = 0; i < data.length; i++) {
-      // console.log('i ' + this.continueList);
+      const idTest = data[i].resultAbo.resultAbo;
       for (let j = 0; j < this.aboList.length; j++) {
-        // console.log(this.continueList.length);
-        // console.log(i, j);
+
         const name = this.aboList[j];
-        // console.log('j ' + name);
 
         if (name === 'Group A with unexpected alloantibody') {
-          if (data[i].resultAbo.resultAbo === '-') {
+          if (data[i].resultAbo.resultAbo === 'Group A with unexpected alloantibody') {
             newData.push(data[i]);
             break;
           }
         } if (name === 'Group B with unexpected alloantibody') {
-          if (data[i].resultAntibody.resultAntibody === '-') {
+          if (data[i].resultAbo.resultAbo === 'Group B with unexpected alloantibody') {
             newData.push(data[i]);
             break;
           }
         } if (name === 'Group AB with unexpected alloantibody') {
-          if (data[i].resultSaliva.resultSaliva === '-') {
+          if (data[i].resultAbo.resultAbo === 'Group AB with unexpected alloantibody') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group O with unexpected alloantibody') {
+          if (data[i].resultAbo.resultAbo === 'Group O with unexpected alloantibody') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group A') {
+          if (data[i].resultAbo.resultAbo === 'Group A') {
             newData.push(data[i]);
             break;
           }
         }
-        // console.log(i, j);
+        if (name === 'Group B') {
+          if (data[i].resultAbo.resultAbo === 'Group B') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group AB') {
+          if (data[i].resultAbo.resultAbo === 'Group AB') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Group O') {
+          if (data[i].resultAbo.resultAbo === 'Group O') {
+            newData.push(data[i]);
+            break;
+          }
+        }
       }
     }
     return newData;
   }
   filterAntibody(data: Array<any>) {
+    this.antibodyList = this.antibodyList.sort();
     const newData = Array<any>();
-    for (let j = 0; j < this.antibodyList.length; j++) {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].this.antibodyList[j].this.antibodyList[j] === this.antibodyList[j]) {
-          newData.push(data[i]);
+    for (let i = 0; i < data.length; i++) {
+      const idTest = data[i].resultAntibody.resultAntibody;
+      for (let j = 0; j < this.antibodyList.length; j++) {
+
+        const name = this.antibodyList[j];
+
+        if (name === 'พบ') {
+          if (data[i].resultAntibody.resultAntibody1 === 'IgM, IgG' || data[i].resultAntibody.resultAntibody2 === 'IgM, IgG') {
+            newData.push(data[i]);
+            break;
+          } else if (data[i].resultAntibody.resultAntibody1 === 'IgM' || data[i].resultAntibody.resultAntibody2 === 'IgM') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'ไม่พบ alloantibody') {
+          // tslint:disable-next-line:max-line-length
+          if (data[i].resultAntibody.resultAntibody1 === 'ไม่พบ alloantibody' || data[i].resultAntibody.resultAntibody2 === 'ไม่พบ alloantibody') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'ทำการทดลองใหม่') {
+          if (data[i].resultAntibody.resultAntibody1 === 'ทำการทดลองใหม่' || data[i].resultAntibody.resultAntibody2 === 'ทำการทดลองใหม่') {
+            newData.push(data[i]);
+            break;
+          }
         }
       }
     }
     return newData;
   }
   filterSaliva(data: Array<any>) {
+    this.salivaList = this.salivaList.sort();
     const newData = Array<any>();
-    for (let j = 0; j < this.salivaList.length; j++) {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].this.salivaList[j].this.salivaList[j] === this.salivaList[j]) {
-          newData.push(data[i]);
+    for (let i = 0; i < data.length; i++) {
+      const idTest = data[i].resultSaliva.resultSaliva;
+      for (let j = 0; j < this.salivaList.length; j++) {
+
+        const name = this.salivaList[j];
+
+        if (name === 'Secretor gr.A') {
+          if (data[i].resultSaliva.resultSaliva === 'Secretor gr.A') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Secretor gr.B') {
+          if (data[i].resultSaliva.resultSaliva === 'Secretor gr.B') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Secretor gr.AB') {
+          if (data[i].resultSaliva.resultSaliva === 'Secretor gr.AB') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Secretor gr.O') {
+          if (data[i].resultSaliva.resultSaliva === 'Secretor gr.O') {
+            newData.push(data[i]);
+            break;
+          }
+        } if (name === 'Non-Secretor') {
+          if (data[i].resultSaliva.resultSaliva === 'Non-Secretor') {
+            newData.push(data[i]);
+            break;
+          }
         }
       }
     }
@@ -341,8 +416,26 @@ export class SearchtestComponent implements OnInit {
       // console.log(this.isFound);
 
     } else {
-      this.patients = data;
-      this.isFound = true;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === 'delete') {
+          data.splice(i, 1);
+          i -= 1;
+        }
+      }
+      this.isFind = data;
+      if (this.isFind.length === 0) {
+        this.isFound = false;
+      } else {
+        this.patients = data;
+        console.log(this.patients);
+        this.isFound = true;
+      }
+
+      // if (this.patients.length > 0) {
+      //   this.isFound = true;
+      // } else {
+      //   this.isFound = false;
+      // }
       // console.log(this.isFound);
     }
     this.buildForm(); // Clear value in search

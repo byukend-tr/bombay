@@ -27,7 +27,8 @@ export class DecisionFormComponent implements OnInit {
 
   addCondition = false;
   conditionForm: FormGroup;
-  selectSaliva: any;
+  selectSaliva = false;
+
 
   // private _url = 'assets/trainingdata.json';
   // herbs = [];
@@ -76,10 +77,31 @@ export class DecisionFormComponent implements OnInit {
       return true;
     }
   }
+  checkResult(e) {
+    console.log(e.target.checked);
+    const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+    if (this.groupType()) {
+      selected[0].checked = false;
+
+      // this.selectSaliva = e.target.checked;
+
+      // if (e.target.checked === false) {
+      //   document.getElementById('saliva').style.display = 'none';
+      // } else {
+      document.getElementById('addsaliva').style.display = 'block';
+      // }
+    } else {
+      document.getElementById('addsaliva').style.display = 'none';
+      document.getElementById('saliva').style.display = 'none';
+      selected[0].checked = false;
+    }
+    console.log(selected[0].checked);
+  }
   groupAboChange(e) {
     const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
     this.selectSaliva = e.target.checked;
-    console.log(e.target.checked);
+
+    // console.log(e.target.checked);
     if (e.target.checked === false) {
       document.getElementById('saliva').style.display = 'none';
     } else {
@@ -88,9 +110,9 @@ export class DecisionFormComponent implements OnInit {
     }
   }
   setDatagroupAbo() {
-    this.conditionForm.value.secretor = null;
-    this.conditionForm.value.nonSecretor = null;
-    this.conditionForm.value.nss = null;
+    // this.conditionForm.value.secretor = null;
+    // this.conditionForm.value.nonSecretor = null;
+    // this.conditionForm.value.nss = null;
     this.conditionForm.value.TestAntiA = '-2';
     this.conditionForm.value.TestAntiB = '-2';
     this.conditionForm.value.TestAntiH = '-2';
@@ -99,9 +121,9 @@ export class DecisionFormComponent implements OnInit {
     this.conditionForm.value.status = 'addition';
   }
   setDatagroupSaliva() {
-    this.conditionForm.value.secretor = null;
-    this.conditionForm.value.nonSecretor = null;
-    this.conditionForm.value.nss = null;
+    // this.conditionForm.value.secretor = null;
+    // this.conditionForm.value.nonSecretor = null;
+    // this.conditionForm.value.nss = null;
     this.conditionForm.value.TestAntiA = '-1';
     this.conditionForm.value.TestAntiB = '-1';
     this.conditionForm.value.TestAntiH = '-1';
@@ -109,96 +131,136 @@ export class DecisionFormComponent implements OnInit {
     this.conditionForm.value.result = this.conditionForm.value.groupAbo;
     this.conditionForm.value.status = 'addition';
   }
-  validationInput() {
-    const valueGroupAbo = this.conditionForm.value.groupAbo;
-    const valueGroupSaliva = this.conditionForm.value.groupSaliva;
-    let canCreate;
-    console.log(this.selectSaliva);
-    console.log(valueGroupAbo, this.conditionForm.value.groupSaliva);
-
-    if (!this.groupType()) {
-      this.setDatagroupAbo();
-      canCreate = true;
-    } else if (this.groupType() && this.selectSaliva === true) {
-      this.setDatagroupSaliva();
-      canCreate = true;
-    } else if (valueGroupAbo === 'Group A with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.A') {
-      this.conditionForm.value.result = 'para-Bombay A';
-      canCreate = true;
-    } else if (valueGroupAbo === 'Group B with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.B') {
-      this.conditionForm.value.result = 'para-Bombay B';
-      canCreate = true;
-    } else if (valueGroupAbo === 'Group AB with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.AB') {
-      this.conditionForm.value.result = 'para-Bombay AB';
-      canCreate = true;
-    } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.O') {
-      this.conditionForm.value.result = 'para-Bombay O';
-      canCreate = true;
-    } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Non-Secretor') {
-      this.conditionForm.value.result = 'O Bombay';
-      canCreate = true;
+  checkInputSaliva() {
+    let canSet = true;
+    // tslint:disable-next-line:max-line-length
+    if (!this.conditionForm.value.TestAntiA || !this.conditionForm.value.TestAntiB || !this.conditionForm.value.TestAntiH || !this.conditionForm.value.groupSaliva) {
+      canSet = false;
+      // Swal(
+      //   'ผิดพลาด!', 'กรุณากรอกเงื่อนไขให้ครบถ้วน',
+      //   'error'
+      // );
     } else {
-      canCreate = false;
-    }
-    console.log(canCreate);
+      const valueGroupAbo = this.conditionForm.value.groupAbo;
+      const valueGroupSaliva = this.conditionForm.value.groupSaliva;
+      if (valueGroupAbo === 'Group A with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.A') {
+        this.conditionForm.value.result = 'Secretor gr.A';
+        canSet = true;
+      } else if (valueGroupAbo === 'Group B with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.B') {
+        this.conditionForm.value.result = 'Secretor gr.B';
+        canSet = true;
+      } else if (valueGroupAbo === 'Group AB with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.AB') {
+        this.conditionForm.value.result = 'Secretor gr.AB';
+        canSet = true;
+      } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Secretor gr.O') {
+        this.conditionForm.value.result = 'Secretor gr.O';
+        canSet = true;
+      } else if (valueGroupAbo === 'Group O with unexpected alloantibody' && valueGroupSaliva === 'Non-Secretor') {
+        this.conditionForm.value.result = 'Secretor gr.O';
+        canSet = true;
+      } else {
+        canSet = false;
 
-    if (canCreate === true) {
-      this.createCondition();
-
+      }
     }
+    return canSet;
+  }
+  validationInput() {
+    // const valueGroupAbo = this.conditionForm.value.groupAbo;
+    // const valueGroupSaliva = this.conditionForm.value.groupSaliva;
+    // let canCreate;
+    // console.log(this.selectSaliva);
+    // console.log(valueGroupAbo, this.conditionForm.value.groupSaliva);
+    // const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+
+    // if (!this.groupType()) {    // Abo
+    //   this.setDatagroupSaliva();
+    //   canCreate = true;
+    // } else if (this.groupType() && selected[0].checked === false) {   // Add Saliva
+    //   this.setDatagroupSaliva();
+    //   canCreate = true;
+    // } else if (this.groupType() && selected[0].checked === true) {    // no add saliva
+    //   canCreate = this.checkInputSaliva();
+    // } else {
+    //   canCreate = false;
+    // }
+    // console.log(canCreate);
+
+    // if (canCreate === true) {
+    //   this.conditionForm.value.status = 'addition';
+    this.createCondition();
+
+    // } else {
+    //   Swal(
+    //     'ผิดพลาด!', 'กรุณากรอกเงื่อนไขให้ครบถ้วน',
+    //     'error'
+    //   );
+    // }
 
 
   }
 
   validationForm() {
+    const selected = <HTMLInputElement[]><any>document.getElementsByName('checkbox');
+    console.log(selected);
+    let salivaCanNotSet = true;
     let validationSuccess = true;
     // tslint:disable-next-line:max-line-length
     if (!this.conditionForm.value.AntiA || !this.conditionForm.value.AntiB || !this.conditionForm.value.AntiAB || !this.conditionForm.value.Acell || !this.conditionForm.value.Bcell || !this.conditionForm.value.Ocell || !this.conditionForm.value.groupAbo) {
       // tslint:disable-next-line:max-line-length
       validationSuccess = false;
       // tslint:disable-next-line:max-line-length
-    } else if (!this.groupType()) { // Abo
-      this.setDatagroupAbo();
-    } else if (this.groupType()) { // Saliva
-      this.setDatagroupSaliva();
-    } else if (this.groupType()) { // Abo and Saliva
+    } else if (selected[0].checked === true && (!this.conditionForm.value.TestAntiA || !this.conditionForm.value.TestAntiB || !this.conditionForm.value.TestAntiH || !this.conditionForm.value.groupSaliva)) { // Abo and Saliva
       // tslint:disable-next-line:max-line-length
-      if (!this.conditionForm.value.secretor || !this.conditionForm.value.nonSecretor || !this.conditionForm.value.nss || !this.conditionForm.value.TestAntiA || !this.conditionForm.value.TestAntiB || !this.conditionForm.value.TestAntiH || !this.conditionForm.value.groupSaliva) {
-        validationSuccess = false;
+      validationSuccess = false;
+    } else if (!this.groupType()) { // Abo
+      this.setDatagroupSaliva();
+    } else if (this.groupType() && selected[0].checked === false) { // Saliva 
+      this.setDatagroupSaliva();
+    } else if (this.groupType() && selected[0].checked === true) {    // no add saliva
+      validationSuccess = this.checkInputSaliva();
+      if (!validationSuccess) {
+        salivaCanNotSet = false;
       }
+    } else {
+      validationSuccess = false;
     }
 
-
-    Swal({
-      title: 'คุณแน่ใจใช่หรือไม่?',
-      text: 'ต้องการเพิ่มข้อมูลการเรียนรู้',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'ใช่ ต้องการเพิ่ม',
-      cancelButtonText: 'ไม่ ต้องการเพิ่ม'
-    }).then((result) => {
-      if (result.value) {
-        if (validationSuccess) {
+    if (validationSuccess) {
+      Swal({
+        title: 'คุณแน่ใจใช่หรือไม่?',
+        text: 'ต้องการเพิ่มข้อมูลการเรียนรู้',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่ ต้องการเพิ่ม',
+        cancelButtonText: 'ไม่ ต้องการเพิ่ม'
+      }).then((result) => {
+        if (result.value) {
+          this.conditionForm.value.status = 'addition';
           this.validationInput();
           Swal(
             'เพิ่มข้อมูลลการเรียนรู้เรียบร้อยแล้ว!', '',
             'success'
           );
-        } else {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal(
-            'ผิดพลาด!', 'กรุณากรอกเงื่อนไขให้ครบถ้วน',
+            'ยกเลิก!',
+            'ยังไม่ได้เพิ่มข้อมูลการเรียนรู้',
             'error'
           );
         }
-
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal(
-          'ยกเลิก!',
-          'ยังไม่ได้เพิ่มเงื่อนไขการเรียนรู้',
-          'error'
-        );
-      }
-    });
+      });
+    } else if (!salivaCanNotSet) {
+      Swal(
+        'ผิดพลาด!', 'กรุณาเลือกการแปลผลให้ถูกต้อง',
+        'error'
+      );
+    } else {
+      Swal(
+        'ผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน',
+        'error'
+      );
+    }
 
   }
 

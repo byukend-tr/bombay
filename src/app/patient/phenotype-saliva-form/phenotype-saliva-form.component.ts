@@ -142,13 +142,13 @@ export class PhenotypeSalivaFormComponent implements OnInit {
 
     });
   }
-  validationForm() {
+ async validationForm() {
     // tslint:disable-next-line:max-line-length
     if (this.conditionForm.value.secretor && this.conditionForm.value.nonSecretor && this.conditionForm.value.nss && this.conditionForm.value.TestAntiA && this.conditionForm.value.TestAntiB && this.conditionForm.value.TestAntiH) {
 
 
       console.log(this.conditionForm.value.groupSaliva);
-      this.a$ = this.patientService.isFoundPatient(this.message).subscribe(data => {
+      this.a$ = await this.patientService.isFoundPatient(this.message).subscribe(data => {
         // const aboObj = data;
         const idAbo = data[0].resultAbo.idAbo;
         // console.log(idAbo);
@@ -170,9 +170,9 @@ export class PhenotypeSalivaFormComponent implements OnInit {
         // console.log(this.conditionForm.value.TestAntiH);
         this.conditionForm.value.groupSaliva = this.decisionService.analyzeSalivaTest(this.conditionForm.value);
         console.log(this.conditionForm.value.groupSaliva);
-        this.setValue();
         this.a$.unsubscribe();
       });
+      await this.setValue();
 
     } else {
       Swal('เกิดความผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');

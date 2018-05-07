@@ -76,7 +76,8 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
       c2: new FormControl(),
       ahg2: new FormControl(),
       ccc2: new FormControl(),
-      antibody: new FormControl(),
+      antibody1: new FormControl(),
+      antibody2: new FormControl(),
       Note: new FormControl(),
       dateTimeNow: new FormControl(),
       status: new FormControl()
@@ -84,7 +85,8 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     });
     this.resultForm = new FormGroup({
       idAntibody: new FormControl(),
-      resultAntibody: new FormControl()
+      resultAntibody1: new FormControl(),
+      resultAntibody2: new FormControl()
     });
   }
 
@@ -158,7 +160,7 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
         }
       }
     }
-    return antibody1 + ', ' + antibody2;
+    return antibody1 + ' || ' + antibody2;
   }
   validationForm() {
     // tslint:disable-next-line:max-line-length
@@ -287,11 +289,13 @@ export class PhenotypeAntibodyFormComponent implements OnInit {
     // this.conditionForm.value.groupAbo = this.decisionService.analyzeAboTest(this.conditionForm.value);
     this.conditionForm.value.status = 'ok';
     this.conditionForm.value.dateTimeNow = this.getDateTime();
-    this.conditionForm.value.antibody = antibody1 + ', ' + antibody2;
+    this.conditionForm.value.antibody1 = antibody1 ;
+    this.conditionForm.value.antibody2 = antibody2;
     const newRef = this.patientService.createAntibodyTest(this.conditionForm.value, id);
 
     this.resultForm.value.idAntibody = newRef.key;
-    this.resultForm.value.resultAntibody = antibody1 + ', ' + antibody2;
+    this.resultForm.value.resultAntibody1 = antibody1;
+    this.resultForm.value.resultAntibody2 = antibody2;
     this.patientService.updateResult(this.resultForm.value, id, 'resultAntibody');
 
     return newRef.key;

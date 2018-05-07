@@ -241,7 +241,7 @@
 
             </div>
             <p>การแปลผล</p>
-            <select class="form-control form-control-sm" formControlName="groupAbo" id="checkStep">
+            <select class="form-control form-control-sm" formControlName="groupAbo" id="checkStep" (change)="checkResult($event)">
               <option value="Group A">Group A</option>
               <option value="Group B">Group B</option>
               <option value="Group AB">Group AB</option>
@@ -254,12 +254,13 @@
             <br>
           </div>
         </div>
-
-        <label class="custom-control custom-checkbox">
-          <input id="radio-serology1" name="checkbox" type="checkbox" class="custom-control-input" (change)="groupAboChange($event)">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">เพิ่มข้อมูลการตรวจน้ำลาย</span>
-        </label>
+        <div>
+          <label class="custom-control custom-checkbox" id="addsaliva" style="display: none;">
+            <input id="radio-serology1" name="checkbox" type="checkbox" class="custom-control-input" (change)="groupAboChange($event)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">เพิ่มข้อมูลการตรวจน้ำลาย</span>
+          </label>
+        </div>
         <div class="row">
           <div class="col">
             <!-- <label class="btn btn-sm btn-outline-secondary">
