@@ -272,8 +272,19 @@ export class SearchbloodComponent implements OnInit {
       this.isFound = false;
 
     } else {
-      this.patients = data;
-      this.isFound = true;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === 'delete') {
+          data.splice(i, 1);
+          i -= 1;
+        }
+      }
+      this.isFind = data;
+      if (this.isFind.length === 0) {
+        this.isFound = false;
+      } else {
+        this.patients = data;
+        this.isFound = true;
+      }
     }
     this.buildForm(); // Clear value in search
     this.conditionList = [];

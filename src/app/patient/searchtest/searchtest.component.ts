@@ -427,16 +427,8 @@ export class SearchtestComponent implements OnInit {
         this.isFound = false;
       } else {
         this.patients = data;
-        console.log(this.patients);
         this.isFound = true;
       }
-
-      // if (this.patients.length > 0) {
-      //   this.isFound = true;
-      // } else {
-      //   this.isFound = false;
-      // }
-      // console.log(this.isFound);
     }
     this.buildForm(); // Clear value in search
     this.conditionList = [];

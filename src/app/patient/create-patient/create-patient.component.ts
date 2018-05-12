@@ -170,6 +170,12 @@ export class CreatePatientComponent implements OnInit {
 
 
   }
+  validatePhoneNumber(tel: string) {
+    if (this.conditionForm.value.tel1.length >= 9 && this.conditionForm.value.tel1.length <= 10) {
+      return true;
+    }
+    return false;
+  }
   validationForm() {
 
     console.log(this.conditionForm.value);
@@ -180,12 +186,14 @@ export class CreatePatientComponent implements OnInit {
         if (this.conditionForm.value.birthDay) {
           if (this.conditionForm.value.tel1) {
             // if (this.conditionForm.value.tel2) {
+            // if (this.validatePhoneNumber(this.conditionForm.value.tel1)) {
             // tslint:disable-next-line:max-line-length
             if (this.conditionForm.value.address && this.conditionForm.value.province && this.conditionForm.value.district && this.conditionForm.value.subDistrict) {
               if (this.conditionForm.value.zipcode) {
                 isSuccess = true;
               }
             }
+            // }
             // }
           }
         }
